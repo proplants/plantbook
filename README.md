@@ -18,7 +18,11 @@ its life, that can contain photos, some sad or happy stories.
 
 ## 2. Components
 
+![](README_content/components.png)
+
 <a id=main-classes>
 
 ## 3. Main classes
+
+![](README_content/classes.png)
 
