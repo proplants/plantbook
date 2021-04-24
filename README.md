@@ -1,4 +1,4 @@
-# Plantbook, a plant social network.
+# Plantbook, plants social network.
 
 ## Contents
 
