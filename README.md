@@ -1,5 +1,7 @@
 # Plantbook, plants social network.
 
+![](README_content/github_plants.png)
+
 ## Contents
 
 1. [Introduction](#introduction)
