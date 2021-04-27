@@ -47,9 +47,7 @@ paths:
       operationId: "updatePlant"
       consumes:
         - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - in: "body"
@@ -73,7 +71,6 @@ paths:
       description: "Returns a single plant"
       operationId: "getPlantById"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "plantId"
@@ -100,7 +97,6 @@ paths:
       consumes:
         - "application/x-www-form-urlencoded"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "plantId"
@@ -129,7 +125,6 @@ paths:
       description: ""
       operationId: "deletePlant"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "api_key"
@@ -188,7 +183,6 @@ paths:
       description: "This can only be done by the logged in user."
       operationId: "createUser"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - in: "body"
@@ -208,7 +202,6 @@ paths:
       description: ""
       operationId: "loginUser"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "username"
@@ -245,7 +238,6 @@ paths:
       description: ""
       operationId: "logoutUser"
       produces:
-        - "application/xml"
         - "application/json"
       parameters: []
       responses:
@@ -259,7 +251,6 @@ paths:
       description: ""
       operationId: "getUserByName"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "username"
@@ -283,7 +274,6 @@ paths:
       description: "This can only be done by the logged in user."
       operationId: "updateUser"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "username"
@@ -309,7 +299,6 @@ paths:
       description: "This can only be done by the logged in user."
       operationId: "deleteUser"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
         - name: "username"
@@ -323,7 +312,6 @@ paths:
         "404":
           description: "User not found"
 definitions:
-
   User:
     type: "object"
     properties:
@@ -346,9 +334,6 @@ definitions:
         type: "integer"
         format: "int32"
         description: "User Status"
-    xml:
-      name: "User"
-
   Plant:
     type: "object"
     required:
@@ -363,13 +348,6 @@ definitions:
         example: "rose"
       photoUrls:
         type: "array"
-        xml:
-          name: "photoUrl"
-          wrapped: true
-        items:
-          type: "string"
-    xml:
-      name: "plant"
   ApiResponse:
     type: "object"
     properties:
