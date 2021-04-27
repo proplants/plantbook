@@ -348,6 +348,8 @@ definitions:
         example: "rose"
       photoUrls:
         type: "array"
+        items:
+          type: string
   ApiResponse:
     type: "object"
     properties:

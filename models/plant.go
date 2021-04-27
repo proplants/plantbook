@@ -29,7 +29,7 @@ type Plant struct {
 
 	// photo urls
 	// Required: true
-	PhotoUrls []string `json:"photoUrls" xml:"photoUrl"`
+	PhotoUrls []string `json:"photoUrls"`
 }
 
 // Validate validates this plant

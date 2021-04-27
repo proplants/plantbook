@@ -37,11 +37,9 @@ func init() {
     "/plant": {
       "put": {
         "consumes": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "tags": [
@@ -108,7 +106,6 @@ func init() {
       "get": {
         "description": "Returns a single plant",
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "tags": [
@@ -146,7 +143,6 @@ func init() {
           "application/x-www-form-urlencoded"
         ],
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "tags": [
@@ -184,7 +180,6 @@ func init() {
       },
       "delete": {
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "tags": [
@@ -266,7 +261,6 @@ func init() {
       "post": {
         "description": "This can only be done by the logged in user.",
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "tags": [
@@ -295,7 +289,6 @@ func init() {
     "/user/login": {
       "get": {
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "tags": [
@@ -347,7 +340,6 @@ func init() {
     "/user/logout": {
       "get": {
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "tags": [
@@ -365,7 +357,6 @@ func init() {
     "/user/{username}": {
       "get": {
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "tags": [
@@ -400,7 +391,6 @@ func init() {
       "put": {
         "description": "This can only be done by the logged in user.",
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "tags": [
@@ -438,7 +428,6 @@ func init() {
       "delete": {
         "description": "This can only be done by the logged in user.",
         "produces": [
-          "application/xml",
           "application/json"
         ],
         "tags": [
@@ -501,15 +490,8 @@ func init() {
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "xml": {
-            "name": "photoUrl",
-            "wrapped": true
           }
         }
-      },
-      "xml": {
-        "name": "plant"
       }
     },
     "User": {
@@ -542,9 +524,6 @@ func init() {
         "username": {
           "type": "string"
         }
-      },
-      "xml": {
-        "name": "User"
       }
     }
   },
@@ -579,12 +558,10 @@ func init() {
     "/plant": {
       "put": {
         "consumes": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "tags": [
           "plant"
@@ -650,8 +627,7 @@ func init() {
       "get": {
         "description": "Returns a single plant",
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "tags": [
           "plant"
@@ -688,8 +664,7 @@ func init() {
           "application/x-www-form-urlencoded"
         ],
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "tags": [
           "plant"
@@ -726,8 +701,7 @@ func init() {
       },
       "delete": {
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "tags": [
           "plant"
@@ -808,8 +782,7 @@ func init() {
       "post": {
         "description": "This can only be done by the logged in user.",
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "tags": [
           "user"
@@ -837,8 +810,7 @@ func init() {
     "/user/login": {
       "get": {
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "tags": [
           "user"
@@ -889,8 +861,7 @@ func init() {
     "/user/logout": {
       "get": {
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "tags": [
           "user"
@@ -907,8 +878,7 @@ func init() {
     "/user/{username}": {
       "get": {
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "tags": [
           "user"
@@ -942,8 +912,7 @@ func init() {
       "put": {
         "description": "This can only be done by the logged in user.",
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "tags": [
           "user"
@@ -980,8 +949,7 @@ func init() {
       "delete": {
         "description": "This can only be done by the logged in user.",
         "produces": [
-          "application/json",
-          "application/xml"
+          "application/json"
         ],
         "tags": [
           "user"
@@ -1043,15 +1011,8 @@ func init() {
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "xml": {
-            "name": "photoUrl",
-            "wrapped": true
           }
         }
-      },
-      "xml": {
-        "name": "plant"
       }
     },
     "User": {
@@ -1084,9 +1045,6 @@ func init() {
         "username": {
           "type": "string"
         }
-      },
-      "xml": {
-        "name": "User"
       }
     }
   },
