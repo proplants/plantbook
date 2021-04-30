@@ -1,6 +1,5 @@
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
-![lint workflow](https://github.com/kaatinga/plantbook/actions/workflows/lint.yml/badge.svg)
-
+[![lint workflow](https://github.com/kaatinga/plantbook/actions/workflows/lint.yml/badge.svg)](https://github.com/kaatinga/plantbook/actions?query=workflow%3Agolangci-lint)
 
 # Plantbook, plants social network.
 
