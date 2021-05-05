@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/kaatinga/plantbook/blob/main/LICENSE)
 ![lint workflow](https://github.com/kaatinga/plantbook/actions/workflows/lint.yml/badge.svg)
 
+=======
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![lint workflow](https://github.com/kaatinga/plantbook/actions/workflows/lint.yml/badge.svg)](https://github.com/kaatinga/plantbook/actions?query=workflow%3Agolangci-lint)
+>>>>>>> refs/rewritten/onto
 
 # Plantbook, plants social network.
 
