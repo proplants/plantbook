@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/kaatinga/plantbook/blob/main/LICENSE)
 =======
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
