@@ -3,7 +3,10 @@
 [![lint workflow](https://github.com/kaatinga/plantbook/actions/workflows/lint.yml/badge.svg)](https://github.com/kaatinga/plantbook/actions?query=workflow%3Agolangci-lint)
 =======
 ![lint workflow](https://github.com/kaatinga/plantbook/actions/workflows/lint.yml/badge.svg)
+<<<<<<< HEAD
 >>>>>>> 9179a76... added test and code coverage, main go as sample
+=======
+>>>>>>> origin/test_workflow
 
 # Plantbook, plants social network.
 
