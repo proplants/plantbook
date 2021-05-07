@@ -1,5 +1,9 @@
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+<<<<<<< HEAD
 [![lint workflow](https://github.com/kaatinga/plantbook/actions/workflows/lint.yml/badge.svg)](https://github.com/kaatinga/plantbook/actions?query=workflow%3Agolangci-lint)
+=======
+![lint workflow](https://github.com/kaatinga/plantbook/actions/workflows/lint.yml/badge.svg)
+>>>>>>> 9179a76... added test and code coverage, main go as sample
 
 # Plantbook, plants social network.
 
@@ -16,8 +20,8 @@
 ## 1. Introduction
 
 Plantbook is an online service that intended for the plant owners and gardeners who look for a tool that would allow
-them to take care about their plants better. Every plant can optionally have a name and eventually a blog about
-its life, that can contain photos, some sad or happy stories.
+them to take care about their plants better. Every plant can optionally have a name and eventually a blog about its
+life, that can contain photos, some sad or happy stories.
 
 <a id=components>
 
