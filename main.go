@@ -1,5 +1,18 @@
 package main
 
+import (
+	"log"
+
+	"github.com/kaatinga/env_loader"
+	"github.com/kaatinga/plantbook/config"
+)
+
 func main() {
-	hello()
+	//Environment variable initialization
+	err := env_loader.LoadUsingReflect(&config.Elements)
+	if err != nil {
+		log.Fatal(err) //TODO change logger in the future
+	}
+
+	log.Println(config.Elements) //TODO change logger in the future
 }
