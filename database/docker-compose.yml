@@ -1,0 +1,28 @@
+version: '3'
+services:
+
+  postgresql:
+    image: "postgres:13.2"
+    restart: always
+    container_name: postgres_plantbook
+    ports:
+      - "5432:5432"
+    # volumes:
+    #   - ./pgData:/var/lib/pgData
+    environment:
+      POSTGRES_USER: plantbook_admin
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: plantbook_admin
+      PG_DATA: /var/lib/pgdata
+    
+  migrate:
+    image: "migrate/migrate:v4.14.1"
+    links:
+      - postgresql
+    restart: on-failure
+    container_name: migrate_postgres
+    volumes:
+      - ./migrations_schema:/database/migrations_schema
+    working_dir: /database
+
+    entrypoint: migrate -database postgres://plantbook_admin:mypassword@postgresql:5432/plantbook_admin?sslmode=disable -path ./migrations_schema up

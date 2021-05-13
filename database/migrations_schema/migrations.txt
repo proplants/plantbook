@@ -1,0 +1,2 @@
+migrate -database postgres://plantbook_admin:mypassword@localhost:5432/plantbook_admin?sslmode=disable -path ./database/migrations_schema  up
+migrate -database postgres://plantbook_admin:mypassword@localhost:5432/plantbook_admin?sslmode=disable -path ./database/migrations_schema  down
