@@ -1,6 +1,7 @@
+# Для локального запуска базы + миграция
 version: '3'
 services:
-
+  # База данных
   postgresql:
     image: "postgres:13.2"
     restart: always
@@ -14,7 +15,8 @@ services:
       POSTGRES_PASSWORD: mypassword
       POSTGRES_DB: plantbook_admin
       PG_DATA: /var/lib/pgdata
-    
+
+  #  Миграция
   migrate:
     image: "migrate/migrate:v4.14.1"
     links:
