@@ -17,5 +17,5 @@ ENV HOST=0.0.0.0
 COPY --from=builder /app/main /app/main
 ENTRYPOINT ["/app/main"]
 CMD ["--scheme=http"]
-LABEL org.opencontainers.image.source https://github.com/veremchuk/plantbook
+LABEL org.opencontainers.image.source https://github.com/kaatinga/plantbook
 EXPOSE $PORT
