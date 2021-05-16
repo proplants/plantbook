@@ -13,6 +13,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err) // TODO change logger in the future
 	}
-
-	log.Println(config.Elements) // TODO change logger in the future
+	config.ConfLog()
 }
