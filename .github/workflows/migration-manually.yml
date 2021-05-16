@@ -1,0 +1,25 @@
+name: Migration
+
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      arg:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'up or down'
+        # Default value if no value is explicitly provided
+        default: 'up'
+        # Input has to be provided for the workflow to run
+        required: true
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: prepare-db-models
+    
+    - name: migrating using docker
+      run: docker run -v ./database/migrations_schema:/migrations --network host migrate/migrate -path=/migrations/ -database postgres://plantbook_admin:mypassword@localhost:5432/plantbook_admin?sslmode=disable ${{ github.event.inputs.arg }}
