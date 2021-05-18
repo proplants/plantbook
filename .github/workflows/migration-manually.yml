@@ -18,8 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        ref: prepare-db-models
     
     - name: migrating using docker
       run: docker run -v ./database/migrations_schema:/migrations --network host migrate/migrate -path=/migrations/ -database postgres://plantbook_admin:mypassword@localhost:5432/plantbook_admin?sslmode=disable ${{ github.event.inputs.arg }}
