@@ -1,0 +1,27 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Azure/docker-login@v1
+        with:
+          login-server: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+      - uses: Azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.K8S_CONFIG }}
+      - uses: Azure/k8s-deploy@v1.4
+        with:
+          namespace: 'g1-vladimir'
+          manifests: |
+            ./deploy/deployment.yml
+          images: |
+            ghcr.io/veremchukvv/plantbook/restapi:latest
