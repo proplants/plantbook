@@ -1,0 +1,23 @@
+name: Migration
+
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      arg:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'up or down'
+        # Default value if no value is explicitly provided
+        default: 'up'
+        # Input has to be provided for the workflow to run
+        required: true
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: migrating using docker
+      run: docker run -v ./database/migrations_schema:/migrations --network host migrate/migrate -path=/migrations/ -database ${{ secrets.URL_DB_CONN }}?sslmode=disable ${{ github.event.inputs.arg }}
