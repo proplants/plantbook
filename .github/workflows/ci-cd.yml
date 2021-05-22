@@ -72,7 +72,7 @@ jobs:
           push: true
           context: .
           file: ./build/restapi/Dockerfile
-          tags: ghcr.io/veremchukvv/plantbook/restapi:latest
+          tags: ghcr.io/kaatinga/plantbook/restapi:latest
 
   deploy:
     needs: push_to_registry
@@ -94,4 +94,4 @@ jobs:
           manifests: |
             ./deploy/deployment.yml
           images: |
-            ghcr.io/veremchukvv/plantbook/restapi:latest
+            ghcr.io/kaatinga/plantbook/restapi:latest
