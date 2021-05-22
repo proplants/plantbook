@@ -1,10 +1,60 @@
-name: Publish
+name: CI_CD
 on:
   push:
     branches:
       - main
 jobs:
+  golangci:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.38
+
+  tests:
+    needs: golangci
+    strategy:
+      matrix:
+        go-version: [ 1.15.x, 1.16.x ]
+        os: [ ubuntu-latest, macos-latest ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Restore Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-v1-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-v1-go-
+      - name: Test
+        run: go test .
+
+  codecov:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.16'
+      - name: Run coverage
+        run: go test -coverprofile=coverage.txt -covermode=atomic
+      - name: Upload coverage to Codecov
+        run: bash <(curl -s https://codecov.io/bash)
+
   push_to_registry:
+    needs: [golangci, tests]
     name: Push Docker image to GitHub Container Registry
     runs-on: ubuntu-latest
     steps:
@@ -22,7 +72,8 @@ jobs:
           push: true
           context: .
           file: ./build/restapi/Dockerfile
-          tags: ghcr.io/kaatinga/plantbook/restapi:latest
+          tags: ghcr.io/veremchukvv/plantbook/restapi:latest
+
   deploy:
     needs: push_to_registry
     runs-on: ubuntu-latest
@@ -43,4 +94,4 @@ jobs:
           manifests: |
             ./deploy/deployment.yml
           images: |
-            ghcr.io/kaatinga/plantbook/restapi:latest
+            ghcr.io/veremchukvv/plantbook/restapi:latest
