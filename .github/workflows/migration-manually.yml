@@ -6,7 +6,7 @@ on:
     inputs:
       arg:
         # Friendly description to be shown in the UI instead of 'name'
-        description: 'up [N] Apply all or N up migrations, down [N] Apply all or N down migrations.'
+        description: 'up or down'
         # Default value if no value is explicitly provided
         default: 'up'
         # Input has to be provided for the workflow to run
