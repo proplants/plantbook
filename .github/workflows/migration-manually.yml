@@ -21,3 +21,4 @@ jobs:
 
     - name: migrating using docker
       run: docker run -v $GITHUB_WORKSPACE/database/migrations_schema/:/migrations --network host migrate/migrate -path=/migrations/ -database postgres://${{ secrets.DB }}?sslmode=disable ${{ github.event.inputs.arg }}
+
