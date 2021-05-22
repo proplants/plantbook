@@ -12,5 +12,6 @@ require (
 	github.com/go-openapi/validate v0.20.2
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/kaatinga/env_loader v1.2.2
+	github.com/sirupsen/logrus v1.8.1
 	golang.org/x/net v0.0.0-20210423184538-5f58ad60dda6
 )
