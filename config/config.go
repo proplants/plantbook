@@ -1,9 +1,8 @@
 package config
 
 import (
+	"log"
 	"reflect"
-
-	"github.com/sirupsen/logrus"
 )
 
 // ConfStruct - defines the required environment variable for the application
@@ -16,22 +15,18 @@ type ConfStruct struct {
 	DBName string `env:"APP_DB_NAME"`
 }
 
-// New - this function returns the configuration structure
-func New() ConfStruct {
-	newConfif := &ConfStruct{}
-	return *newConfif
-}
+var Elements ConfStruct
 
 // ConfLog - output of the configuration to the log. 
 // If the field has a "hide" tag with value "yes"- this field is not displayed
-func ConfLog(conf ConfStruct) {
-	st := reflect.TypeOf(conf)
-	sv := reflect.ValueOf(conf)
+func ConfLog() {
+	st := reflect.TypeOf(Elements)
+	sv := reflect.ValueOf(Elements)
 
 	for i := 0; i < st.NumField(); i++ {
 		field := st.Field(i)
 		if field.Tag.Get("hide") != "yes" {
-			logrus.Infof("%v: %v\n", field.Tag.Get("env"), sv.FieldByName(field.Name))
+			log.Printf("%v: %v\n", field.Tag.Get("env"), sv.FieldByName(field.Name))
 		}
 	}
 }
