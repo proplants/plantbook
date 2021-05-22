@@ -19,10 +19,44 @@ spec:
         app: plantbook
     spec:
       containers:
-        - image: ghcr.io/kaatinga/plantbook/restapi:latest
+        - image: ghcr.io/veremchukvv/plantbook/restapi:latest
           name: plantbook
           ports:
             - containerPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plantbook-testdb
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: plantbook-testdb
+  template:
+    metadata:
+      labels:
+        app: plantbook-testdb
+    spec:
+      containers:
+        - image: postgres:13.2
+          env:
+            - name: POSTGRES_USER
+              value: plantbook_admin
+            - name: POSTGRES_PASSWORD
+              value: mypassword
+            - name: POSTGRES_DB
+              value: plantbook_admin
+            - name: PG_DATA
+              value: /var/lib/pgdata
+          name: plantbook-testdb
+          ports:
+            - containerPort: 5432
 ---
 apiVersion: v1
 kind: Service
@@ -39,6 +73,22 @@ spec:
       name: tcp
   selector:
     app: plantbook
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plantbook-testdb
+  labels:
+    app: plantbook-testdb
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+      targetPort: 5432
+      protocol: TCP
+      name: tcp
+  selector:
+    app: plantbook-testdb
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
