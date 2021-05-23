@@ -1,11 +1,9 @@
 name: unit tests
 on:
   push:
-    branches:
+    branches-ignore:
       - main
-  pull_request:
 jobs:
-
   tests:
     strategy:
       matrix:
