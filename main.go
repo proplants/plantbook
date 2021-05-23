@@ -8,11 +8,11 @@ import (
 )
 
 func main() {
+	elements := config.New()
 	// Environment variable initialization
-	err := env_loader.LoadUsingReflect(&config.Elements)
+	err := env_loader.LoadUsingReflect(&elements)
 	if err != nil {
 		log.Fatal(err) // TODO change logger in the future
 	}
-
-	log.Println(config.Elements) // TODO change logger in the future
+	config.ConfLog(elements)
 }
