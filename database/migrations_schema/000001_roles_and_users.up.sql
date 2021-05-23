@@ -26,3 +26,6 @@ create table if not exists users(
 	-- constraints:
 	constraint user_role_fk foreign key (user_role) references user_roles (id_role) -- связь id_role c таблицей user_roles
 );
+
+-- insert default root/love user with admin privileges
+INSERT INTO public.users (name_user, user_role, email_addr, pwd_hash, first_name, last_name, phone_number, description) VALUES('root', 1, 'root@email.com', decode('37BD63E169FDFDBC9B5ED0D1A01AE72182DEBEE310505D0AD4DF3FBC64FF3AE63C3AD399C808E8EB972A10305F62573D','hex'), 'master', 'root', '112', 'CHANGE PASSWORD');

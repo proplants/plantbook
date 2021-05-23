@@ -29,7 +29,7 @@ func NewUpdatePlantWithForm(ctx *middleware.Context, handler UpdatePlantWithForm
 	return &UpdatePlantWithForm{Context: ctx, Handler: handler}
 }
 
-/* UpdatePlantWithForm swagger:route POST /plant/{plantId} plant updatePlantWithForm
+/* UpdatePlantWithForm swagger:route POST /api/v1/plant/{plantId} plant updatePlantWithForm
 
 Updates a plant in the garden with form data
 

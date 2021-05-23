@@ -29,7 +29,7 @@ func NewAddPlant(ctx *middleware.Context, handler AddPlantHandler) *AddPlant {
 	return &AddPlant{Context: ctx, Handler: handler}
 }
 
-/* AddPlant swagger:route POST /plant plant addPlant
+/* AddPlant swagger:route POST /api/v1/plant plant addPlant
 
 Add a new plant to the garden
 

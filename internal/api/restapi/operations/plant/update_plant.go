@@ -29,7 +29,7 @@ func NewUpdatePlant(ctx *middleware.Context, handler UpdatePlantHandler) *Update
 	return &UpdatePlant{Context: ctx, Handler: handler}
 }
 
-/* UpdatePlant swagger:route PUT /plant plant updatePlant
+/* UpdatePlant swagger:route PUT /api/v1/plant plant updatePlant
 
 Update an existing plant
 

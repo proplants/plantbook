@@ -29,7 +29,7 @@ func NewDeleteUser(ctx *middleware.Context, handler DeleteUserHandler) *DeleteUs
 	return &DeleteUser{Context: ctx, Handler: handler}
 }
 
-/* DeleteUser swagger:route DELETE /user/{username} user deleteUser
+/* DeleteUser swagger:route DELETE /api/v1/user/{username} user deleteUser
 
 Delete user
 

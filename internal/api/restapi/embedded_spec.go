@@ -31,9 +31,9 @@ func init() {
     },
     "version": "1.0.0"
   },
-  "basePath": "/api/v1",
+  "basePath": "/",
   "paths": {
-    "/plant": {
+    "/api/v1/plant": {
       "put": {
         "consumes": [
           "application/json"
@@ -99,7 +99,7 @@ func init() {
         }
       }
     },
-    "/plant/{plantId}": {
+    "/api/v1/plant/{plantId}": {
       "get": {
         "description": "Returns a single plant",
         "produces": [
@@ -209,7 +209,7 @@ func init() {
         }
       }
     },
-    "/plant/{plantId}/uploadImage": {
+    "/api/v1/plant/{plantId}/uploadImage": {
       "post": {
         "consumes": [
           "multipart/form-data"
@@ -254,7 +254,7 @@ func init() {
         }
       }
     },
-    "/user": {
+    "/api/v1/user": {
       "post": {
         "description": "This can only be done by the logged in user.",
         "consumes": [
@@ -307,7 +307,7 @@ func init() {
         }
       }
     },
-    "/user/login": {
+    "/api/v1/user/login": {
       "post": {
         "description": "Logins user by passing login/password",
         "produces": [
@@ -356,7 +356,7 @@ func init() {
         }
       }
     },
-    "/user/logout": {
+    "/api/v1/user/logout": {
       "get": {
         "produces": [
           "application/json"
@@ -395,7 +395,7 @@ func init() {
         }
       }
     },
-    "/user/{username}": {
+    "/api/v1/user/{username}": {
       "get": {
         "produces": [
           "application/json"
@@ -491,6 +491,78 @@ func init() {
           },
           "404": {
             "description": "User not found"
+          }
+        }
+      }
+    },
+    "/health/live": {
+      "get": {
+        "description": "Checks web service is working",
+        "tags": [
+          "health"
+        ],
+        "summary": "Probe service alive",
+        "operationId": "healthAlive",
+        "responses": {
+          "200": {
+            "description": "successful operation, service alive",
+            "schema": {
+              "type": "string"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "description": "Checks web service is working, and subservices available",
+        "tags": [
+          "health"
+        ],
+        "summary": "Probe service ready",
+        "operationId": "healthReady",
+        "responses": {
+          "200": {
+            "description": "successful operation, service ready to process requests",
+            "schema": {
+              "type": "string"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
           }
         }
       }
@@ -605,6 +677,10 @@ func init() {
     {
       "description": "Operations about user",
       "name": "user"
+    },
+    {
+      "description": "Operations about health checks",
+      "name": "health"
     }
   ]
 }`))
@@ -622,9 +698,9 @@ func init() {
     },
     "version": "1.0.0"
   },
-  "basePath": "/api/v1",
+  "basePath": "/",
   "paths": {
-    "/plant": {
+    "/api/v1/plant": {
       "put": {
         "consumes": [
           "application/json"
@@ -690,7 +766,7 @@ func init() {
         }
       }
     },
-    "/plant/{plantId}": {
+    "/api/v1/plant/{plantId}": {
       "get": {
         "description": "Returns a single plant",
         "produces": [
@@ -800,7 +876,7 @@ func init() {
         }
       }
     },
-    "/plant/{plantId}/uploadImage": {
+    "/api/v1/plant/{plantId}/uploadImage": {
       "post": {
         "consumes": [
           "multipart/form-data"
@@ -845,7 +921,7 @@ func init() {
         }
       }
     },
-    "/user": {
+    "/api/v1/user": {
       "post": {
         "description": "This can only be done by the logged in user.",
         "consumes": [
@@ -898,7 +974,7 @@ func init() {
         }
       }
     },
-    "/user/login": {
+    "/api/v1/user/login": {
       "post": {
         "description": "Logins user by passing login/password",
         "produces": [
@@ -947,7 +1023,7 @@ func init() {
         }
       }
     },
-    "/user/logout": {
+    "/api/v1/user/logout": {
       "get": {
         "produces": [
           "application/json"
@@ -986,7 +1062,7 @@ func init() {
         }
       }
     },
-    "/user/{username}": {
+    "/api/v1/user/{username}": {
       "get": {
         "produces": [
           "application/json"
@@ -1082,6 +1158,78 @@ func init() {
           },
           "404": {
             "description": "User not found"
+          }
+        }
+      }
+    },
+    "/health/live": {
+      "get": {
+        "description": "Checks web service is working",
+        "tags": [
+          "health"
+        ],
+        "summary": "Probe service alive",
+        "operationId": "healthAlive",
+        "responses": {
+          "200": {
+            "description": "successful operation, service alive",
+            "schema": {
+              "type": "string"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "description": "Checks web service is working, and subservices available",
+        "tags": [
+          "health"
+        ],
+        "summary": "Probe service ready",
+        "operationId": "healthReady",
+        "responses": {
+          "200": {
+            "description": "successful operation, service ready to process requests",
+            "schema": {
+              "type": "string"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
           }
         }
       }
@@ -1196,6 +1344,10 @@ func init() {
     {
       "description": "Operations about user",
       "name": "user"
+    },
+    {
+      "description": "Operations about health checks",
+      "name": "health"
     }
   ]
 }`))

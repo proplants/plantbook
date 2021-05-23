@@ -35,7 +35,7 @@ var Defaults Config = Config{
 		URL      string "env:\"PLANTBOOK_DB_URL\""
 	}{
 		Provider: "postgres",
-		URL:      "postgres://plantbook_admin:plantbookkaatinga@88.210.21.76:54321/plantbook_admin?sslmode=disable",
+		URL:      "postgres://plantbook_admin:mypassword@postgresql:5432/plantbook_admin?sslmode=disable",
 	},
 	LOG: struct {
 		Debug  bool   "env:\"PLANTBOOK_LOG_DEBUG\""

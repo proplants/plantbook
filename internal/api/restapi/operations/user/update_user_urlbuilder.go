@@ -40,7 +40,7 @@ func (o *UpdateUserURL) SetBasePath(bp string) {
 func (o *UpdateUserURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/user/{username}"
+	var _path = "/api/v1/user/{username}"
 
 	username := o.Username
 	if username != "" {
@@ -51,7 +51,7 @@ func (o *UpdateUserURL) Build() (*url.URL, error) {
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/api/v1"
+		_basePath = "/"
 	}
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)
 

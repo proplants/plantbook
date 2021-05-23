@@ -29,7 +29,7 @@ func NewDeletePlant(ctx *middleware.Context, handler DeletePlantHandler) *Delete
 	return &DeletePlant{Context: ctx, Handler: handler}
 }
 
-/* DeletePlant swagger:route DELETE /plant/{plantId} plant deletePlant
+/* DeletePlant swagger:route DELETE /api/v1/plant/{plantId} plant deletePlant
 
 Deletes a plant
 

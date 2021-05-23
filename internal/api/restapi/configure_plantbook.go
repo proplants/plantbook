@@ -16,6 +16,7 @@ import (
 	"github.com/kaatinga/plantbook/pkg/logging"
 	"github.com/kaatinga/plantbook/pkg/token"
 
+	hhandlers "github.com/kaatinga/plantbook/internal/api/handlers/health"
 	uhandlers "github.com/kaatinga/plantbook/internal/api/handlers/users"
 	"github.com/kaatinga/plantbook/internal/api/repo"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations"
@@ -67,6 +68,10 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 		logger.Fatalf("make token manager error, %s", err)
 	}
 	// make handlers
+	// health
+	api.HealthHealthAliveHandler = hhandlers.NewHealthAliveHandler()
+	api.HealthHealthReadyHandler = hhandlers.NewHealthReadyHandler(repo)
+
 	// users
 	api.UserCreateUserHandler = uhandlers.NewCreateUserHandler(repo, tm)
 	api.UserLoginUserHandler = uhandlers.NewLoginUserHandler(repo, tm, tokenExpireDelay)

@@ -29,7 +29,7 @@ func NewUploadFile(ctx *middleware.Context, handler UploadFileHandler) *UploadFi
 	return &UploadFile{Context: ctx, Handler: handler}
 }
 
-/* UploadFile swagger:route POST /plant/{plantId}/uploadImage plant uploadFile
+/* UploadFile swagger:route POST /api/v1/plant/{plantId}/uploadImage plant uploadFile
 
 uploads an image
 

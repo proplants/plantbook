@@ -19,6 +19,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
+	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
 )
@@ -64,6 +65,12 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		}),
 		UserGetUserByNameHandler: user.GetUserByNameHandlerFunc(func(params user.GetUserByNameParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.GetUserByName has not yet been implemented")
+		}),
+		HealthHealthAliveHandler: health.HealthAliveHandlerFunc(func(params health.HealthAliveParams) middleware.Responder {
+			return middleware.NotImplemented("operation health.HealthAlive has not yet been implemented")
+		}),
+		HealthHealthReadyHandler: health.HealthReadyHandlerFunc(func(params health.HealthReadyParams) middleware.Responder {
+			return middleware.NotImplemented("operation health.HealthReady has not yet been implemented")
 		}),
 		UserLoginUserHandler: user.LoginUserHandlerFunc(func(params user.LoginUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.LoginUser has not yet been implemented")
@@ -137,6 +144,10 @@ type PlantbookAPI struct {
 	PlantGetPlantByIDHandler plant.GetPlantByIDHandler
 	// UserGetUserByNameHandler sets the operation handler for the get user by name operation
 	UserGetUserByNameHandler user.GetUserByNameHandler
+	// HealthHealthAliveHandler sets the operation handler for the health alive operation
+	HealthHealthAliveHandler health.HealthAliveHandler
+	// HealthHealthReadyHandler sets the operation handler for the health ready operation
+	HealthHealthReadyHandler health.HealthReadyHandler
 	// UserLoginUserHandler sets the operation handler for the login user operation
 	UserLoginUserHandler user.LoginUserHandler
 	// UserLogoutUserHandler sets the operation handler for the logout user operation
@@ -249,6 +260,12 @@ func (o *PlantbookAPI) Validate() error {
 	}
 	if o.UserGetUserByNameHandler == nil {
 		unregistered = append(unregistered, "user.GetUserByNameHandler")
+	}
+	if o.HealthHealthAliveHandler == nil {
+		unregistered = append(unregistered, "health.HealthAliveHandler")
+	}
+	if o.HealthHealthReadyHandler == nil {
+		unregistered = append(unregistered, "health.HealthReadyHandler")
 	}
 	if o.UserLoginUserHandler == nil {
 		unregistered = append(unregistered, "user.LoginUserHandler")
@@ -363,51 +380,59 @@ func (o *PlantbookAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/plant"] = plant.NewAddPlant(o.context, o.PlantAddPlantHandler)
+	o.handlers["POST"]["/api/v1/plant"] = plant.NewAddPlant(o.context, o.PlantAddPlantHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/user"] = user.NewCreateUser(o.context, o.UserCreateUserHandler)
+	o.handlers["POST"]["/api/v1/user"] = user.NewCreateUser(o.context, o.UserCreateUserHandler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/plant/{plantId}"] = plant.NewDeletePlant(o.context, o.PlantDeletePlantHandler)
+	o.handlers["DELETE"]["/api/v1/plant/{plantId}"] = plant.NewDeletePlant(o.context, o.PlantDeletePlantHandler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/user/{username}"] = user.NewDeleteUser(o.context, o.UserDeleteUserHandler)
+	o.handlers["DELETE"]["/api/v1/user/{username}"] = user.NewDeleteUser(o.context, o.UserDeleteUserHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/plant/{plantId}"] = plant.NewGetPlantByID(o.context, o.PlantGetPlantByIDHandler)
+	o.handlers["GET"]["/api/v1/plant/{plantId}"] = plant.NewGetPlantByID(o.context, o.PlantGetPlantByIDHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/user/{username}"] = user.NewGetUserByName(o.context, o.UserGetUserByNameHandler)
+	o.handlers["GET"]["/api/v1/user/{username}"] = user.NewGetUserByName(o.context, o.UserGetUserByNameHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/health/live"] = health.NewHealthAlive(o.context, o.HealthHealthAliveHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/health/ready"] = health.NewHealthReady(o.context, o.HealthHealthReadyHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/user/login"] = user.NewLoginUser(o.context, o.UserLoginUserHandler)
+	o.handlers["POST"]["/api/v1/user/login"] = user.NewLoginUser(o.context, o.UserLoginUserHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/user/logout"] = user.NewLogoutUser(o.context, o.UserLogoutUserHandler)
+	o.handlers["GET"]["/api/v1/user/logout"] = user.NewLogoutUser(o.context, o.UserLogoutUserHandler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
-	o.handlers["PUT"]["/plant"] = plant.NewUpdatePlant(o.context, o.PlantUpdatePlantHandler)
+	o.handlers["PUT"]["/api/v1/plant"] = plant.NewUpdatePlant(o.context, o.PlantUpdatePlantHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/plant/{plantId}"] = plant.NewUpdatePlantWithForm(o.context, o.PlantUpdatePlantWithFormHandler)
+	o.handlers["POST"]["/api/v1/plant/{plantId}"] = plant.NewUpdatePlantWithForm(o.context, o.PlantUpdatePlantWithFormHandler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
-	o.handlers["PUT"]["/user/{username}"] = user.NewUpdateUser(o.context, o.UserUpdateUserHandler)
+	o.handlers["PUT"]["/api/v1/user/{username}"] = user.NewUpdateUser(o.context, o.UserUpdateUserHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/plant/{plantId}/uploadImage"] = plant.NewUploadFile(o.context, o.PlantUploadFileHandler)
+	o.handlers["POST"]["/api/v1/plant/{plantId}/uploadImage"] = plant.NewUploadFile(o.context, o.PlantUploadFileHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

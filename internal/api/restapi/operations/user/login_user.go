@@ -29,7 +29,7 @@ func NewLoginUser(ctx *middleware.Context, handler LoginUserHandler) *LoginUser 
 	return &LoginUser{Context: ctx, Handler: handler}
 }
 
-/* LoginUser swagger:route POST /user/login user loginUser
+/* LoginUser swagger:route POST /api/v1/user/login user loginUser
 
 Logins user into the system
 

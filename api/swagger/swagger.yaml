@@ -6,16 +6,66 @@ info:
   license:
     name: "MIT"
     url: "https://opensource.org/licenses/mit-license.php"
-basePath: "/api/v1"
+basePath: "/"
 tags:
   - name: "plant"
     description: "Everything about your Plants"
   - name: "user"
     description: "Operations about user"
+  - name: "health"
+    description: "Operations about health checks"
 schemes:
   - "http"
 paths:
-  /plant:
+  /health/live:
+    get:
+      tags:
+        - "health"
+      summary: "Probe service alive"
+      description: "Checks web service is working"
+      operationId: "healthAlive"
+      responses:
+        "200":
+          description: "successful operation, service alive"
+          schema:
+            type: "string"
+          headers:
+            X-Request-Id:
+                description: The request id this is a response to
+                type: string
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /health/ready:
+    get:
+      tags:
+        - "health"
+      summary: "Probe service ready"
+      description: "Checks web service is working, and subservices available"
+      operationId: "healthReady"
+      responses:
+        "200":
+          description: "successful operation, service ready to process requests"
+          schema:
+            type: "string"
+          headers:
+            X-Request-Id:
+                description: The request id this is a response to
+                type: string
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+  /api/v1/plant:
     post:
       tags:
         - "plant"
@@ -60,7 +110,7 @@ paths:
           description: "Plant not found"
         "405":
           description: "Validation exception"
-  /plant/{plantId}:
+  /api/v1/plant/{plantId}:
     get:
       tags:
         - "plant"
@@ -139,7 +189,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Plant not found"
-  /plant/{plantId}/uploadImage:
+  /api/v1/plant/{plantId}/uploadImage:
     post:
       tags:
         - "plant"
@@ -172,7 +222,7 @@ paths:
           description: "successful operation"
           schema:
             $ref: "#/definitions/ApiResponse"
-  /user:
+  /api/v1/user:
     post:
       tags:
         - "user"
@@ -207,7 +257,7 @@ paths:
               type: string
           schema:
             $ref: '#/definitions/ErrorResponse'
-  /user/login:
+  /api/v1/user/login:
     post:
       tags:
         - "user"
@@ -240,7 +290,7 @@ paths:
               type: string
           schema:
             $ref: '#/definitions/ErrorResponse'
-  /user/logout:
+  /api/v1/user/logout:
     get:
       tags:
         - "user"
@@ -267,7 +317,7 @@ paths:
               type: string
           schema:
             $ref: '#/definitions/ErrorResponse'
-  /user/{username}:
+  /api/v1/user/{username}:
     get:
       tags:
         - "user"

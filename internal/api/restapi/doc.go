@@ -6,7 +6,7 @@
 //  Schemes:
 //    http
 //  Host: localhost
-//  BasePath: /api/v1
+//  BasePath: /
 //  Version: 1.0.0
 //  License: MIT https://opensource.org/licenses/mit-license.php
 //

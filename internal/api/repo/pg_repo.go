@@ -128,3 +128,9 @@ func (pg *PG) FindUserByLogin(ctx context.Context, login string) (*models.User, 
 	}
 	return &u, hash, nil
 }
+
+// Health checks availability postgres.
+func (pg *PG) Health(ctx context.Context) error {
+	var tmp string
+	return pg.db.QueryRow(ctx, "SELECT version();").Scan(&tmp)
+}

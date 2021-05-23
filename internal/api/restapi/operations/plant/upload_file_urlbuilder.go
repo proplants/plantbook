@@ -42,7 +42,7 @@ func (o *UploadFileURL) SetBasePath(bp string) {
 func (o *UploadFileURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/plant/{plantId}/uploadImage"
+	var _path = "/api/v1/plant/{plantId}/uploadImage"
 
 	plantID := swag.FormatInt64(o.PlantID)
 	if plantID != "" {
@@ -53,7 +53,7 @@ func (o *UploadFileURL) Build() (*url.URL, error) {
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/api/v1"
+		_basePath = "/"
 	}
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)
 

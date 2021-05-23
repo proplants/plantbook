@@ -42,7 +42,7 @@ func (o *GetPlantByIDURL) SetBasePath(bp string) {
 func (o *GetPlantByIDURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/plant/{plantId}"
+	var _path = "/api/v1/plant/{plantId}"
 
 	plantID := swag.FormatInt64(o.PlantID)
 	if plantID != "" {
@@ -53,7 +53,7 @@ func (o *GetPlantByIDURL) Build() (*url.URL, error) {
 
 	_basePath := o._basePath
 	if _basePath == "" {
-		_basePath = "/api/v1"
+		_basePath = "/"
 	}
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)
 
