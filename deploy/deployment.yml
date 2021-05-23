@@ -1,0 +1,146 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plantbook
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: plantbook
+  template:
+    metadata:
+      labels:
+        app: plantbook
+    spec:
+      containers:
+        - image: ghcr.io/kaatinga/plantbook/restapi:latest
+          name: plantbook
+          ports:
+            - containerPort: 8081
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plantbook-testdb
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: plantbook-testdb
+  template:
+    metadata:
+      labels:
+        app: plantbook-testdb
+    spec:
+      containers:
+        - image: postgres:13.2
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-user
+                  key: db_username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-pwd
+                  key: db_pwd
+            - name: POSTGRES_DB
+              value: plantbook_admin
+            - name: PG_DATA
+              value: /var/lib/pgdata
+          name: plantbook-testdb
+          ports:
+            - containerPort: 5432
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: database-migrations
+spec:
+  backoffLimit: 5
+  completions: 1
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: database-migrations
+          image: migrate/migrate:v4.14.1
+          env:
+            - name: REPO_PAT
+              valueFrom:
+                secretKeyRef:
+                  name: github-pat
+                  key: REPO_PAT
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-user
+                  key: db_username
+            - name: DB_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: db-pwd
+                  key: db_pwd
+          command: ['/migrate']
+          args: ['-source', 'github://kaatinga:$(REPO-PAT)@kaatinga/plantbook/database/migrations_schema', '-database', 'postgresql://$(DB_USER):$(DB_PWD)@plantbook-testdb:5432/plantbook_admin?sslmode=disable', 'up']
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plantbook
+  labels:
+    app: plantbook
+spec:
+  type: NodePort
+  ports:
+    - port: 8081
+      targetPort: 8081
+      protocol: TCP
+      name: tcp
+  selector:
+    app: plantbook
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plantbook-testdb
+  labels:
+    app: plantbook-testdb
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+      targetPort: 5432
+      protocol: TCP
+      name: tcp
+  selector:
+    app: plantbook-testdb
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: plantbook
+                port:
+                  number: 8081
