@@ -4,13 +4,26 @@
 
 # Plantbook, plants social network.
 
-![](README_content/github_plants.png)
+![](assets/README_content/github_plants.png)
+
+## For generate plantbook-server
+
+nedd to be installed [go-swagger#install](https://goswagger.io/install.html)
+
+```bash
+# after change spec run command below...
+swagger generate server -t internal/api -A plantbook -f ./api/swagger/swagger.yaml --main-package=../../../cmd/plantbook-server
+
+```
 
 ## Contents
 
-1. [Introduction](#introduction)
-2. [Components](#components)
-3. [Main classes](#main-classes)
+- [Plantbook, plants social network.](#plantbook-plants-social-network)
+  - [For generate plantbook-server](#for-generate-plantbook-server)
+  - [Contents](#contents)
+  - [1. Introduction](#1-introduction)
+  - [2. Components](#2-components)
+  - [3. Main classes](#3-main-classes)
 
 <a id=introduction>
 
@@ -24,11 +37,11 @@ its life, that can contain photos, some sad or happy stories.
 
 ## 2. Components
 
-![](README_content/components.png)
+![](assets/README_content/components.png)
 
 <a id=main-classes>
 
 ## 3. Main classes
 
-![](README_content/classes.png)
+![](assets/README_content/classes.png)
 

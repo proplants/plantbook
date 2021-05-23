@@ -1,2 +1,4 @@
 migrate -database postgres://plantbook_admin:mypassword@localhost:5432/plantbook_admin?sslmode=disable -path ./database/migrations_schema  up
 migrate -database postgres://plantbook_admin:mypassword@localhost:5432/plantbook_admin?sslmode=disable -path ./database/migrations_schema  down
+# new scripts
+migrate create -ext sql -dir database/migrations_schema -seq fill_users_roles_table
