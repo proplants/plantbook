@@ -73,5 +73,8 @@ func Read(defaults, cfg *Config) error {
 	if cfg.LOG.Format == "" {
 		cfg.LOG.Format = defaults.LOG.Format
 	}
+	if cfg.TokenSecret == "" {
+		cfg.TokenSecret = defaults.TokenSecret
+	}
 	return nil
 }
