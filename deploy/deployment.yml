@@ -21,6 +21,12 @@ spec:
       containers:
         - image: ghcr.io/kaatinga/plantbook/restapi:latest
           name: plantbook
+          env:
+            - name: PLANTBOOK_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: db-url
+                  key: db_url
           readinessProbe:
             failureThreshold: 3
             httpGet:
@@ -40,8 +46,8 @@ spec:
             initialDelaySeconds: 10
           resources:
             limits:
-              memory: "10Mi"
-              cpu: "100m"
+              memory: "250Mi"
+              cpu: "200m"
           ports:
             - containerPort: 8081
 ---
