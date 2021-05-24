@@ -27,29 +27,8 @@ spec:
                 secretKeyRef:
                   name: db-url
                   key: db_url
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /health/ready
-              port: 8081
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /health/live
-              port: 8081
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
-            initialDelaySeconds: 10
-          resources:
-            limits:
-              memory: "250Mi"
-              cpu: "200m"
-          ports:
-            - containerPort: 8081
+            - name: PLANTBOOK_HTTPD_PORT
+              value: "8081"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -162,7 +141,8 @@ metadata:
   name: my-ingress
 spec:
   rules:
-    - http:
+    - host: "plantbook.icu"
+      http:
         paths:
           - path: /
             pathType: Prefix
