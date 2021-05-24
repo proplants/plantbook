@@ -8,7 +8,7 @@ import (
 type Config struct {
 	HTTPD struct {
 		Host string `env:"PLANTBOOK_HTTPD_HOST"`
-		Port string `env:"PLANTBOOK_HTTPD_PORT"`
+		Port string `env:"PLANTBOOK_HTTPD_PORT" validate:"numeric"`
 	}
 	DB struct {
 		Provider string `env:"PLANTBOOK_DB_PROVIDER"`
@@ -24,22 +24,22 @@ type Config struct {
 // Defaults config default values
 var Defaults Config = Config{
 	HTTPD: struct {
-		Host string "env:\"PLANTBOOK_HTTPD_HOST\""
-		Port string "env:\"PLANTBOOK_HTTPD_PORT\""
+		Host string `env:"PLANTBOOK_HTTPD_HOST"`
+		Port string `env:"PLANTBOOK_HTTPD_PORT" validate:"numeric"`
 	}{
 		Host: "",
 		Port: "8080",
 	},
 	DB: struct {
-		Provider string "env:\"PLANTBOOK_DB_PROVIDER\""
-		URL      string "env:\"PLANTBOOK_DB_URL\""
+		Provider string `env:"PLANTBOOK_DB_PROVIDER"`
+		URL      string `env:"PLANTBOOK_DB_URL"`
 	}{
 		Provider: "postgres",
 		URL:      "postgres://plantbook_admin:mypassword@postgresql:5432/plantbook_admin?sslmode=disable",
 	},
 	LOG: struct {
-		Debug  bool   "env:\"PLANTBOOK_LOG_DEBUG\""
-		Format string "env:\"PLANTBOOK_LOG_FORMAT\""
+		Debug  bool   `env:"PLANTBOOK_LOG_DEBUG"`
+		Format string `env:"PLANTBOOK_LOG_FORMAT"`
 	}{
 		Debug:  false,
 		Format: "console",
