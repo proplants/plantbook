@@ -1,11 +1,8 @@
 name: unit tests
 on:
-  workflow_dispatch:
-    inputs:
-      name:
-        description: 'Old test & coverage workflow'
-        required: false
-        default: 'deprecated test & coverage workflow'
+  push:
+    branches:
+      - '!main'   # исключаем main
 jobs:
   tests:
     strategy:
