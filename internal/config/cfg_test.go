@@ -23,7 +23,7 @@ func TestRead(t *testing.T) {
 		env      map[string]string
 		wantErr  bool
 	}{
-		{"empty_env_err", &Defaults, &Config{}, &Defaults, nil, true},
+		{"empty_env_err", &Defaults, &Config{}, &Defaults, nil, false},
 		{"port_env_ok", &Defaults, &Config{}, &Defaults, portEnv, false},
 		{"hostport_env_ok", &Defaults, &Config{}, &configHostPort, hostPortEnv, false},
 	}
