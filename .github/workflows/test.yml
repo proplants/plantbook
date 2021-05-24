@@ -1,8 +1,11 @@
 name: unit tests
 on:
-  push:
-    branches-ignore:
-      - main
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Old test & coverage workflow'
+        required: false
+        default: 'deprecated test & coverage workflow'
 jobs:
   tests:
     strategy:
@@ -26,7 +29,7 @@ jobs:
           key: ${{ runner.os }}-v1-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-v1-go-
-            
+
       - name: Test
         run: go test ./... -race -cover
 

@@ -1,8 +1,11 @@
 name: golangci-lint
 on:
-  push:
-    branches-ignore:
-      - main
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Old linter workflow'
+        required: false
+        default: 'deprecated linter workflow'
 jobs:
   golangci:
     name: lint
