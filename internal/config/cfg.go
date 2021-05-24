@@ -8,7 +8,7 @@ import (
 type Config struct {
 	HTTPD struct {
 		Host string `env:"PLANTBOOK_HTTPD_HOST"`
-		Port string `env:"PLANTBOOK_HTTPD_PORT" validate:"numeric"`
+		Port string `env:"PLANTBOOK_HTTPD_PORT"`
 	}
 	DB struct {
 		Provider string `env:"PLANTBOOK_DB_PROVIDER"`
@@ -25,7 +25,7 @@ type Config struct {
 var Defaults Config = Config{
 	HTTPD: struct {
 		Host string `env:"PLANTBOOK_HTTPD_HOST"`
-		Port string `env:"PLANTBOOK_HTTPD_PORT" validate:"numeric"`
+		Port string `env:"PLANTBOOK_HTTPD_PORT"`
 	}{
 		Host: "",
 		Port: "8080",
