@@ -1,8 +1,8 @@
 name: unit tests
 on:
   push:
-    branches:
-      - '!main'   # исключаем main
+    branches-ignore:
+      - main
 jobs:
   tests:
     strategy:

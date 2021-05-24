@@ -1,8 +1,8 @@
 name: golangci-lint
 on:
   push:
-    branches:
-      - '!main'   # исключаем main
+    branches-ignore:
+      - main
 jobs:
   golangci:
     name: lint
