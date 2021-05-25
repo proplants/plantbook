@@ -3,6 +3,7 @@ module github.com/kaatinga/plantbook
 go 1.16
 
 require (
+	github.com/PuerkitoBio/goquery v1.5.1 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-openapi/analysis v0.20.1 // indirect
@@ -14,6 +15,7 @@ require (
 	github.com/go-openapi/swag v0.19.15
 	github.com/go-openapi/validate v0.20.2
 	github.com/go-playground/validator/v10 v10.6.1 // indirect
+	github.com/gocolly/colly/v2 v2.1.0 // indirect
 	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
 	github.com/jackc/pgx/v4 v4.11.0
 	github.com/jessevdk/go-flags v1.5.0

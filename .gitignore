@@ -6,3 +6,4 @@ temp
 coverage.txt
 cmd/plantbook-server/plantbook-server
 /.idea/
+utils/greenmen/greenmen
