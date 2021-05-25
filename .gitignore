@@ -1,0 +1,8 @@
+bin/
+.DS_Store
+*.log
+cluster-dump
+temp
+coverage.txt
+cmd/plantbook-server/plantbook-server
+/.idea/

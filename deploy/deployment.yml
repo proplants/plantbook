@@ -21,8 +21,14 @@ spec:
       containers:
         - image: ghcr.io/kaatinga/plantbook/restapi:latest
           name: plantbook
-          ports:
-            - containerPort: 8081
+          env:
+            - name: PLANTBOOK_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: db-url
+                  key: db_url
+            - name: PLANTBOOK_HTTPD_PORT
+              value: "8081"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -135,7 +141,8 @@ metadata:
   name: my-ingress
 spec:
   rules:
-    - http:
+    - host: "plantbook.icu"
+      http:
         paths:
           - path: /
             pathType: Prefix
