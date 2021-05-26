@@ -219,51 +219,9 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel2(in *jle
 		case "short_info":
 			(out.ShortInfo).UnmarshalEasyJSON(in)
 		case "images":
-			if in.IsNull() {
-				in.Skip()
-				out.Images = nil
-			} else {
-				in.Delim('[')
-				if out.Images == nil {
-					if !in.IsDelim(']') {
-						out.Images = make([]string, 0, 4)
-					} else {
-						out.Images = []string{}
-					}
-				} else {
-					out.Images = (out.Images)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v4 string
-					v4 = string(in.String())
-					out.Images = append(out.Images, v4)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
+			(out.Images).UnmarshalEasyJSON(in)
 		case "info":
-			if in.IsNull() {
-				in.Skip()
-				out.Info = nil
-			} else {
-				in.Delim('[')
-				if out.Info == nil {
-					if !in.IsDelim(']') {
-						out.Info = make([]Info, 0, 2)
-					} else {
-						out.Info = []Info{}
-					}
-				} else {
-					out.Info = (out.Info)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v5 Info
-					(v5).UnmarshalEasyJSON(in)
-					out.Info = append(out.Info, v5)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
+			(out.Info).UnmarshalEasyJSON(in)
 		case "metadata":
 			(out.Metadata).UnmarshalEasyJSON(in)
 		default:
@@ -303,34 +261,12 @@ func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel2(out *jw
 	{
 		const prefix string = ",\"images\":"
 		out.RawString(prefix)
-		if in.Images == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-			out.RawString("null")
-		} else {
-			out.RawByte('[')
-			for v6, v7 := range in.Images {
-				if v6 > 0 {
-					out.RawByte(',')
-				}
-				out.String(string(v7))
-			}
-			out.RawByte(']')
-		}
+		(in.Images).MarshalEasyJSON(out)
 	}
 	{
 		const prefix string = ",\"info\":"
 		out.RawString(prefix)
-		if in.Info == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-			out.RawString("null")
-		} else {
-			out.RawByte('[')
-			for v8, v9 := range in.Info {
-				if v8 > 0 {
-					out.RawByte(',')
-				}
-				(v9).MarshalEasyJSON(out)
-			}
-			out.RawByte(']')
-		}
+		(in.Info).MarshalEasyJSON(out)
 	}
 	{
 		const prefix string = ",\"metadata\":"
@@ -436,7 +372,73 @@ func (v *Metadata) UnmarshalJSON(data []byte) error {
 func (v *Metadata) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel3(l, v)
 }
-func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(in *jlexer.Lexer, out *Info) {
+func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(in *jlexer.Lexer, out *Infos) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		in.Skip()
+		*out = nil
+	} else {
+		in.Delim('[')
+		if *out == nil {
+			if !in.IsDelim(']') {
+				*out = make(Infos, 0, 2)
+			} else {
+				*out = Infos{}
+			}
+		} else {
+			*out = (*out)[:0]
+		}
+		for !in.IsDelim(']') {
+			var v4 Info
+			(v4).UnmarshalEasyJSON(in)
+			*out = append(*out, v4)
+			in.WantComma()
+		}
+		in.Delim(']')
+	}
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(out *jwriter.Writer, in Infos) {
+	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
+		out.RawString("null")
+	} else {
+		out.RawByte('[')
+		for v5, v6 := range in {
+			if v5 > 0 {
+				out.RawByte(',')
+			}
+			(v6).MarshalEasyJSON(out)
+		}
+		out.RawByte(']')
+	}
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v Infos) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v Infos) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *Infos) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *Infos) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(l, v)
+}
+func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel5(in *jlexer.Lexer, out *Info) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -469,7 +471,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(in *jle
 		in.Consumed()
 	}
 }
-func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(out *jwriter.Writer, in Info) {
+func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel5(out *jwriter.Writer, in Info) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -489,23 +491,89 @@ func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(out *jw
 // MarshalJSON supports json.Marshaler interface
 func (v Info) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(&w, v)
+	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel5(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v Info) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(w, v)
+	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel5(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *Info) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(&r, v)
+	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel5(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Info) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(l, v)
+	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel5(l, v)
+}
+func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel6(in *jlexer.Lexer, out *Images) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		in.Skip()
+		*out = nil
+	} else {
+		in.Delim('[')
+		if *out == nil {
+			if !in.IsDelim(']') {
+				*out = make(Images, 0, 4)
+			} else {
+				*out = Images{}
+			}
+		} else {
+			*out = (*out)[:0]
+		}
+		for !in.IsDelim(']') {
+			var v7 string
+			v7 = string(in.String())
+			*out = append(*out, v7)
+			in.WantComma()
+		}
+		in.Delim(']')
+	}
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel6(out *jwriter.Writer, in Images) {
+	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
+		out.RawString("null")
+	} else {
+		out.RawByte('[')
+		for v8, v9 := range in {
+			if v8 > 0 {
+				out.RawByte(',')
+			}
+			out.String(string(v9))
+		}
+		out.RawByte(']')
+	}
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v Images) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel6(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v Images) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel6(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *Images) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel6(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *Images) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel6(l, v)
 }

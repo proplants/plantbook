@@ -13,8 +13,13 @@ import (
 	"github.com/gocolly/colly/v2"
 )
 
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-const version string = "0.0.1"
+const (
+	letterBytes        = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	version     string = "0.0.1"
+
+	// nolint:lll
+	templateRoomPlants string = `INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator) VALUES('%s', 1, '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);`
+)
 
 // nolint:gosec
 func RandomString() string {
@@ -83,7 +88,7 @@ func main() {
 		logger.Errorf("cc.parseRefPage error, %s", err)
 	}
 	logger.Infof("parsed %d url(s)", len(plants))
-	err = saveToFile(plants, "plants.json")
+	err = saveToFile(plants, "plants.json", "room_plants.sql")
 	if err != nil {
 		logger.Errorf("saveToFile error, %s", err)
 	}
@@ -91,16 +96,36 @@ func main() {
 
 // helpers
 
-func saveToFile(plants model.Plants, fn string) error {
-	f, err := os.Create(fn)
+func saveToFile(plants model.Plants, fnData, fnSQL string) error {
+	f, err := os.Create(fnData)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
+	fq, err := os.Create(fnSQL)
+	if err != nil {
+		return err
+	}
+	defer fq.Close()
+	for _, plant := range plants {
+		// nolint:errcheck
+		// fmt.Fprintln()
+		fq.WriteString(makeSQLInsert(plant, templateRoomPlants) + "\n")
+	}
 	data, err := plants.MarshalJSON()
 	if err != nil {
 		return err
 	}
 	_, err = f.Write(data)
 	return err
+}
+
+// nolint
+func makeSQLInsert(plant model.Plant, template string) string {
+	// INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator)
+	// VALUES('%s', 1, '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);
+	shortInfoBts, _ := plant.ShortInfo.MarshalJSON()
+	notesBts, _ := plant.Info.MarshalJSON()
+	imgLinksBts, _ := plant.Images.MarshalJSON()
+	return fmt.Sprintf(template, plant.Title, shortInfoBts, notesBts, imgLinksBts)
 }

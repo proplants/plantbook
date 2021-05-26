@@ -5,13 +5,14 @@ import (
 	"fmt"
 )
 
+//easyjson:json
 type Plant struct {
 	Source    string    `json:"source"`
 	Title     string    `json:"title"`
 	Category  string    `json:"category"`
 	ShortInfo ShortInfo `json:"short_info"`
-	Images    []string  `json:"images"`
-	Info      []Info    `json:"info"`
+	Images    Images    `json:"images"`
+	Info      Infos     `json:"info"`
 	Metadata  Metadata  `json:"metadata"`
 }
 
@@ -24,13 +25,21 @@ func (p *Plant) String() string {
 }
 
 //easyjson:json
+type Images []string
+
+//easyjson:json
 type Plants []Plant
 
+//easyjson:json
 type Info struct {
 	Title   string `json:"title"`
 	Content string `json:"content"`
 }
 
+//easyjson:json
+type Infos []Info
+
+//easyjson:json
 type Metadata struct {
 	DateCollect string `json:"date_collect"`
 	Target      string `json:"target"`
