@@ -79,22 +79,31 @@ jobs:
 
   deploy:
     needs: push_to_registry
+    name: deploy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: Azure/docker-login@v1
-        with:
-          login-server: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
-      - uses: Azure/k8s-set-context@v1
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: kube login
+        uses: Azure/k8s-set-context@v1
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.K8S_CONFIG }}
-      - uses: Azure/k8s-deploy@v1.4
+      - name: precheck
+        run: |
+          OUTPUT=$(kubectl rollout status deployment plantbook 2>&1) && echo "::set-output name=OUTPUT::$OUTPUT"
+        continue-on-error: true
+        id: status
+      - name: full deploy
+        if: steps.status.outputs.OUTPUT != 'deployment "plantbook" successfully rolled out'
+        uses: Azure/k8s-deploy@v1.4
         with:
           namespace: 'g1-vladimir'
           manifests: |
             ./deploy/deployment.yml
           images: |
-            ghcr.io/kaatinga/plantbook/restapi:latest
+              ghcr.io/kaatinga/plantbook/restapi:latest
+      - name: re-roll
+        if: steps.status.outputs.OUTPUT == 'deployment "plantbook" successfully rolled out'
+        run: |
+          kubectl delete po -l app=plantbook

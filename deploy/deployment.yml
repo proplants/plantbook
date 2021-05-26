@@ -29,6 +29,7 @@ spec:
                   key: db_url
             - name: PLANTBOOK_HTTPD_PORT
               value: "8081"
+          imagePullPolicy: Always
 ---
 apiVersion: apps/v1
 kind: Deployment
