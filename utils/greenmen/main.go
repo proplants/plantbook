@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"math/rand"
 	"os"
 
@@ -27,6 +28,7 @@ func RandomString() string {
 func main() {
 	// flags
 	debug := flag.Bool("d", false, "true/false/1/0 debug on/off")
+	directLink := flag.String("u", "", "url to plant page for single scrapping")
 
 	flag.Parse()
 
@@ -39,10 +41,19 @@ func main() {
 
 	// Instantiate default collector
 	c := colly.NewCollector(
-	// Visit only domains: hackerspaces.org, wiki.hackerspaces.org
-	// colly.AllowedDomains("www.plantopedia.ru", "plantopedia.ru"),
+		// Visit only domains: hackerspaces.org, wiki.hackerspaces.org
+		colly.AllowedDomains("www.plantopedia.ru", "plantopedia.ru"),
 	)
 	cc := newCC(c)
+	if *directLink != "" {
+		singlePlant, err := cc.parsePlantPage(ctx, *directLink)
+		if err != nil {
+			logger.Errorf("parsePlantPage error, %s", err)
+			return
+		}
+		fmt.Printf("plant: %s\n", singlePlant)
+		return
+	}
 	plants := make(model.Plants, 0, 316)
 	chURLs := make(chan string, 5)
 	go func() {
@@ -65,9 +76,9 @@ func main() {
 		}
 	}()
 
-	const refPage string = "http://www.plantopedia.ru/encyclopaedia/pot-plant/sections.php"
+	const refPageRoomPlants string = "http://www.plantopedia.ru/encyclopaedia/pot-plant/sections.php"
 
-	err := cc.parseRefPage(ctx, refPage, chURLs)
+	err := cc.parseRefPage(ctx, refPageRoomPlants, chURLs)
 	if err != nil {
 		logger.Errorf("cc.parseRefPage error, %s", err)
 	}

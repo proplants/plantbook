@@ -1,5 +1,10 @@
 package model
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type Plant struct {
 	Source    string    `json:"source"`
 	Title     string    `json:"title"`
@@ -8,6 +13,14 @@ type Plant struct {
 	Images    []string  `json:"images"`
 	Info      []Info    `json:"info"`
 	Metadata  Metadata  `json:"metadata"`
+}
+
+func (p *Plant) String() string {
+	bts, err := json.MarshalIndent(p, "", "\t")
+	if err != nil {
+		return fmt.Sprintf("failed %s", err)
+	}
+	return string(bts)
 }
 
 //easyjson:json

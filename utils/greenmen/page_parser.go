@@ -148,12 +148,17 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 		log.Debugf("set images: %v", p.Images)
 	})
 
+	// info
 	cc.OnHTML(".encyclopaedia-zag", func(e *colly.HTMLElement) {
 		e.ForEach("h3", func(i int, ee *colly.HTMLElement) {
 			title := strings.TrimSpace(ee.Text)
 			content := strings.TrimSpace(ee.DOM.Next().Text())
+			log.Debugf("info title: %s, content: %s", title, content)
 			if len(content) < 2 {
-				return
+				content = strings.TrimSpace(ee.DOM.Next().Next().Text())
+				if len(content) < 2 {
+					return
+				}
 			}
 			p.Info = append(p.Info, model.Info{Title: title, Content: content})
 		})
