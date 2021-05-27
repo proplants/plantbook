@@ -140,15 +140,31 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: my-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
     - host: "plantbook.icu"
       http:
         paths:
-          - path: /
+          - path: /api/v1
             pathType: Prefix
             backend:
               service:
                 name: plantbook
                 port:
                   number: 8081
+          - path: /health
+            pathType: Prefix
+            backend:
+              service:
+                name: plantbook
+                port:
+                  number: 8081
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: plantbook-front
+                port:
+                  number: 80
