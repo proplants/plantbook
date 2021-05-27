@@ -495,6 +495,45 @@ func init() {
         }
       }
     },
+    "/api/v1/version": {
+      "post": {
+        "description": "Shows api version.",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "health"
+        ],
+        "summary": "Get app version",
+        "operationId": "apiVersion",
+        "responses": {
+          "200": {
+            "description": "version info",
+            "schema": {
+              "$ref": "#/definitions/ApiVersion"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
     "/health/live": {
       "get": {
         "description": "Checks web service is working",
@@ -580,6 +619,21 @@ func init() {
           "type": "string"
         },
         "type": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiVersion": {
+      "type": "object",
+      "properties": {
+        "build_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "githash": {
+          "type": "string"
+        },
+        "version": {
           "type": "string"
         }
       }
@@ -1162,6 +1216,45 @@ func init() {
         }
       }
     },
+    "/api/v1/version": {
+      "post": {
+        "description": "Shows api version.",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "health"
+        ],
+        "summary": "Get app version",
+        "operationId": "apiVersion",
+        "responses": {
+          "200": {
+            "description": "version info",
+            "schema": {
+              "$ref": "#/definitions/ApiVersion"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
     "/health/live": {
       "get": {
         "description": "Checks web service is working",
@@ -1247,6 +1340,21 @@ func init() {
           "type": "string"
         },
         "type": {
+          "type": "string"
+        }
+      }
+    },
+    "ApiVersion": {
+      "type": "object",
+      "properties": {
+        "build_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "githash": {
+          "type": "string"
+        },
+        "version": {
           "type": "string"
         }
       }
