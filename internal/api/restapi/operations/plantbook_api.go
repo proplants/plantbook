@@ -51,6 +51,9 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		PlantAddPlantHandler: plant.AddPlantHandlerFunc(func(params plant.AddPlantParams) middleware.Responder {
 			return middleware.NotImplemented("operation plant.AddPlant has not yet been implemented")
 		}),
+		HealthAPIVersionHandler: health.APIVersionHandlerFunc(func(params health.APIVersionParams) middleware.Responder {
+			return middleware.NotImplemented("operation health.APIVersion has not yet been implemented")
+		}),
 		UserCreateUserHandler: user.CreateUserHandlerFunc(func(params user.CreateUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.CreateUser has not yet been implemented")
 		}),
@@ -134,6 +137,8 @@ type PlantbookAPI struct {
 
 	// PlantAddPlantHandler sets the operation handler for the add plant operation
 	PlantAddPlantHandler plant.AddPlantHandler
+	// HealthAPIVersionHandler sets the operation handler for the api version operation
+	HealthAPIVersionHandler health.APIVersionHandler
 	// UserCreateUserHandler sets the operation handler for the create user operation
 	UserCreateUserHandler user.CreateUserHandler
 	// PlantDeletePlantHandler sets the operation handler for the delete plant operation
@@ -245,6 +250,9 @@ func (o *PlantbookAPI) Validate() error {
 
 	if o.PlantAddPlantHandler == nil {
 		unregistered = append(unregistered, "plant.AddPlantHandler")
+	}
+	if o.HealthAPIVersionHandler == nil {
+		unregistered = append(unregistered, "health.APIVersionHandler")
 	}
 	if o.UserCreateUserHandler == nil {
 		unregistered = append(unregistered, "user.CreateUserHandler")
@@ -381,6 +389,10 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/api/v1/plant"] = plant.NewAddPlant(o.context, o.PlantAddPlantHandler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/api/v1/version"] = health.NewAPIVersion(o.context, o.HealthAPIVersionHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}

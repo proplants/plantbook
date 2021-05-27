@@ -385,6 +385,32 @@ paths:
           description: "Invalid username supplied"
         "404":
           description: "User not found"
+  /api/v1/version:
+    post:
+      tags:
+        - "health"
+      summary: "Get app version"
+      description: "Shows api version."
+      operationId: "apiVersion"
+      produces:
+        - "application/json"
+      responses:
+        '200':
+          description: "version info"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: '#/definitions/ApiVersion'
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: '#/definitions/ErrorResponse'
 definitions:
   UserLoginPassword:
     type: "object"
@@ -447,6 +473,16 @@ definitions:
         type: "string"
       message:
         type: "string"
+  ApiVersion:
+    type: "object"
+    properties: 
+      version:
+        type: "string"
+      githash:
+        type: "string"
+      build_at:
+        type: "string"
+        format: "date-time"
   ErrorResponse:
     type: "object"
     properties: 
