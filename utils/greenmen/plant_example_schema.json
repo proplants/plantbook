@@ -1,0 +1,32 @@
+{
+    "source": "http://www.plantopedia.ru/encyclopaedia/pot-plant/details/a1/agava/",
+    "title": "Агава (Agave)",
+    "category": "Комнатные растения",
+    "short_info": {
+        "kind": "суккулентное",
+        "recommend_position": "южные окна",
+        "regard_to_light": "светолюбивое",
+        "regard_to_moisture": "предпочитает умеренное увлажнение,  засухоустойчивое",
+        "flowering_time": "лето",
+        "hight": "высокое (выше 100 см),  низкое (10-50 см)",
+        "classifiers": "декоративнолиственное,  лекарственное"
+    },
+    "images": [
+        "http://www.plantopedia.ru/upload/plantopedia/04_Home_Plants/A/Agava1.jpg",
+        "http://www.plantopedia.ru/upload/plantopedia/04_Home_Plants/A/Agave2.jpg"
+    ],
+    "info": [
+        {
+            "title": "Этимология",
+            "content": "Название происходит от agauos, что в переводе с греческого означает «благородная»,  «замечательная», «превосходная» и получило оно его в честь Агавы — дочери одного из древних  мифических царей."
+        },
+        {
+            "title": "Виды и сорта агавы",
+            "content": "Род объединяет около 300 видов листовых суккулентов, произрастающих от юга  США до тропических районов Южной Америки. В культуре могут использоваться около 50  видов."
+        }
+    ],
+    "metadata": {
+        "date_collect": "2021-05-25T23:23:12+03:00",
+        "target": "http://www.plantopedia.ru/encyclopaedia/pot-plant/details/a1/agava/"
+    }
+}
