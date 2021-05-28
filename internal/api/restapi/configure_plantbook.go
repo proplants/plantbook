@@ -35,6 +35,7 @@ const (
 var (
 	build   string = "_build_ldflags"
 	githash string = "_githash_ldflags"
+	buildAt string = "_git_build_at_ldflags"
 	cfg     config.Config
 )
 
@@ -56,6 +57,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	logger = logger.With("version", version)
 	logger = logger.With("build", build)
 	logger = logger.With("githash", githash)
+	logger = logger.With("build_at", buildAt)
 
 	ctx := logging.WithLogger(context.Background(), logger)
 	// make repo
@@ -71,6 +73,13 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	// health
 	api.HealthHealthAliveHandler = hhandlers.NewHealthAliveHandler()
 	api.HealthHealthReadyHandler = hhandlers.NewHealthReadyHandler(repo)
+
+	buildAtTime, err := time.Parse(time.RFC3339, buildAt)
+	if err != nil {
+		logger.Warnf("incorrect buildAt %s, set to current time", err)
+		buildAtTime = time.Now()
+	}
+	api.HealthAPIVersionHandler = hhandlers.NewAPIVersionHandler(version, githash, buildAtTime)
 
 	// users
 	api.UserCreateUserHandler = uhandlers.NewCreateUserHandler(repo, tm)

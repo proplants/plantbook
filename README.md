@@ -13,7 +13,11 @@ nedd to be installed [go-swagger#install](https://goswagger.io/install.html)
 ```bash
 # after change spec run command below...
 swagger generate server -t internal/api -A plantbook -f ./api/swagger/swagger.yaml --main-package=../../../cmd/plantbook-server
-
+# for help type: swagger generate server --help  
+-t internal/api # path for put generated files
+-A plantbook # application name
+-f ./api/swagger/swagger.yaml # path to swagger speca
+--main-package=../../../cmd/plantbook-server # path for put main file location
 ```
 
 ## Contents
