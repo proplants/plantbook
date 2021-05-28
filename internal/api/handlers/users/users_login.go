@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/models"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
 	"github.com/kaatinga/plantbook/pkg/logging"
@@ -50,5 +51,6 @@ func (lui *loginUserImpl) Handle(params user.LoginUserParams) middleware.Respond
 		return user.NewLoginUserOK().WithSetCookie(cookie)
 	}
 	return user.NewLoginUserDefault(http.StatusBadRequest).
-		WithPayload(&models.ErrorResponse{Message: "invalid login or password"})
+		WithPayload(&models.ErrorResponse{Message: "invalid login or password"}).
+		WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 }

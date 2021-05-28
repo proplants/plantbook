@@ -18,6 +18,7 @@ import (
 
 	hhandlers "github.com/kaatinga/plantbook/internal/api/handlers/health"
 	uhandlers "github.com/kaatinga/plantbook/internal/api/handlers/users"
+	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/repo"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
@@ -158,7 +159,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 
 	api.ServerShutdown = func() {}
 
-	return setupGlobalMiddleware(api.Serve(setupMiddlewares))
+	return setupGlobalMiddleware(ctx, api.Serve(setupMiddlewares))
 }
 
 // The TLS configuration before HTTPS server starts.
@@ -184,6 +185,9 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // The middleware configuration happens before anything,
 // this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics.
-func setupGlobalMiddleware(handler http.Handler) http.Handler {
-	return handler
+func setupGlobalMiddleware(ctx context.Context, handler http.Handler) http.Handler {
+
+	chainGlobalMiddleware := apimiddleware.RequestID(ctx, handler)
+	//
+	return chainGlobalMiddleware
 }

@@ -3,14 +3,15 @@ package users
 import (
 	"net/http"
 
+	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/pkg/logging"
 	"github.com/kaatinga/plantbook/pkg/token"
-	"go.uber.org/zap"
 
 	"github.com/kaatinga/plantbook/internal/api/models"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
 
 	"github.com/go-openapi/runtime/middleware"
+	"go.uber.org/zap"
 )
 
 type createUserImpl struct {
@@ -74,5 +75,5 @@ func (cui *createUserImpl) Handle(params user.CreateUserParams) middleware.Respo
 			WithPayload(&models.ErrorResponse{Message: "db error happen"})
 	}
 	// all ok return new user
-	return user.NewCreateUserCreated().WithPayload(_user)
+	return user.NewCreateUserCreated().WithPayload(_user).WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 }

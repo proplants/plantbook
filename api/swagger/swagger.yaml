@@ -386,7 +386,7 @@ paths:
         "404":
           description: "User not found"
   /api/v1/version:
-    post:
+    get:
       tags:
         - "health"
       summary: "Get app version"

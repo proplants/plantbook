@@ -1,6 +1,7 @@
 package health
 
 import (
+	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
 
 	"github.com/go-openapi/runtime/middleware"
@@ -14,5 +15,5 @@ func NewHealthAliveHandler() health.HealthAliveHandler {
 }
 
 func (ha *healthAliveImpl) Handle(params health.HealthAliveParams) middleware.Responder {
-	return health.NewHealthAliveOK().WithPayload("OK")
+	return health.NewHealthAliveOK().WithPayload("OK").WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 }

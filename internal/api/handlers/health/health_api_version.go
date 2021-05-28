@@ -3,6 +3,7 @@ package health
 import (
 	"time"
 
+	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/models"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
 
@@ -22,9 +23,10 @@ func NewAPIVersionHandler(version, githash string, buildAt time.Time) health.API
 }
 
 func (av *apiVersionImpl) Handle(params health.APIVersionParams) middleware.Responder {
-	return health.NewAPIVersionOK().WithPayload(&models.APIVersion{
-		BuildAt: strfmt.DateTime(av.buildAt),
-		Githash: av.githash,
-		Version: av.version,
-	})
+	return health.NewAPIVersionOK().WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest)).
+		WithPayload(&models.APIVersion{
+			BuildAt: strfmt.DateTime(av.buildAt),
+			Githash: av.githash,
+			Version: av.version,
+		})
 }

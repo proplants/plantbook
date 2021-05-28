@@ -389,10 +389,10 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/api/v1/plant"] = plant.NewAddPlant(o.context, o.PlantAddPlantHandler)
-	if o.handlers["POST"] == nil {
-		o.handlers["POST"] = make(map[string]http.Handler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/api/v1/version"] = health.NewAPIVersion(o.context, o.HealthAPIVersionHandler)
+	o.handlers["GET"]["/api/v1/version"] = health.NewAPIVersion(o.context, o.HealthAPIVersionHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}

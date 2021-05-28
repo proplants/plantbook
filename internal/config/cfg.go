@@ -50,7 +50,7 @@ var Defaults Config = Config{
 // Read fills passed cfg by reading environment variables,
 // if some parameter not passed default value will be used
 func Read(defaults, cfg *Config) error {
-	err := env.LoadUsingReflect(&cfg)
+	err := env.LoadSettings(&cfg)
 	if err != nil {
 		return err
 	}

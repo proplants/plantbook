@@ -496,7 +496,7 @@ func init() {
       }
     },
     "/api/v1/version": {
-      "post": {
+      "get": {
         "description": "Shows api version.",
         "produces": [
           "application/json"
@@ -1217,7 +1217,7 @@ func init() {
       }
     },
     "/api/v1/version": {
-      "post": {
+      "get": {
         "description": "Shows api version.",
         "produces": [
           "application/json"
