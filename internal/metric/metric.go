@@ -31,8 +31,8 @@ func NewServer(address string) *Server {
 		Addr: address,
 		// Good practice to set timeouts to avoid Slowloris attacks.
 		WriteTimeout: writeTimeout,
-		ReadTimeout:  writeTimeout,
-		IdleTimeout:  writeTimeout,
+		ReadTimeout:  readTimeout,
+		IdleTimeout:  idleTimeout,
 		Handler:      r,
 	}
 	return &Server{addr: address, srv: srv}
