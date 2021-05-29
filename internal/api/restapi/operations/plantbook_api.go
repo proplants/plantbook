@@ -45,7 +45,14 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		JSONConsumer: runtime.JSONConsumer(),
 
 		JSONProducer: runtime.JSONProducer(),
+		TxtProducer:  runtime.TextProducer(),
 
+		HealthGetMetricsHandler: health.GetMetricsHandlerFunc(func(params health.GetMetricsParams) middleware.Responder {
+			return middleware.NotImplemented("operation health.GetMetrics has not yet been implemented")
+		}),
+		PlantAddPlantHandler: plant.AddPlantHandlerFunc(func(params plant.AddPlantParams) middleware.Responder {
+			return middleware.NotImplemented("operation plant.AddPlant has not yet been implemented")
+		}),
 		HealthAPIVersionHandler: health.APIVersionHandlerFunc(func(params health.APIVersionParams) middleware.Responder {
 			return middleware.NotImplemented("operation health.APIVersion has not yet been implemented")
 		}),
@@ -114,7 +121,14 @@ type PlantbookAPI struct {
 	// JSONProducer registers a producer for the following mime types:
 	//   - application/json
 	JSONProducer runtime.Producer
+	// TxtProducer registers a producer for the following mime types:
+	//   - text/plain
+	TxtProducer runtime.Producer
 
+	// HealthGetMetricsHandler sets the operation handler for the get metrics operation
+	HealthGetMetricsHandler health.GetMetricsHandler
+	// PlantAddPlantHandler sets the operation handler for the add plant operation
+	PlantAddPlantHandler plant.AddPlantHandler
 	// HealthAPIVersionHandler sets the operation handler for the api version operation
 	HealthAPIVersionHandler health.APIVersionHandler
 	// UserCreateUserHandler sets the operation handler for the create user operation
@@ -213,7 +227,16 @@ func (o *PlantbookAPI) Validate() error {
 	if o.JSONProducer == nil {
 		unregistered = append(unregistered, "JSONProducer")
 	}
+	if o.TxtProducer == nil {
+		unregistered = append(unregistered, "TxtProducer")
+	}
 
+	if o.HealthGetMetricsHandler == nil {
+		unregistered = append(unregistered, "health.GetMetricsHandler")
+	}
+	if o.PlantAddPlantHandler == nil {
+		unregistered = append(unregistered, "plant.AddPlantHandler")
+	}
 	if o.HealthAPIVersionHandler == nil {
 		unregistered = append(unregistered, "health.APIVersionHandler")
 	}
@@ -295,6 +318,8 @@ func (o *PlantbookAPI) ProducersFor(mediaTypes []string) map[string]runtime.Prod
 		switch mt {
 		case "application/json":
 			result["application/json"] = o.JSONProducer
+		case "text/plain":
+			result["text/plain"] = o.TxtProducer
 		}
 
 		if p, ok := o.customProducers[mt]; ok {
@@ -335,10 +360,19 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
 
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/metrics"] = health.NewGetMetrics(o.context, o.HealthGetMetricsHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/api/v1/version"] = health.NewAPIVersion(o.context, o.HealthAPIVersionHandler)
+	o.handlers["POST"]["/api/v1/plant"] = plant.NewAddPlant(o.context, o.PlantAddPlantHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/api/v1/version"] = health.NewAPIVersion(o.context, o.HealthAPIVersionHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}

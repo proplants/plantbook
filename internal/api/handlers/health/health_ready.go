@@ -3,6 +3,7 @@ package health
 import (
 	"net/http"
 
+	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/models"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
 	"github.com/kaatinga/plantbook/pkg/logging"
@@ -27,5 +28,5 @@ func (hr *healthReadyImpl) Handle(params health.HealthReadyParams) middleware.Re
 		return health.NewHealthReadyDefault(http.StatusInternalServerError).
 			WithPayload(&models.ErrorResponse{Message: "db error happen"})
 	}
-	return health.NewHealthReadyOK().WithPayload("OK")
+	return health.NewHealthReadyOK().WithPayload("OK").WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 }

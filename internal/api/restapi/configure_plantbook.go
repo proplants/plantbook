@@ -18,17 +18,19 @@ import (
 
 	hhandlers "github.com/kaatinga/plantbook/internal/api/handlers/health"
 	uhandlers "github.com/kaatinga/plantbook/internal/api/handlers/users"
+	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/repo"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
 	"github.com/kaatinga/plantbook/internal/config"
+	"github.com/kaatinga/plantbook/internal/metric"
 )
 
 //go:generate swagger generate server --target ../../api --name Plantbook --spec ../../../api/swagger/swagger.yaml --principal interface{}
 
 const (
-	version          string        = "0.0.1"
+	version          string        = "0.0.2"
 	tokenExpireDelay time.Duration = 7 * 24 * 60 * time.Minute
 )
 
@@ -80,6 +82,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 		buildAtTime = time.Now()
 	}
 	api.HealthAPIVersionHandler = hhandlers.NewAPIVersionHandler(version, githash, buildAtTime)
+	// metrics
 
 	// users
 	api.UserCreateUserHandler = uhandlers.NewCreateUserHandler(repo, tm)
@@ -87,6 +90,8 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	api.UserLogoutUserHandler = uhandlers.NewLogoutUserHandler(tokenExpireDelay)
 
 	// plants TODO: fill me
+
+	//
 
 	// generated code...
 	api.UseSwaggerUI()
@@ -158,7 +163,11 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 
 	api.ServerShutdown = func() {}
 
-	return setupGlobalMiddleware(api.Serve(setupMiddlewares))
+	// metrics
+	metricSRV := metric.NewServer(cfg.HTTPD.Host + ":" + cfg.HTTPD.MetricPort)
+	go metricSRV.Run(ctx)
+
+	return setupGlobalMiddleware(ctx, api.Serve(setupMiddlewares))
 }
 
 // The TLS configuration before HTTPS server starts.
@@ -184,6 +193,8 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // The middleware configuration happens before anything,
 // this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics.
-func setupGlobalMiddleware(handler http.Handler) http.Handler {
-	return handler
+func setupGlobalMiddleware(ctx context.Context, handler http.Handler) http.Handler {
+	chainGlobalMiddleware := apimiddleware.RequestID(ctx, handler)
+	//
+	return apimiddleware.SetupHandler(chainGlobalMiddleware)
 }

@@ -1,0 +1,20 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: plantbook-monitor
+  labels:
+    app: plantbook
+spec:
+  jobLabel: plantbook-monitor
+  namespaceSelector:
+    matchNames:
+    - g1-vladimir
+  selector:
+    matchLabels:
+      app: plantbook
+  endpoints:
+  - interval: 15s
+    port: metrichttp
+    path: /metrics
+    
