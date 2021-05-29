@@ -66,51 +66,119 @@ paths:
           schema:
             $ref: '#/definitions/ErrorResponse'
   /api/v1/plant:
-    post:
+    get:
       tags:
         - "plant"
-      summary: "Add a new plant to the garden"
-      description: ""
-      operationId: "addPlant"
+      operationId: "getPlants"
+      description: "find plants by parameters"
+      summary: "find plants"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
-        - in: "body"
-          name: "body"
-          description: "Plant object that needs to be added to the garden"
+        - name: "category"
+          in: "query"
+          description: "plant category"
+          required: false
+          type: "integer"
+          format: "int32"
+        - name: kind
+          in: query
+          type: string
+          required: false
+        - name: recommendPosition
+          in: query
+          type: string
+          required: false
+        - name: regardToLight
+          in: query
+          type: string
+          required: false
+        - name: regardToMoisture
+          in: query
+          type: string
+          required: false
+        - name: floweringTime
+          in: query
+          type: string
+          required: false
+        - name: hight
+          in: query
+          type: string
+          required: false
+        - name: classifiers
+          in: query
+          type: string
+          required: false
+        - name: limit
+          in: query
+          type: integer
+          format: int32
           required: true
-          schema:
-            $ref: "#/definitions/Plant"
-      responses:
-        "405":
-          description: "Invalid input"
-    put:
-      tags:
-        - "plant"
-      summary: "Update an existing plant"
-      description: ""
-      operationId: "updatePlant"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Plant object that needs to be added to the garden"
+          allowEmptyValue: true
+        - name: offset
+          in: query
+          type: integer
+          format: int32
           required: true
-          schema:
-            $ref: "#/definitions/Plant"
+          allowEmptyValue: true
       responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Plant"
         "400":
-          description: "Invalid ID supplied"
+          description: "Invalid input"
         "404":
-          description: "Plant not found"
-        "405":
-          description: "Validation exception"
-  /api/v1/plant/{plantId}:
+          description: "Plants not found"
+    # post:
+    #   tags:
+    #     - "plant"
+    #   summary: "Add a new plant to the garden"
+    #   description: ""
+    #   operationId: "addPlant"
+    #   consumes:
+    #     - "application/json"
+    #   produces:
+    #     - "application/json"
+    #   parameters:
+    #     - in: "body"
+    #       name: "body"
+    #       description: "Plant object that needs to be added to the garden"
+    #       required: true
+    #       schema:
+    #         $ref: "#/definitions/Plant"
+    #   responses:
+    #     "405":
+    #       description: "Invalid input"
+    # put:
+    #   tags:
+    #     - "plant"
+    #   summary: "Update an existing plant"
+    #   description: ""
+    #   operationId: "updatePlant"
+    #   consumes:
+    #     - "application/json"
+    #   produces:
+    #     - "application/json"
+    #   parameters:
+    #     - in: "body"
+    #       name: "body"
+    #       description: "Plant object that needs to be added to the garden"
+    #       required: true
+    #       schema:
+    #         $ref: "#/definitions/Plant"
+    #   responses:
+    #     "400":
+    #       description: "Invalid ID supplied"
+    #     "404":
+    #       description: "Plant not found"
+    #     "405":
+    #       description: "Validation exception"
+  /api/v1/plant/{id}:
     get:
       tags:
         - "plant"
@@ -120,7 +188,7 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "plantId"
+        - name: "id"
           in: "path"
           description: "ID of plant to return"
           required: true
@@ -135,93 +203,93 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Plant not found"
-    post:
-      tags:
-        - "plant"
-      summary: "Updates a plant in the garden with form data"
-      description: ""
-      operationId: "updatePlantWithForm"
-      consumes:
-        - "application/x-www-form-urlencoded"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "plantId"
-          in: "path"
-          description: "ID of pplant that needs to be updated"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "name"
-          in: "formData"
-          description: "Updated name of the plant"
-          required: false
-          type: "string"
-        - name: "status"
-          in: "formData"
-          description: "Updated status of the plant"
-          required: false
-          type: "string"
-      responses:
-        "405":
-          description: "Invalid input"
-    delete:
-      tags:
-        - "plant"
-      summary: "Deletes a plant"
-      description: ""
-      operationId: "deletePlant"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "api_key"
-          in: "header"
-          required: false
-          type: "string"
-        - name: "plantId"
-          in: "path"
-          description: "Plant id to delete"
-          required: true
-          type: "integer"
-          format: "int64"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Plant not found"
-  /api/v1/plant/{plantId}/uploadImage:
-    post:
-      tags:
-        - "plant"
-      summary: "uploads an image"
-      description: ""
-      operationId: "uploadFile"
-      consumes:
-        - "multipart/form-data"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "plantId"
-          in: "path"
-          description: "ID of plant to update"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "additionalMetadata"
-          in: "formData"
-          description: "Additional data to pass to server"
-          required: false
-          type: "string"
-        - name: "file"
-          in: "formData"
-          description: "file to upload"
-          required: false
-          type: "file"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/ApiResponse"
+    # post:
+    #   tags:
+    #     - "plant"
+    #   summary: "Updates a plant in the garden with form data"
+    #   description: ""
+    #   operationId: "updatePlantWithForm"
+    #   consumes:
+    #     - "application/x-www-form-urlencoded"
+    #   produces:
+    #     - "application/json"
+    #   parameters:
+    #     - name: "plantId"
+    #       in: "path"
+    #       description: "ID of pplant that needs to be updated"
+    #       required: true
+    #       type: "integer"
+    #       format: "int64"
+    #     - name: "name"
+    #       in: "formData"
+    #       description: "Updated name of the plant"
+    #       required: false
+    #       type: "string"
+    #     - name: "status"
+    #       in: "formData"
+    #       description: "Updated status of the plant"
+    #       required: false
+    #       type: "string"
+    #   responses:
+    #     "405":
+    #       description: "Invalid input"
+    # delete:
+    #   tags:
+    #     - "plant"
+    #   summary: "Deletes a plant"
+    #   description: ""
+    #   operationId: "deletePlant"
+    #   produces:
+    #     - "application/json"
+    #   parameters:
+    #     - name: "api_key"
+    #       in: "header"
+    #       required: false
+    #       type: "string"
+    #     - name: "plantId"
+    #       in: "path"
+    #       description: "Plant id to delete"
+    #       required: true
+    #       type: "integer"
+    #       format: "int64"
+    #   responses:
+    #     "400":
+    #       description: "Invalid ID supplied"
+    #     "404":
+    #       description: "Plant not found"
+  # /api/v1/plant/{plantId}/uploadImage:
+  #   post:
+  #     tags:
+  #       - "plant"
+  #     summary: "uploads an image"
+  #     description: ""
+  #     operationId: "uploadFile"
+  #     consumes:
+  #       - "multipart/form-data"
+  #     produces:
+  #       - "application/json"
+  #     parameters:
+  #       - name: "plantId"
+  #         in: "path"
+  #         description: "ID of plant to update"
+  #         required: true
+  #         type: "integer"
+  #         format: "int64"
+  #       - name: "additionalMetadata"
+  #         in: "formData"
+  #         description: "Additional data to pass to server"
+  #         required: false
+  #         type: "string"
+  #       - name: "file"
+  #         in: "formData"
+  #         description: "file to upload"
+  #         required: false
+  #         type: "file"
+  #     responses:
+  #       "200":
+  #         description: "successful operation"
+  #         schema:
+  #           $ref: "#/definitions/ApiResponse"
   /api/v1/user:
     post:
       tags:
@@ -447,22 +515,6 @@ definitions:
         type: "integer"
         format: "int32"
         description: "User Status"
-  Plant:
-    type: "object"
-    required:
-      - "name"
-      - "photoUrls"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      name:
-        type: "string"
-        example: "rose"
-      photoUrls:
-        type: "array"
-        items:
-          type: string
   ApiResponse:
     type: "object"
     properties:
@@ -488,3 +540,75 @@ definitions:
     properties: 
       message:
         type: "string"
+  ShortInfo:
+    type: "object"
+    properties: 
+      kind:
+        type: "string"
+      recommendPosition:
+        type: "string"
+      regardToLight:
+        type: "string"
+      regardToMoisture:
+        type: "string"
+      floweringTime:
+        type: "string"
+      hight:
+        type: "string"
+      classifiers:
+        type: "string"
+  Info:
+    type: "object"
+    properties: 
+        title:
+          type: "string"
+        content:
+          type: "string"
+  # Category:
+  #   type: "object"
+  #   properties:
+  #     id:
+  #       type: "integer"
+  #       format: "int64"
+  #     name:
+  #       type: "string"
+  Plant:
+    type: "object"
+    required:
+      - "title"
+      - "images"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      category:
+        type: "integer"
+        format: "int32"
+      shortinfo:
+        type: "array"
+        items: 
+          $ref: '#/definitions/ShortInfo'
+      images:
+        type: "array"
+        items:
+          type: "string"
+      infos:
+        type: "array"
+        items: 
+          $ref: '#/definitions/Info'
+      creater:
+        type: "string"
+      createdat:
+        x-go-type:
+          type: "Time"
+          import:
+            package: "time"
+      modifier:
+        type: "string"
+      modifiedat:
+        x-go-type:
+          type: "Time"
+          import:
+            package: "time"

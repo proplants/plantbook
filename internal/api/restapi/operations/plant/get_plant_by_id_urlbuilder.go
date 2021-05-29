@@ -16,7 +16,7 @@ import (
 
 // GetPlantByIDURL generates an URL for the get plant by Id operation
 type GetPlantByIDURL struct {
-	PlantID int64
+	ID int64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -42,13 +42,13 @@ func (o *GetPlantByIDURL) SetBasePath(bp string) {
 func (o *GetPlantByIDURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/api/v1/plant/{plantId}"
+	var _path = "/api/v1/plant/{id}"
 
-	plantID := swag.FormatInt64(o.PlantID)
-	if plantID != "" {
-		_path = strings.Replace(_path, "{plantId}", plantID, -1)
+	id := swag.FormatInt64(o.ID)
+	if id != "" {
+		_path = strings.Replace(_path, "{id}", id, -1)
 	} else {
-		return nil, errors.New("plantId is required on GetPlantByIDURL")
+		return nil, errors.New("id is required on GetPlantByIDURL")
 	}
 
 	_basePath := o._basePath

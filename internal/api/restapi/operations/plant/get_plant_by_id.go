@@ -29,7 +29,7 @@ func NewGetPlantByID(ctx *middleware.Context, handler GetPlantByIDHandler) *GetP
 	return &GetPlantByID{Context: ctx, Handler: handler}
 }
 
-/* GetPlantByID swagger:route GET /api/v1/plant/{plantId} plant getPlantById
+/* GetPlantByID swagger:route GET /api/v1/plant/{id} plant getPlantById
 
 Find plant by ID
 

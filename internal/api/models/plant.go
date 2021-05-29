@@ -7,6 +7,8 @@ package models
 
 import (
 	"context"
+	"strconv"
+	timeext "time"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -19,28 +21,64 @@ import (
 // swagger:model Plant
 type Plant struct {
 
+	// category
+	Category int32 `json:"category,omitempty"`
+
+	// createdat
+	Createdat timeext.Time `json:"createdat,omitempty"`
+
+	// creater
+	Creater string `json:"creater,omitempty"`
+
 	// id
 	ID int64 `json:"id,omitempty"`
 
-	// name
-	// Example: rose
+	// images
 	// Required: true
-	Name *string `json:"name"`
+	Images []string `json:"images"`
 
-	// photo urls
+	// infos
+	Infos []*Info `json:"infos"`
+
+	// modifiedat
+	Modifiedat timeext.Time `json:"modifiedat,omitempty"`
+
+	// modifier
+	Modifier string `json:"modifier,omitempty"`
+
+	// shortinfo
+	Shortinfo []*ShortInfo `json:"shortinfo"`
+
+	// title
 	// Required: true
-	PhotoUrls []string `json:"photoUrls"`
+	Title *string `json:"title"`
 }
 
 // Validate validates this plant
 func (m *Plant) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateName(formats); err != nil {
+	if err := m.validateCreatedat(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validatePhotoUrls(formats); err != nil {
+	if err := m.validateImages(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateInfos(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateModifiedat(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateShortinfo(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTitle(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -50,26 +88,153 @@ func (m *Plant) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Plant) validateName(formats strfmt.Registry) error {
+func (m *Plant) validateCreatedat(formats strfmt.Registry) error {
+	if swag.IsZero(m.Createdat) { // not required
+		return nil
+	}
 
-	if err := validate.Required("name", "body", m.Name); err != nil {
+	if err := m.Createdat.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("createdat")
+		}
 		return err
 	}
 
 	return nil
 }
 
-func (m *Plant) validatePhotoUrls(formats strfmt.Registry) error {
+func (m *Plant) validateImages(formats strfmt.Registry) error {
 
-	if err := validate.Required("photoUrls", "body", m.PhotoUrls); err != nil {
+	if err := validate.Required("images", "body", m.Images); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-// ContextValidate validates this plant based on context it is used
+func (m *Plant) validateInfos(formats strfmt.Registry) error {
+	if swag.IsZero(m.Infos) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Infos); i++ {
+		if swag.IsZero(m.Infos[i]) { // not required
+			continue
+		}
+
+		if m.Infos[i] != nil {
+			if err := m.Infos[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("infos" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Plant) validateModifiedat(formats strfmt.Registry) error {
+	if swag.IsZero(m.Modifiedat) { // not required
+		return nil
+	}
+
+	if err := m.Modifiedat.Validate(formats); err != nil {
+		if ve, ok := err.(*errors.Validation); ok {
+			return ve.ValidateName("modifiedat")
+		}
+		return err
+	}
+
+	return nil
+}
+
+func (m *Plant) validateShortinfo(formats strfmt.Registry) error {
+	if swag.IsZero(m.Shortinfo) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Shortinfo); i++ {
+		if swag.IsZero(m.Shortinfo[i]) { // not required
+			continue
+		}
+
+		if m.Shortinfo[i] != nil {
+			if err := m.Shortinfo[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("shortinfo" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Plant) validateTitle(formats strfmt.Registry) error {
+
+	if err := validate.Required("title", "body", m.Title); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this plant based on the context it is used
 func (m *Plant) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateInfos(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateShortinfo(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Plant) contextValidateInfos(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Infos); i++ {
+
+		if m.Infos[i] != nil {
+			if err := m.Infos[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("infos" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+func (m *Plant) contextValidateShortinfo(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Shortinfo); i++ {
+
+		if m.Shortinfo[i] != nil {
+			if err := m.Shortinfo[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("shortinfo" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

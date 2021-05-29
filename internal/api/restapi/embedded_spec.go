@@ -34,7 +34,8 @@ func init() {
   "basePath": "/",
   "paths": {
     "/api/v1/plant": {
-      "put": {
+      "get": {
+        "description": "find plants by parameters",
         "consumes": [
           "application/json"
         ],
@@ -44,62 +45,88 @@ func init() {
         "tags": [
           "plant"
         ],
-        "summary": "Update an existing plant",
-        "operationId": "updatePlant",
+        "summary": "find plants",
+        "operationId": "getPlants",
         "parameters": [
           {
-            "description": "Plant object that needs to be added to the garden",
-            "name": "body",
-            "in": "body",
+            "type": "integer",
+            "format": "int32",
+            "description": "plant category",
+            "name": "category",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "kind",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "recommendPosition",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "regardToLight",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "regardToMoisture",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "floweringTime",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "hight",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "classifiers",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "name": "limit",
+            "in": "query",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
+            "allowEmptyValue": true
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "allowEmptyValue": true
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Plant"
+              }
+            }
+          },
           "400": {
-            "description": "Invalid ID supplied"
+            "description": "Invalid input"
           },
           "404": {
-            "description": "Plant not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        }
-      },
-      "post": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Add a new plant to the garden",
-        "operationId": "addPlant",
-        "parameters": [
-          {
-            "description": "Plant object that needs to be added to the garden",
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
+            "description": "Plants not found"
           }
         }
       }
     },
-    "/api/v1/plant/{plantId}": {
+    "/api/v1/plant/{id}": {
       "get": {
         "description": "Returns a single plant",
         "produces": [
@@ -115,7 +142,7 @@ func init() {
             "type": "integer",
             "format": "int64",
             "description": "ID of plant to return",
-            "name": "plantId",
+            "name": "id",
             "in": "path",
             "required": true
           }
@@ -132,124 +159,6 @@ func init() {
           },
           "404": {
             "description": "Plant not found"
-          }
-        }
-      },
-      "post": {
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Updates a plant in the garden with form data",
-        "operationId": "updatePlantWithForm",
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "ID of pplant that needs to be updated",
-            "name": "plantId",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Updated name of the plant",
-            "name": "name",
-            "in": "formData"
-          },
-          {
-            "type": "string",
-            "description": "Updated status of the plant",
-            "name": "status",
-            "in": "formData"
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      },
-      "delete": {
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Deletes a plant",
-        "operationId": "deletePlant",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "api_key",
-            "in": "header"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "Plant id to delete",
-            "name": "plantId",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Plant not found"
-          }
-        }
-      }
-    },
-    "/api/v1/plant/{plantId}/uploadImage": {
-      "post": {
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "uploads an image",
-        "operationId": "uploadFile",
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "ID of plant to update",
-            "name": "plantId",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Additional data to pass to server",
-            "name": "additionalMetadata",
-            "in": "formData"
-          },
-          {
-            "type": "file",
-            "description": "file to upload",
-            "name": "file",
-            "in": "formData"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            }
           }
         }
       }
@@ -646,26 +555,100 @@ func init() {
         }
       }
     },
+    "Info": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
     "Plant": {
       "type": "object",
       "required": [
-        "name",
-        "photoUrls"
+        "title",
+        "images"
       ],
       "properties": {
+        "category": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdat": {
+          "x-go-type": {
+            "import": {
+              "package": "time"
+            },
+            "type": "Time"
+          }
+        },
+        "creater": {
+          "type": "string"
+        },
         "id": {
           "type": "integer",
           "format": "int64"
         },
-        "name": {
-          "type": "string",
-          "example": "rose"
-        },
-        "photoUrls": {
+        "images": {
           "type": "array",
           "items": {
             "type": "string"
           }
+        },
+        "infos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Info"
+          }
+        },
+        "modifiedat": {
+          "x-go-type": {
+            "import": {
+              "package": "time"
+            },
+            "type": "Time"
+          }
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "shortinfo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShortInfo"
+          }
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "ShortInfo": {
+      "type": "object",
+      "properties": {
+        "classifiers": {
+          "type": "string"
+        },
+        "floweringTime": {
+          "type": "string"
+        },
+        "hight": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "recommendPosition": {
+          "type": "string"
+        },
+        "regardToLight": {
+          "type": "string"
+        },
+        "regardToMoisture": {
+          "type": "string"
         }
       }
     },
@@ -755,7 +738,8 @@ func init() {
   "basePath": "/",
   "paths": {
     "/api/v1/plant": {
-      "put": {
+      "get": {
+        "description": "find plants by parameters",
         "consumes": [
           "application/json"
         ],
@@ -765,62 +749,88 @@ func init() {
         "tags": [
           "plant"
         ],
-        "summary": "Update an existing plant",
-        "operationId": "updatePlant",
+        "summary": "find plants",
+        "operationId": "getPlants",
         "parameters": [
           {
-            "description": "Plant object that needs to be added to the garden",
-            "name": "body",
-            "in": "body",
+            "type": "integer",
+            "format": "int32",
+            "description": "plant category",
+            "name": "category",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "kind",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "recommendPosition",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "regardToLight",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "regardToMoisture",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "floweringTime",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "hight",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "classifiers",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "name": "limit",
+            "in": "query",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
+            "allowEmptyValue": true
+          },
+          {
+            "type": "integer",
+            "format": "int32",
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "allowEmptyValue": true
           }
         ],
         "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Plant"
+              }
+            }
+          },
           "400": {
-            "description": "Invalid ID supplied"
+            "description": "Invalid input"
           },
           "404": {
-            "description": "Plant not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        }
-      },
-      "post": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Add a new plant to the garden",
-        "operationId": "addPlant",
-        "parameters": [
-          {
-            "description": "Plant object that needs to be added to the garden",
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
+            "description": "Plants not found"
           }
         }
       }
     },
-    "/api/v1/plant/{plantId}": {
+    "/api/v1/plant/{id}": {
       "get": {
         "description": "Returns a single plant",
         "produces": [
@@ -836,7 +846,7 @@ func init() {
             "type": "integer",
             "format": "int64",
             "description": "ID of plant to return",
-            "name": "plantId",
+            "name": "id",
             "in": "path",
             "required": true
           }
@@ -853,124 +863,6 @@ func init() {
           },
           "404": {
             "description": "Plant not found"
-          }
-        }
-      },
-      "post": {
-        "consumes": [
-          "application/x-www-form-urlencoded"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Updates a plant in the garden with form data",
-        "operationId": "updatePlantWithForm",
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "ID of pplant that needs to be updated",
-            "name": "plantId",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Updated name of the plant",
-            "name": "name",
-            "in": "formData"
-          },
-          {
-            "type": "string",
-            "description": "Updated status of the plant",
-            "name": "status",
-            "in": "formData"
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      },
-      "delete": {
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Deletes a plant",
-        "operationId": "deletePlant",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "api_key",
-            "in": "header"
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "Plant id to delete",
-            "name": "plantId",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Plant not found"
-          }
-        }
-      }
-    },
-    "/api/v1/plant/{plantId}/uploadImage": {
-      "post": {
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "uploads an image",
-        "operationId": "uploadFile",
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "ID of plant to update",
-            "name": "plantId",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "string",
-            "description": "Additional data to pass to server",
-            "name": "additionalMetadata",
-            "in": "formData"
-          },
-          {
-            "type": "file",
-            "description": "file to upload",
-            "name": "file",
-            "in": "formData"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/ApiResponse"
-            }
           }
         }
       }
@@ -1367,26 +1259,100 @@ func init() {
         }
       }
     },
+    "Info": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
     "Plant": {
       "type": "object",
       "required": [
-        "name",
-        "photoUrls"
+        "title",
+        "images"
       ],
       "properties": {
+        "category": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdat": {
+          "x-go-type": {
+            "import": {
+              "package": "time"
+            },
+            "type": "Time"
+          }
+        },
+        "creater": {
+          "type": "string"
+        },
         "id": {
           "type": "integer",
           "format": "int64"
         },
-        "name": {
-          "type": "string",
-          "example": "rose"
-        },
-        "photoUrls": {
+        "images": {
           "type": "array",
           "items": {
             "type": "string"
           }
+        },
+        "infos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Info"
+          }
+        },
+        "modifiedat": {
+          "x-go-type": {
+            "import": {
+              "package": "time"
+            },
+            "type": "Time"
+          }
+        },
+        "modifier": {
+          "type": "string"
+        },
+        "shortinfo": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShortInfo"
+          }
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "ShortInfo": {
+      "type": "object",
+      "properties": {
+        "classifiers": {
+          "type": "string"
+        },
+        "floweringTime": {
+          "type": "string"
+        },
+        "hight": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "recommendPosition": {
+          "type": "string"
+        },
+        "regardToLight": {
+          "type": "string"
+        },
+        "regardToMoisture": {
+          "type": "string"
         }
       }
     },
