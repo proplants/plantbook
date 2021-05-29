@@ -578,9 +578,7 @@ definitions:
       category:
         type: "integer"
         format: "int32"
-      shortinfo:
-        type: "array"
-        items: 
+      shortInfo:
           $ref: '#/definitions/ShortInfo'
       images:
         type: "array"
@@ -592,7 +590,7 @@ definitions:
           $ref: '#/definitions/Info'
       creater:
         type: "string"
-      createdat:
+      createdAt:
         x-go-type:
           type: "Time"
           import:
@@ -601,7 +599,7 @@ definitions:
             noValidation: true
       modifier:
         type: "string"
-      modifiedat:
+      modifiedAt:
         x-go-type:
           type: "Time"
           import:

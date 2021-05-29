@@ -24,8 +24,8 @@ type Plant struct {
 	// category
 	Category int32 `json:"category,omitempty"`
 
-	// createdat
-	Createdat timeext.Time `json:"createdat,omitempty"`
+	// created at
+	CreatedAt timeext.Time `json:"createdAt,omitempty"`
 
 	// creater
 	Creater string `json:"creater,omitempty"`
@@ -40,14 +40,14 @@ type Plant struct {
 	// infos
 	Infos []*Info `json:"infos"`
 
-	// modifiedat
-	Modifiedat timeext.Time `json:"modifiedat,omitempty"`
+	// modified at
+	ModifiedAt timeext.Time `json:"modifiedAt,omitempty"`
 
 	// modifier
 	Modifier string `json:"modifier,omitempty"`
 
-	// shortinfo
-	Shortinfo []*ShortInfo `json:"shortinfo"`
+	// short info
+	ShortInfo *ShortInfo `json:"shortInfo,omitempty"`
 
 	// title
 	// Required: true
@@ -66,7 +66,7 @@ func (m *Plant) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateShortinfo(formats); err != nil {
+	if err := m.validateShortInfo(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -113,25 +113,18 @@ func (m *Plant) validateInfos(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Plant) validateShortinfo(formats strfmt.Registry) error {
-	if swag.IsZero(m.Shortinfo) { // not required
+func (m *Plant) validateShortInfo(formats strfmt.Registry) error {
+	if swag.IsZero(m.ShortInfo) { // not required
 		return nil
 	}
 
-	for i := 0; i < len(m.Shortinfo); i++ {
-		if swag.IsZero(m.Shortinfo[i]) { // not required
-			continue
-		}
-
-		if m.Shortinfo[i] != nil {
-			if err := m.Shortinfo[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("shortinfo" + "." + strconv.Itoa(i))
-				}
-				return err
+	if m.ShortInfo != nil {
+		if err := m.ShortInfo.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("shortInfo")
 			}
+			return err
 		}
-
 	}
 
 	return nil
@@ -154,7 +147,7 @@ func (m *Plant) ContextValidate(ctx context.Context, formats strfmt.Registry) er
 		res = append(res, err)
 	}
 
-	if err := m.contextValidateShortinfo(ctx, formats); err != nil {
+	if err := m.contextValidateShortInfo(ctx, formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -182,19 +175,15 @@ func (m *Plant) contextValidateInfos(ctx context.Context, formats strfmt.Registr
 	return nil
 }
 
-func (m *Plant) contextValidateShortinfo(ctx context.Context, formats strfmt.Registry) error {
+func (m *Plant) contextValidateShortInfo(ctx context.Context, formats strfmt.Registry) error {
 
-	for i := 0; i < len(m.Shortinfo); i++ {
-
-		if m.Shortinfo[i] != nil {
-			if err := m.Shortinfo[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("shortinfo" + "." + strconv.Itoa(i))
-				}
-				return err
+	if m.ShortInfo != nil {
+		if err := m.ShortInfo.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("shortInfo")
 			}
+			return err
 		}
-
 	}
 
 	return nil

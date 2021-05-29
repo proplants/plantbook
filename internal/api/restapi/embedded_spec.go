@@ -577,7 +577,7 @@ func init() {
           "type": "integer",
           "format": "int32"
         },
-        "createdat": {
+        "createdAt": {
           "x-go-type": {
             "hints": {
               "noValidation": true
@@ -607,7 +607,7 @@ func init() {
             "$ref": "#/definitions/Info"
           }
         },
-        "modifiedat": {
+        "modifiedAt": {
           "x-go-type": {
             "hints": {
               "noValidation": true
@@ -621,11 +621,8 @@ func init() {
         "modifier": {
           "type": "string"
         },
-        "shortinfo": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ShortInfo"
-          }
+        "shortInfo": {
+          "$ref": "#/definitions/ShortInfo"
         },
         "title": {
           "type": "string"
@@ -1287,7 +1284,7 @@ func init() {
           "type": "integer",
           "format": "int32"
         },
-        "createdat": {
+        "createdAt": {
           "x-go-type": {
             "hints": {
               "noValidation": true
@@ -1317,7 +1314,7 @@ func init() {
             "$ref": "#/definitions/Info"
           }
         },
-        "modifiedat": {
+        "modifiedAt": {
           "x-go-type": {
             "hints": {
               "noValidation": true
@@ -1331,11 +1328,8 @@ func init() {
         "modifier": {
           "type": "string"
         },
-        "shortinfo": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ShortInfo"
-          }
+        "shortInfo": {
+          "$ref": "#/definitions/ShortInfo"
         },
         "title": {
           "type": "string"
