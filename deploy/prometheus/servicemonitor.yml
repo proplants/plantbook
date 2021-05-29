@@ -4,7 +4,7 @@ kind: ServiceMonitor
 metadata:
   name: plantbook-monitor
   labels:
-    app.kubernetes.io/version: "v0.0.1"
+    app: plantbook
 spec:
   jobLabel: plantbook-monitor
   namespaceSelector:
@@ -15,5 +15,6 @@ spec:
       app: plantbook
   endpoints:
   - interval: 15s
-    port: http
+    port: metrichttp
     path: /metrics
+    

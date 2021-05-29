@@ -8,13 +8,20 @@ import (
 )
 
 func TestRead(t *testing.T) {
-	portEnv := map[string]string{"PLANTBOOK_HTTPD_PORT": "8080"}
+	portEnv := map[string]string{"PLANTBOOK_HTTPD_PORT": "8081"}
 	hostPortEnv := map[string]string{"PLANTBOOK_HTTPD_HOST": "127.0.0.1", "PLANTBOOK_HTTPD_PORT": "8000"}
 	var configHostPort Config
 	configHostPort = Defaults
 	configHostPort.HTTPD.Port = "8000"
 	configHostPort.HTTPD.Host = "127.0.0.1"
-
+	defer func() {
+		for name := range portEnv {
+			os.Unsetenv(name)
+		}
+		for name := range hostPortEnv {
+			os.Unsetenv(name)
+		}
+	}()
 	tests := []struct {
 		name     string
 		defaults *Config

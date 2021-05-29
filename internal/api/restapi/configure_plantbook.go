@@ -24,12 +24,13 @@ import (
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
 	"github.com/kaatinga/plantbook/internal/config"
+	"github.com/kaatinga/plantbook/internal/metric"
 )
 
 //go:generate swagger generate server --target ../../api --name Plantbook --spec ../../../api/swagger/swagger.yaml --principal interface{}
 
 const (
-	version          string        = "0.0.1"
+	version          string        = "0.0.2"
 	tokenExpireDelay time.Duration = 7 * 24 * 60 * time.Minute
 )
 
@@ -162,6 +163,10 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 
 	api.ServerShutdown = func() {}
 
+	// metrics
+	metricSRV := metric.NewServer(cfg.HTTPD.Host + ":" + cfg.HTTPD.MetricPort)
+	go metricSRV.Run(ctx)
+
 	return setupGlobalMiddleware(ctx, api.Serve(setupMiddlewares))
 }
 
@@ -191,5 +196,5 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 func setupGlobalMiddleware(ctx context.Context, handler http.Handler) http.Handler {
 	chainGlobalMiddleware := apimiddleware.RequestID(ctx, handler)
 	//
-	return hhandlers.SetupHandler(chainGlobalMiddleware)
+	return apimiddleware.SetupHandler(chainGlobalMiddleware)
 }

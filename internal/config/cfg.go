@@ -7,8 +7,9 @@ import (
 
 type Config struct {
 	HTTPD struct {
-		Host string `env:"PLANTBOOK_HTTPD_HOST"`
-		Port string `env:"PLANTBOOK_HTTPD_PORT"`
+		Host       string `env:"PLANTBOOK_HTTPD_HOST"`
+		Port       string `env:"PLANTBOOK_HTTPD_PORT"`
+		MetricPort string `env:"PLANTBOOK_HTTPD_METRICPORT"`
 	}
 	DB struct {
 		Provider string `env:"PLANTBOOK_DB_PROVIDER"`
@@ -24,11 +25,13 @@ type Config struct {
 // Defaults config default values
 var Defaults Config = Config{
 	HTTPD: struct {
-		Host string `env:"PLANTBOOK_HTTPD_HOST"`
-		Port string `env:"PLANTBOOK_HTTPD_PORT"`
+		Host       string `env:"PLANTBOOK_HTTPD_HOST"`
+		Port       string `env:"PLANTBOOK_HTTPD_PORT"`
+		MetricPort string `env:"PLANTBOOK_HTTPD_METRICPORT"`
 	}{
-		Host: "",
-		Port: "8080",
+		Host:       "",
+		Port:       "8081",
+		MetricPort: "8082",
 	},
 	DB: struct {
 		Provider string `env:"PLANTBOOK_DB_PROVIDER"`
@@ -63,6 +66,9 @@ func Read(defaults, cfg *Config) error {
 	}
 	if cfg.HTTPD.Port == "" {
 		cfg.HTTPD.Port = defaults.HTTPD.Port
+	}
+	if cfg.HTTPD.MetricPort == "" {
+		cfg.HTTPD.MetricPort = defaults.HTTPD.MetricPort
 	}
 	if cfg.DB.Provider == "" {
 		cfg.DB.Provider = defaults.DB.Provider
