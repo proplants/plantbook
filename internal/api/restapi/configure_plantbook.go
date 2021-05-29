@@ -81,6 +81,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 		buildAtTime = time.Now()
 	}
 	api.HealthAPIVersionHandler = hhandlers.NewAPIVersionHandler(version, githash, buildAtTime)
+	// metrics
 
 	// users
 	api.UserCreateUserHandler = uhandlers.NewCreateUserHandler(repo, tm)
@@ -88,6 +89,8 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	api.UserLogoutUserHandler = uhandlers.NewLogoutUserHandler(tokenExpireDelay)
 
 	// plants TODO: fill me
+
+	//
 
 	// generated code...
 	api.UseSwaggerUI()
@@ -186,8 +189,7 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics.
 func setupGlobalMiddleware(ctx context.Context, handler http.Handler) http.Handler {
-
 	chainGlobalMiddleware := apimiddleware.RequestID(ctx, handler)
 	//
-	return chainGlobalMiddleware
+	return hhandlers.SetupHandler(chainGlobalMiddleware)
 }

@@ -605,6 +605,25 @@ func init() {
           }
         }
       }
+    },
+    "/metrics": {
+      "get": {
+        "produces": [
+          "text/plain"
+        ],
+        "tags": [
+          "health"
+        ],
+        "summary": "Prometheus metrics",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1322,6 +1341,25 @@ func init() {
                 "type": "string",
                 "description": "The request id this is a response to"
               }
+            }
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "produces": [
+          "text/plain"
+        ],
+        "tags": [
+          "health"
+        ],
+        "summary": "Prometheus metrics",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "type": "string"
             }
           }
         }
