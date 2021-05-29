@@ -579,6 +579,9 @@ func init() {
         },
         "createdat": {
           "x-go-type": {
+            "hints": {
+              "noValidation": true
+            },
             "import": {
               "package": "time"
             },
@@ -606,6 +609,9 @@ func init() {
         },
         "modifiedat": {
           "x-go-type": {
+            "hints": {
+              "noValidation": true
+            },
             "import": {
               "package": "time"
             },
@@ -1283,6 +1289,9 @@ func init() {
         },
         "createdat": {
           "x-go-type": {
+            "hints": {
+              "noValidation": true
+            },
             "import": {
               "package": "time"
             },
@@ -1310,6 +1319,9 @@ func init() {
         },
         "modifiedat": {
           "x-go-type": {
+            "hints": {
+              "noValidation": true
+            },
             "import": {
               "package": "time"
             },

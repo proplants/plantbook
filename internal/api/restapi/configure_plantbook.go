@@ -94,8 +94,8 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	// api.UseRedoc()
 
 	api.JSONConsumer = runtime.JSONConsumer()
-	api.MultipartformConsumer = runtime.DiscardConsumer
-	api.UrlformConsumer = runtime.DiscardConsumer
+	// api.MultipartformConsumer = runtime.DiscardConsumer
+	// api.UrlformConsumer = runtime.DiscardConsumer
 
 	api.JSONProducer = runtime.JSONProducer()
 

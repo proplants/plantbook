@@ -58,19 +58,11 @@ type Plant struct {
 func (m *Plant) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateCreatedat(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateImages(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateInfos(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateModifiedat(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -85,21 +77,6 @@ func (m *Plant) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-func (m *Plant) validateCreatedat(formats strfmt.Registry) error {
-	if swag.IsZero(m.Createdat) { // not required
-		return nil
-	}
-
-	if err := m.Createdat.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("createdat")
-		}
-		return err
-	}
-
 	return nil
 }
 
@@ -131,21 +108,6 @@ func (m *Plant) validateInfos(formats strfmt.Registry) error {
 			}
 		}
 
-	}
-
-	return nil
-}
-
-func (m *Plant) validateModifiedat(formats strfmt.Registry) error {
-	if swag.IsZero(m.Modifiedat) { // not required
-		return nil
-	}
-
-	if err := m.Modifiedat.Validate(formats); err != nil {
-		if ve, ok := err.(*errors.Validation); ok {
-			return ve.ValidateName("modifiedat")
-		}
-		return err
 	}
 
 	return nil
