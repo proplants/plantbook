@@ -27,4 +27,4 @@ services:
       - ./migrations_schema:/database/migrations_schema
     working_dir: /database
 
-    entrypoint: migrate -database postgres://plantbook_admin:mypassword@postgresql:5432/plantbook_admin?sslmode=disable -path ./migrations_schema up
+    entrypoint: migrate -database postgres://plantbook_admin:plantbookkaatinga@88.210.21.76:54321/plantbook_admin?sslmode=disable -path ./migrations_schema up

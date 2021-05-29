@@ -117,6 +117,10 @@ spec:
       targetPort: 8081
       protocol: TCP
       name: tcp
+    - port: 8082
+      targetPort: 8082
+      protocol: TCP
+      name: metrichttp
   selector:
     app: plantbook
 ---

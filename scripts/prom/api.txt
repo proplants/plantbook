@@ -1,0 +1,1 @@
+histogram_quantile(0.95, sum by (le) (rate(nginx_ingress_controller_request_duration_seconds_bucket{exported_service="plantbook", status="200"}[1m])))
