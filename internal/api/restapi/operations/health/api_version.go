@@ -29,7 +29,7 @@ func NewAPIVersion(ctx *middleware.Context, handler APIVersionHandler) *APIVersi
 	return &APIVersion{Context: ctx, Handler: handler}
 }
 
-/* APIVersion swagger:route POST /api/v1/version health apiVersion
+/* APIVersion swagger:route GET /api/v1/version health apiVersion
 
 Get app version
 

@@ -496,7 +496,7 @@ func init() {
       }
     },
     "/api/v1/version": {
-      "post": {
+      "get": {
         "description": "Shows api version.",
         "produces": [
           "application/json"
@@ -601,6 +601,25 @@ func init() {
                 "type": "string",
                 "description": "The request id this is a response to"
               }
+            }
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "produces": [
+          "text/plain"
+        ],
+        "tags": [
+          "health"
+        ],
+        "summary": "Prometheus metrics",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "type": "string"
             }
           }
         }
@@ -1217,7 +1236,7 @@ func init() {
       }
     },
     "/api/v1/version": {
-      "post": {
+      "get": {
         "description": "Shows api version.",
         "produces": [
           "application/json"
@@ -1322,6 +1341,25 @@ func init() {
                 "type": "string",
                 "description": "The request id this is a response to"
               }
+            }
+          }
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "produces": [
+          "text/plain"
+        ],
+        "tags": [
+          "health"
+        ],
+        "summary": "Prometheus metrics",
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "type": "string"
             }
           }
         }

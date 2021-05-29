@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
 
 	"github.com/go-openapi/runtime/middleware"
@@ -22,5 +23,5 @@ func NewLogoutUserHandler(expDelay time.Duration) user.LogoutUserHandler {
 func (lui *logoutUserImpl) Handle(params user.LogoutUserParams) middleware.Responder {
 	cookie := fmt.Sprintf("%s=%s; Expires=%s; Path=/",
 		jwtCookieName, "user logout", time.Now().Add(-lui.expDelay).Format(timeRFC7231))
-	return user.NewLogoutUserOK().WithSetCookie(cookie)
+	return user.NewLogoutUserOK().WithSetCookie(cookie).WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 }

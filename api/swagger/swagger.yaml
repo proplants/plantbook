@@ -386,7 +386,7 @@ paths:
         "404":
           description: "User not found"
   /api/v1/version:
-    post:
+    get:
       tags:
         - "health"
       summary: "Get app version"
@@ -411,6 +411,18 @@ paths:
               type: string
           schema:
             $ref: '#/definitions/ErrorResponse'
+  /metrics:
+    get:
+      tags:
+        - health
+      summary: "Prometheus metrics"
+      produces:
+      - "text/plain"
+      responses:
+        200:
+          description: ok
+          schema:
+            type: "string"
 definitions:
   UserLoginPassword:
     type: "object"
