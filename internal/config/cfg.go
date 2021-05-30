@@ -9,7 +9,7 @@ type HTTPD struct {
 
 type DB struct {
 	Provider string `env:"PLANTBOOK_DB_PROVIDER" default:"postgres"`
-	URL      string `env:"PLANTBOOK_DB_URL" default:"postgres://plantbook_admin:mypassword@postgresql:5432/plantbook_admin?sslmode=disable"`
+	URL      string `env:"PLANTBOOK_DB_URL" default:"postgres://plantbook_admin:mypassword@postgresql:5432/plantbook_admin?sslmode=disable"` // nolint
 }
 
 type Log struct {
