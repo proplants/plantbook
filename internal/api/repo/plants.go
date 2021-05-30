@@ -5,36 +5,36 @@ import (
 	"strconv"
 
 	"github.com/kaatinga/plantbook/internal/api/models"
+	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
 	"github.com/pkg/errors"
 )
 
-func (pg *PG) GetPlants(ctx context.Context, plant *models.Plant, limit int, offset int) ([]*models.Plant, error) {
+func (pg *PG) GetPlants(ctx context.Context, params plant.GetPlantsParams) ([]*models.Plant, error) {
 	query := `select id, title, category_id, short_info::jsonb, notes::jsonb,
 			img_links::jsonb, creator, created_at, modifier, modified_at
 			from reference.plants`
-	limitoffset := " limit " + strconv.Itoa(limit) + " offset " + strconv.Itoa(offset) + ";"
-	params := " where"
-	shorInfo := plant.ShortInfo
+	limitoffset := " limit " + strconv.Itoa(int(params.Limit)) + " offset " + strconv.Itoa(int(params.Offset)) + ";"
+	where := " where"
 	var plants []*models.Plant
-
-	if shorInfo.Hight == "" && shorInfo.Kind == "" && shorInfo.RecommendPosition == "" && shorInfo.RegardToLight == "" &&
-		shorInfo.RegardToMoisture == "" && shorInfo.FloweringTime == "" && shorInfo.Classifiers == "" && plant.Category == 0 {
+	var plant *models.Plant
+	if *params.Hight == "" && *params.Kind == "" && *params.RecommendPosition == "" && *params.RegardToLight == "" &&
+		*params.RegardToMoisture == "" && *params.FloweringTime == "" && *params.Classifiers == "" && plant.Category == 0 {
 		if plant.Category == 0 {
 			query = query + limitoffset
 		} else {
-			query = query + params + " category_id = " + strconv.Itoa(int(plant.Category)) + limitoffset
+			query = query + where + " category_id = " + strconv.Itoa(int(plant.Category)) + limitoffset
 		}
 	}
-	if shorInfo.Hight != "" || shorInfo.Kind != "" || shorInfo.RecommendPosition != "" || shorInfo.RegardToLight != "" ||
-		shorInfo.RegardToMoisture != "" || shorInfo.FloweringTime != "" || shorInfo.Classifiers != "" {
+	if *params.Hight != "" || *params.Kind != "" || *params.RecommendPosition != "" || *params.RegardToLight != "" ||
+		*params.RegardToMoisture != "" || *params.FloweringTime != "" || *params.Classifiers != "" {
 		if plant.Category == 0 {
-			params = params + " to_tsvector('russian', short_info) @@ plainto_tsquery('russian','" + shorInfo.Hight + " " + shorInfo.Kind + " " + shorInfo.RecommendPosition + " " +
-				shorInfo.RegardToLight + " " + shorInfo.RegardToMoisture + " " + shorInfo.FloweringTime + " " + shorInfo.Classifiers + "')"
-			query = query + params + limitoffset
+			where = where + " to_tsvector('russian', short_info) @@ plainto_tsquery('russian','" + *params.Hight + " " + *params.Kind + " " + *params.RecommendPosition + " " +
+				*params.RegardToLight + " " + *params.RegardToMoisture + " " + *params.FloweringTime + " " + *params.Classifiers + "')"
+			query = query + where + limitoffset
 		} else {
-			params = params + " to_tsvector('russian', short_info) @@ plainto_tsquery('russian','" + shorInfo.Hight + " " + shorInfo.Kind + " " + shorInfo.RecommendPosition + " " +
-				shorInfo.RegardToLight + " " + shorInfo.RegardToMoisture + " " + shorInfo.FloweringTime + " " + shorInfo.Classifiers + "')"
-			query = query + params + " and and category_id = " + strconv.Itoa(int(plant.Category)) + limitoffset
+			where = where + " to_tsvector('russian', short_info) @@ plainto_tsquery('russian','" + *params.Hight + " " + *params.Kind + " " + *params.RecommendPosition + " " +
+				*params.RegardToLight + " " + *params.RegardToMoisture + " " + *params.FloweringTime + " " + *params.Classifiers + "')"
+			query = query + where + " and and category_id = " + strconv.Itoa(int(plant.Category)) + limitoffset
 		}
 	}
 
