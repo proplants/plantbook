@@ -14,40 +14,29 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// Plant plant
+// Garden garden
 //
-// swagger:model Plant
-type Plant struct {
+// swagger:model Garden
+type Garden struct {
 
-	// garden Id
-	GardenID int64 `json:"gardenId,omitempty"`
+	// description
+	Description string `json:"description,omitempty"`
 
 	// id
 	ID int64 `json:"id,omitempty"`
-
-	// photo urls
-	// Required: true
-	PhotoUrls []string `json:"photoUrls"`
-
-	// plant's identifier from reference
-	PlantReferenceID int64 `json:"plantReferenceId,omitempty"`
 
 	// title
 	// Example: rose
 	// Required: true
 	Title *string `json:"title"`
 
-	// user Id
+	// owner identifier
 	UserID int64 `json:"userId,omitempty"`
 }
 
-// Validate validates this plant
-func (m *Plant) Validate(formats strfmt.Registry) error {
+// Validate validates this garden
+func (m *Garden) Validate(formats strfmt.Registry) error {
 	var res []error
-
-	if err := m.validatePhotoUrls(formats); err != nil {
-		res = append(res, err)
-	}
 
 	if err := m.validateTitle(formats); err != nil {
 		res = append(res, err)
@@ -59,16 +48,7 @@ func (m *Plant) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Plant) validatePhotoUrls(formats strfmt.Registry) error {
-
-	if err := validate.Required("photoUrls", "body", m.PhotoUrls); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func (m *Plant) validateTitle(formats strfmt.Registry) error {
+func (m *Garden) validateTitle(formats strfmt.Registry) error {
 
 	if err := validate.Required("title", "body", m.Title); err != nil {
 		return err
@@ -77,13 +57,13 @@ func (m *Plant) validateTitle(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validates this plant based on context it is used
-func (m *Plant) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validates this garden based on context it is used
+func (m *Garden) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
 // MarshalBinary interface implementation
-func (m *Plant) MarshalBinary() ([]byte, error) {
+func (m *Garden) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -91,8 +71,8 @@ func (m *Plant) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *Plant) UnmarshalBinary(b []byte) error {
-	var res Plant
+func (m *Garden) UnmarshalBinary(b []byte) error {
+	var res Garden
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

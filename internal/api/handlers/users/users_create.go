@@ -7,6 +7,7 @@ import (
 	"github.com/kaatinga/plantbook/pkg/logging"
 	"github.com/kaatinga/plantbook/pkg/token"
 
+	"github.com/kaatinga/plantbook/internal/api/handlers"
 	"github.com/kaatinga/plantbook/internal/api/models"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
 
@@ -28,9 +29,9 @@ func NewCreateUserHandler(repo RepoInterface, tm token.Manager) user.CreateUserH
 func (cui *createUserImpl) Handle(params user.CreateUserParams) middleware.Responder {
 	log := logging.FromContext(params.HTTPRequest.Context())
 	// check cookie TODO: replace to middleware!!!
-	cookie, err := params.HTTPRequest.Cookie(jwtCookieName)
+	cookie, err := params.HTTPRequest.Cookie(apimiddleware.JWTCookieName)
 	if err != nil {
-		log.Errorf("get cookie %s error, %s", jwtCookieName, err)
+		log.Errorf("get cookie %s error, %s", apimiddleware.JWTCookieName, err)
 		return user.NewCreateUserDefault(http.StatusUnauthorized).
 			WithPayload(&models.ErrorResponse{Message: "not token cookie"})
 	}
@@ -55,7 +56,7 @@ func (cui *createUserImpl) Handle(params user.CreateUserParams) middleware.Respo
 		return user.NewCreateUserDefault(http.StatusForbidden).
 			WithPayload(&models.ErrorResponse{Message: "check permission error"})
 	}
-	if roleID != userRoleAdmin {
+	if roleID != handlers.UserRoleAdmin {
 		log.With(zap.Int64("user_id", uid), zap.String("user_name", uname)).
 			Warnf("create user forbidden for user.role_id=%d", roleID)
 		return user.NewCreateUserDefault(http.StatusForbidden).
@@ -75,5 +76,6 @@ func (cui *createUserImpl) Handle(params user.CreateUserParams) middleware.Respo
 			WithPayload(&models.ErrorResponse{Message: "db error happen"})
 	}
 	// all ok return new user
-	return user.NewCreateUserCreated().WithPayload(_user).WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
+	return user.NewCreateUserCreated().WithPayload(_user).
+		WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 }

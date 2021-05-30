@@ -33,6 +33,206 @@ func init() {
   },
   "basePath": "/",
   "paths": {
+    "/api/v1/gardens": {
+      "get": {
+        "description": "Shows list users's gardens",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "gardens"
+        ],
+        "summary": "Get list users's gardens",
+        "operationId": "getUserGardens",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of items to skip before starting to collect the result set.",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The numbers of items to return.",
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of the gardens",
+            "schema": {
+              "$ref": "#/definitions/GardensResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates new garden for user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "gardens"
+        ],
+        "summary": "Create new users's garden",
+        "operationId": "createUserGarden",
+        "parameters": [
+          {
+            "description": "New garden parameters without id",
+            "name": "garden",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Garden"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "New garden with id",
+            "schema": {
+              "$ref": "#/definitions/Garden"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/gardens/{garden_id}": {
+      "get": {
+        "description": "Shows users's garden by specified garden_id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "gardens"
+        ],
+        "summary": "Get garden by id",
+        "operationId": "getUserGardenByID",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Numeric ID of the user's garden to get.",
+            "name": "garden_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Exists garden",
+            "schema": {
+              "$ref": "#/definitions/Garden"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes user's garden, can only admin or owner",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "gardens"
+        ],
+        "summary": "Delete garden",
+        "operationId": "deleteUserGarden",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Numeric ID of the user's garden to delete.",
+            "name": "garden_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Garden deleted",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/plant": {
       "put": {
         "consumes": [
@@ -665,26 +865,109 @@ func init() {
         }
       }
     },
-    "Plant": {
+    "Garden": {
       "type": "object",
       "required": [
-        "name",
-        "photoUrls"
+        "title"
       ],
       "properties": {
+        "description": {
+          "type": "string"
+        },
         "id": {
           "type": "integer",
           "format": "int64"
         },
-        "name": {
+        "title": {
           "type": "string",
           "example": "rose"
+        },
+        "userId": {
+          "description": "owner identifier",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Gardens": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Garden"
+      }
+    },
+    "GardensResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/Gardens"
+        },
+        "result_set": {
+          "$ref": "#/definitions/ResultSet"
+        }
+      }
+    },
+    "Plant": {
+      "type": "object",
+      "required": [
+        "title",
+        "photoUrls"
+      ],
+      "properties": {
+        "gardenId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
         },
         "photoUrls": {
           "type": "array",
           "items": {
             "type": "string"
           }
+        },
+        "plantReferenceId": {
+          "description": "plant's identifier from reference",
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string",
+          "example": "rose"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "ResultSet": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
@@ -754,6 +1037,10 @@ func init() {
     {
       "description": "Operations about health checks",
       "name": "health"
+    },
+    {
+      "description": "Operations about user's gardens",
+      "name": "gardens"
     }
   ]
 }`))
@@ -773,6 +1060,206 @@ func init() {
   },
   "basePath": "/",
   "paths": {
+    "/api/v1/gardens": {
+      "get": {
+        "description": "Shows list users's gardens",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "gardens"
+        ],
+        "summary": "Get list users's gardens",
+        "operationId": "getUserGardens",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The number of items to skip before starting to collect the result set.",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "The numbers of items to return.",
+            "name": "limit",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of the gardens",
+            "schema": {
+              "$ref": "#/definitions/GardensResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates new garden for user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "gardens"
+        ],
+        "summary": "Create new users's garden",
+        "operationId": "createUserGarden",
+        "parameters": [
+          {
+            "description": "New garden parameters without id",
+            "name": "garden",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Garden"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "New garden with id",
+            "schema": {
+              "$ref": "#/definitions/Garden"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/gardens/{garden_id}": {
+      "get": {
+        "description": "Shows users's garden by specified garden_id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "gardens"
+        ],
+        "summary": "Get garden by id",
+        "operationId": "getUserGardenByID",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Numeric ID of the user's garden to get.",
+            "name": "garden_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Exists garden",
+            "schema": {
+              "$ref": "#/definitions/Garden"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes user's garden, can only admin or owner",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "gardens"
+        ],
+        "summary": "Delete garden",
+        "operationId": "deleteUserGarden",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Numeric ID of the user's garden to delete.",
+            "name": "garden_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Garden deleted",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/plant": {
       "put": {
         "consumes": [
@@ -1405,26 +1892,109 @@ func init() {
         }
       }
     },
-    "Plant": {
+    "Garden": {
       "type": "object",
       "required": [
-        "name",
-        "photoUrls"
+        "title"
       ],
       "properties": {
+        "description": {
+          "type": "string"
+        },
         "id": {
           "type": "integer",
           "format": "int64"
         },
-        "name": {
+        "title": {
           "type": "string",
           "example": "rose"
+        },
+        "userId": {
+          "description": "owner identifier",
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Gardens": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Garden"
+      }
+    },
+    "GardensResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/Gardens"
+        },
+        "result_set": {
+          "$ref": "#/definitions/ResultSet"
+        }
+      }
+    },
+    "Plant": {
+      "type": "object",
+      "required": [
+        "title",
+        "photoUrls"
+      ],
+      "properties": {
+        "gardenId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
         },
         "photoUrls": {
           "type": "array",
           "items": {
             "type": "string"
           }
+        },
+        "plantReferenceId": {
+          "description": "plant's identifier from reference",
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string",
+          "example": "rose"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "ResultSet": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "total": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
@@ -1494,6 +2064,10 @@ func init() {
     {
       "description": "Operations about health checks",
       "name": "health"
+    },
+    {
+      "description": "Operations about user's gardens",
+      "name": "gardens"
     }
   ]
 }`))

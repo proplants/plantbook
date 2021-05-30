@@ -12,10 +12,7 @@ import (
 )
 
 const (
-	SaltLen       int    = 16
-	jwtCookieName string = "plantbook_token"
-	// userRoleGardener int32  = 2
-	userRoleAdmin int32 = 1
+	SaltLen int = 16
 )
 
 // RepoInterface users repository behavior
