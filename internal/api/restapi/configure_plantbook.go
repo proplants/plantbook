@@ -16,6 +16,7 @@ import (
 	"github.com/kaatinga/plantbook/pkg/logging"
 	"github.com/kaatinga/plantbook/pkg/token"
 
+	ghandlers "github.com/kaatinga/plantbook/internal/api/handlers/gardens"
 	hhandlers "github.com/kaatinga/plantbook/internal/api/handlers/health"
 	uhandlers "github.com/kaatinga/plantbook/internal/api/handlers/users"
 	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
@@ -62,8 +63,9 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	logger = logger.With("build_at", buildAt)
 
 	ctx := logging.WithLogger(context.Background(), logger)
+
 	// make repo
-	repo, err := repo.NewPG(ctx, cfg.DB.URL, cfg.LOG.Debug)
+	storage, err := repo.NewPG(ctx, cfg.DB.URL, cfg.LOG.Debug)
 	if err != nil {
 		logger.Fatalf("connect to storage error, %s", err)
 	}
@@ -74,7 +76,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	// make handlers
 	// health
 	api.HealthHealthAliveHandler = hhandlers.NewHealthAliveHandler()
-	api.HealthHealthReadyHandler = hhandlers.NewHealthReadyHandler(repo)
+	api.HealthHealthReadyHandler = hhandlers.NewHealthReadyHandler(storage)
 
 	buildAtTime, err := time.Parse(time.RFC3339, buildAt)
 	if err != nil {
@@ -85,13 +87,14 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	// metrics
 
 	// users
-	api.UserCreateUserHandler = uhandlers.NewCreateUserHandler(repo, tm)
-	api.UserLoginUserHandler = uhandlers.NewLoginUserHandler(repo, tm, tokenExpireDelay)
+	api.UserCreateUserHandler = uhandlers.NewCreateUserHandler(storage, tm)
+	api.UserLoginUserHandler = uhandlers.NewLoginUserHandler(storage, tm, tokenExpireDelay)
 	api.UserLogoutUserHandler = uhandlers.NewLogoutUserHandler(tokenExpireDelay)
 
-	// plants TODO: fill me
+	// plants
 
-	//
+	// gardens
+	api.GardensCreateUserGardenHandler = ghandlers.NewCreateUserGardenHandler(storage, tm)
 
 	// generated code...
 	api.UseSwaggerUI()

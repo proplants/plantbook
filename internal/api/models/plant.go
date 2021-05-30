@@ -19,28 +19,37 @@ import (
 // swagger:model Plant
 type Plant struct {
 
+	// garden Id
+	GardenID int64 `json:"gardenId,omitempty"`
+
 	// id
 	ID int64 `json:"id,omitempty"`
-
-	// name
-	// Example: rose
-	// Required: true
-	Name *string `json:"name"`
 
 	// photo urls
 	// Required: true
 	PhotoUrls []string `json:"photoUrls"`
+
+	// plant's identifier from reference
+	PlantReferenceID int64 `json:"plantReferenceId,omitempty"`
+
+	// title
+	// Example: rose
+	// Required: true
+	Title *string `json:"title"`
+
+	// user Id
+	UserID int64 `json:"userId,omitempty"`
 }
 
 // Validate validates this plant
 func (m *Plant) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateName(formats); err != nil {
+	if err := m.validatePhotoUrls(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validatePhotoUrls(formats); err != nil {
+	if err := m.validateTitle(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -50,18 +59,18 @@ func (m *Plant) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Plant) validateName(formats strfmt.Registry) error {
+func (m *Plant) validatePhotoUrls(formats strfmt.Registry) error {
 
-	if err := validate.Required("name", "body", m.Name); err != nil {
+	if err := validate.Required("photoUrls", "body", m.PhotoUrls); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (m *Plant) validatePhotoUrls(formats strfmt.Registry) error {
+func (m *Plant) validateTitle(formats strfmt.Registry) error {
 
-	if err := validate.Required("photoUrls", "body", m.PhotoUrls); err != nil {
+	if err := validate.Required("title", "body", m.Title); err != nil {
 		return err
 	}
 

@@ -19,6 +19,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
+	"github.com/kaatinga/plantbook/internal/api/restapi/operations/gardens"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
@@ -61,17 +62,29 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		UserCreateUserHandler: user.CreateUserHandlerFunc(func(params user.CreateUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.CreateUser has not yet been implemented")
 		}),
+		GardensCreateUserGardenHandler: gardens.CreateUserGardenHandlerFunc(func(params gardens.CreateUserGardenParams) middleware.Responder {
+			return middleware.NotImplemented("operation gardens.CreateUserGarden has not yet been implemented")
+		}),
 		PlantDeletePlantHandler: plant.DeletePlantHandlerFunc(func(params plant.DeletePlantParams) middleware.Responder {
 			return middleware.NotImplemented("operation plant.DeletePlant has not yet been implemented")
 		}),
 		UserDeleteUserHandler: user.DeleteUserHandlerFunc(func(params user.DeleteUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.DeleteUser has not yet been implemented")
 		}),
+		GardensDeleteUserGardenHandler: gardens.DeleteUserGardenHandlerFunc(func(params gardens.DeleteUserGardenParams) middleware.Responder {
+			return middleware.NotImplemented("operation gardens.DeleteUserGarden has not yet been implemented")
+		}),
 		PlantGetPlantByIDHandler: plant.GetPlantByIDHandlerFunc(func(params plant.GetPlantByIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation plant.GetPlantByID has not yet been implemented")
 		}),
 		UserGetUserByNameHandler: user.GetUserByNameHandlerFunc(func(params user.GetUserByNameParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.GetUserByName has not yet been implemented")
+		}),
+		GardensGetUserGardenByIDHandler: gardens.GetUserGardenByIDHandlerFunc(func(params gardens.GetUserGardenByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation gardens.GetUserGardenByID has not yet been implemented")
+		}),
+		GardensGetUserGardensHandler: gardens.GetUserGardensHandlerFunc(func(params gardens.GetUserGardensParams) middleware.Responder {
+			return middleware.NotImplemented("operation gardens.GetUserGardens has not yet been implemented")
 		}),
 		HealthHealthAliveHandler: health.HealthAliveHandlerFunc(func(params health.HealthAliveParams) middleware.Responder {
 			return middleware.NotImplemented("operation health.HealthAlive has not yet been implemented")
@@ -150,14 +163,22 @@ type PlantbookAPI struct {
 	HealthAPIVersionHandler health.APIVersionHandler
 	// UserCreateUserHandler sets the operation handler for the create user operation
 	UserCreateUserHandler user.CreateUserHandler
+	// GardensCreateUserGardenHandler sets the operation handler for the create user garden operation
+	GardensCreateUserGardenHandler gardens.CreateUserGardenHandler
 	// PlantDeletePlantHandler sets the operation handler for the delete plant operation
 	PlantDeletePlantHandler plant.DeletePlantHandler
 	// UserDeleteUserHandler sets the operation handler for the delete user operation
 	UserDeleteUserHandler user.DeleteUserHandler
+	// GardensDeleteUserGardenHandler sets the operation handler for the delete user garden operation
+	GardensDeleteUserGardenHandler gardens.DeleteUserGardenHandler
 	// PlantGetPlantByIDHandler sets the operation handler for the get plant by Id operation
 	PlantGetPlantByIDHandler plant.GetPlantByIDHandler
 	// UserGetUserByNameHandler sets the operation handler for the get user by name operation
 	UserGetUserByNameHandler user.GetUserByNameHandler
+	// GardensGetUserGardenByIDHandler sets the operation handler for the get user garden by ID operation
+	GardensGetUserGardenByIDHandler gardens.GetUserGardenByIDHandler
+	// GardensGetUserGardensHandler sets the operation handler for the get user gardens operation
+	GardensGetUserGardensHandler gardens.GetUserGardensHandler
 	// HealthHealthAliveHandler sets the operation handler for the health alive operation
 	HealthHealthAliveHandler health.HealthAliveHandler
 	// HealthHealthReadyHandler sets the operation handler for the health ready operation
@@ -272,17 +293,29 @@ func (o *PlantbookAPI) Validate() error {
 	if o.UserCreateUserHandler == nil {
 		unregistered = append(unregistered, "user.CreateUserHandler")
 	}
+	if o.GardensCreateUserGardenHandler == nil {
+		unregistered = append(unregistered, "gardens.CreateUserGardenHandler")
+	}
 	if o.PlantDeletePlantHandler == nil {
 		unregistered = append(unregistered, "plant.DeletePlantHandler")
 	}
 	if o.UserDeleteUserHandler == nil {
 		unregistered = append(unregistered, "user.DeleteUserHandler")
 	}
+	if o.GardensDeleteUserGardenHandler == nil {
+		unregistered = append(unregistered, "gardens.DeleteUserGardenHandler")
+	}
 	if o.PlantGetPlantByIDHandler == nil {
 		unregistered = append(unregistered, "plant.GetPlantByIDHandler")
 	}
 	if o.UserGetUserByNameHandler == nil {
 		unregistered = append(unregistered, "user.GetUserByNameHandler")
+	}
+	if o.GardensGetUserGardenByIDHandler == nil {
+		unregistered = append(unregistered, "gardens.GetUserGardenByIDHandler")
+	}
+	if o.GardensGetUserGardensHandler == nil {
+		unregistered = append(unregistered, "gardens.GetUserGardensHandler")
 	}
 	if o.HealthHealthAliveHandler == nil {
 		unregistered = append(unregistered, "health.HealthAliveHandler")
@@ -418,6 +451,10 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/api/v1/user"] = user.NewCreateUser(o.context, o.UserCreateUserHandler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/api/v1/gardens"] = gardens.NewCreateUserGarden(o.context, o.GardensCreateUserGardenHandler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
@@ -426,6 +463,10 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
 	o.handlers["DELETE"]["/api/v1/user/{username}"] = user.NewDeleteUser(o.context, o.UserDeleteUserHandler)
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/api/v1/gardens/{garden_id}"] = gardens.NewDeleteUserGarden(o.context, o.GardensDeleteUserGardenHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -434,6 +475,14 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/api/v1/user/{username}"] = user.NewGetUserByName(o.context, o.UserGetUserByNameHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/api/v1/gardens/{garden_id}"] = gardens.NewGetUserGardenByID(o.context, o.GardensGetUserGardenByIDHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/api/v1/gardens"] = gardens.NewGetUserGardens(o.context, o.GardensGetUserGardensHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
