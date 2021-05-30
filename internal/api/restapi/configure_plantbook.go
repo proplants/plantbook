@@ -5,6 +5,7 @@ package restapi
 import (
 	"context"
 	"crypto/tls"
+	env "github.com/kaatinga/env_loader"
 	"log"
 	"net/http"
 	"time"
@@ -50,12 +51,13 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	api.ServeError = errors.ServeError
 
 	// read config
-	err := config.Read(&config.Defaults, &cfg)
+	err := env.LoadSettings(&cfg)
 	if err != nil {
 		log.Fatalf("read config fatal error, %s", err)
 	}
+
 	// set logger
-	logger := logging.NewLogger(cfg.LOG.Debug, cfg.LOG.Format)
+	logger := logging.NewLogger(cfg.Log.Debug, cfg.Log.Format)
 	logger = logger.With("version", version)
 	logger = logger.With("build", build)
 	logger = logger.With("githash", githash)
@@ -63,7 +65,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 
 	ctx := logging.WithLogger(context.Background(), logger)
 	// make repo
-	repo, err := repo.NewPG(ctx, cfg.DB.URL, cfg.LOG.Debug)
+	repo, err := repo.NewPG(ctx, cfg.DB.URL, cfg.Log.Debug)
 	if err != nil {
 		logger.Fatalf("connect to storage error, %s", err)
 	}
