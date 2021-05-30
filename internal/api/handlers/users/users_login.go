@@ -47,7 +47,7 @@ func (lui *loginUserImpl) Handle(params user.LoginUserParams) middleware.Respond
 				WithPayload(&models.ErrorResponse{Message: "make token error"})
 		}
 		cookie := fmt.Sprintf("%s=%s; Expires=%s; Path=/",
-			jwtCookieName, tokenString, time.Now().Add(lui.expDelay).Format(timeRFC7231))
+			apimiddleware.JWTCookieName, tokenString, time.Now().Add(lui.expDelay).Format(timeRFC7231))
 		return user.NewLoginUserOK().WithSetCookie(cookie)
 	}
 	return user.NewLoginUserDefault(http.StatusBadRequest).

@@ -14,6 +14,7 @@ const (
 	requestIDLength int = 32
 	// XRequestIDHeader header name
 	XRequestIDHeader string = "X-Request-Id"
+	JWTCookieName    string = "plantbook_token"
 )
 
 // RequestID middlware which adds random X-Request-Id header if it not exists.
