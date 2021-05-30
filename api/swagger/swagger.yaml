@@ -610,7 +610,8 @@ definitions:
           hints:
             noValidation: true
       modifier:
-        type: "string"
+        type: string
+        minLength: 0
       modifiedAt:
         x-go-type:
           type: "Time"
@@ -618,3 +619,4 @@ definitions:
             package: "time"
           hints:
             noValidation: true
+        x-nullable: true

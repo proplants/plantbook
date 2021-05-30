@@ -635,7 +635,8 @@ func init() {
               "package": "time"
             },
             "type": "Time"
-          }
+          },
+          "x-nullable": true
         },
         "modifier": {
           "type": "string"
@@ -1361,10 +1362,12 @@ func init() {
               "package": "time"
             },
             "type": "Time"
-          }
+          },
+          "x-nullable": true
         },
         "modifier": {
-          "type": "string"
+          "type": "string",
+          "minLength": 0
         },
         "shortInfo": {
           "$ref": "#/definitions/ShortInfo"

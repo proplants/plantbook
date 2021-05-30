@@ -41,10 +41,11 @@ type Plant struct {
 	Infos []*Info `json:"infos"`
 
 	// modified at
-	ModifiedAt timeext.Time `json:"modifiedAt,omitempty"`
+	ModifiedAt *timeext.Time `json:"modifiedAt,omitempty"`
 
 	// modifier
-	Modifier string `json:"modifier,omitempty"`
+	// Min Length: 0
+	Modifier *string `json:"modifier,omitempty"`
 
 	// short info
 	ShortInfo *ShortInfo `json:"shortInfo,omitempty"`
@@ -63,6 +64,10 @@ func (m *Plant) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateInfos(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateModifier(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -108,6 +113,18 @@ func (m *Plant) validateInfos(formats strfmt.Registry) error {
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *Plant) validateModifier(formats strfmt.Registry) error {
+	if swag.IsZero(m.Modifier) { // not required
+		return nil
+	}
+
+	if err := validate.MinLength("modifier", "body", *m.Modifier, 0); err != nil {
+		return err
 	}
 
 	return nil
