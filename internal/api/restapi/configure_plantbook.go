@@ -98,6 +98,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 
 	// gardens
 	api.GardensCreateUserGardenHandler = ghandlers.NewCreateUserGardenHandler(storage, tm)
+	api.GardensDeleteUserGardenHandler = ghandlers.NewDeleteUserGardenHandler(storage, tm)
 
 	// generated code...
 	api.UseSwaggerUI()

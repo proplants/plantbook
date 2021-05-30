@@ -6,13 +6,13 @@
 	},
 	"item": [
 		{
-			"name": "CreateUser",
+			"name": "UserCreate",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"username\": \"gardener2\",\n  \"firstName\": \"master\",\n  \"lastName\": \"gardener\",\n  \"email\": \"gardener2@email.com\",\n  \"password\": \"love\",\n  \"phone\": \"112\",\n  \"userRole\": 2\n}",
+					"raw": "{\n  \"username\": \"gardener\",\n  \"firstName\": \"master\",\n  \"lastName\": \"gardener\",\n  \"email\": \"gardener@email.com\",\n  \"password\": \"love\",\n  \"phone\": \"112\",\n  \"userRole\": 2\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -41,7 +41,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"login\": \"root\",\n  \"password\": \"love\"\n}",
+					"raw": "{\n  \"login\": \"gardener\",\n  \"password\": \"love\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -192,7 +192,20 @@
 			"response": []
 		},
 		{
-			"name": "CreateGarden",
+			"name": "GardenCreate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseJSON = JSON.parse(responseBody)",
+							"pm.collectionVariables.set(\"gardenID\", responseJSON[\"id\"])",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -215,6 +228,36 @@
 						"api",
 						"v1",
 						"gardens"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GardenDelete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"мой домашний сад\",\n  \"description\": \"сад у меня дома, где я живу\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}/api/v1/gardens/{{gardenID}}",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"gardens",
+						"{{gardenID}}"
 					]
 				}
 			},
@@ -245,6 +288,10 @@
 		{
 			"key": "baseURL",
 			"value": "127.0.0.1:60565"
+		},
+		{
+			"key": "gardenID",
+			"value": "0"
 		}
 	]
 }
