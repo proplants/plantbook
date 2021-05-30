@@ -629,9 +629,10 @@ definitions:
       id:
         type: "integer"
         format: "int64"
-      ownerId:
+      userId:
         type: "integer"
         format: "int64"
+        description: "owner identifier"
       title:
         type: "string"
         example: "rose"   

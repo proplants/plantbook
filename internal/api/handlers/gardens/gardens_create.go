@@ -58,8 +58,8 @@ func (cg *createGardenImpl) Handle(params gardens.CreateUserGardenParams) middle
 
 	// fill owner_id for garden if userRole = gardener
 	// if userRole = admin, miss because admin must to set OwnerID
-	if roleID == handlers.UserRoleGardener || params.Garden.OwnerID == 0 {
-		params.Garden.OwnerID = uid
+	if roleID == handlers.UserRoleGardener || params.Garden.UserID == 0 {
+		params.Garden.UserID = uid
 	}
 
 	// insert user to repo

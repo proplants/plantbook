@@ -878,13 +878,14 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
-        "ownerId": {
-          "type": "integer",
-          "format": "int64"
-        },
         "title": {
           "type": "string",
           "example": "rose"
+        },
+        "userId": {
+          "description": "owner identifier",
+          "type": "integer",
+          "format": "int64"
         }
       }
     },
@@ -1904,13 +1905,14 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
-        "ownerId": {
-          "type": "integer",
-          "format": "int64"
-        },
         "title": {
           "type": "string",
           "example": "rose"
+        },
+        "userId": {
+          "description": "owner identifier",
+          "type": "integer",
+          "format": "int64"
         }
       }
     },

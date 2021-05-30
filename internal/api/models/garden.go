@@ -25,13 +25,13 @@ type Garden struct {
 	// id
 	ID int64 `json:"id,omitempty"`
 
-	// owner Id
-	OwnerID int64 `json:"ownerId,omitempty"`
-
 	// title
 	// Example: rose
 	// Required: true
 	Title *string `json:"title"`
+
+	// owner identifier
+	UserID int64 `json:"userId,omitempty"`
 }
 
 // Validate validates this garden
