@@ -1,0 +1,15 @@
+{{define "define"}}
+<div class="main">
+{{template "loginForm"}}
+    </div>
+
+{{end}} {{define "loginForm"}}
+
+<form action="/login" method="POST">
+       <h1 class="tittle">UserLoginPassword</h1>
+       <input type="text" name="login" id="login" placeholder="Login string json: login">
+       <input type="password" name="password" id="password" placeholder="Password string json:password">
+       <button type="submit">Войти</button>
+</form>
+
+{{end}}
