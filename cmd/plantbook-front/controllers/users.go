@@ -3,7 +3,7 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	"github.com/evgdugin/plantbook-gotmpl/views"
+	"github.com/kaatinga/plantbook/cmd/plantbook-front/views"
 )
 
 

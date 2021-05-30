@@ -3,10 +3,9 @@ package main
 import (
 	"fmt"
 	"net/http"
-
-	"github.com/evgdugin/plantbook-gotmpl/controllers"
-	"github.com/evgdugin/plantbook-gotmpl/views"
 	"github.com/gorilla/mux"
+	"github.com/kaatinga/plantbook/cmd/plantbook-front/controllers"
+	"github.com/kaatinga/plantbook/cmd/plantbook-front/views"
 )
 
 var (
@@ -39,8 +38,8 @@ func main() {
 	r.NotFoundHandler = http.HandlerFunc(notFound)
 	r.HandleFunc("/", home).Methods("GET")
 
-	r.HandleFunc("/login", usersC.GetUserByName).Methods("GET")
-	r.HandleFunc("/login", usersC.CreateUser).Methods("POST")
+	r.HandleFunc("/api/v1/user/login", usersC.GetUserByName).Methods("GET")
+	r.HandleFunc("/api/v1/user/login", usersC.CreateUser).Methods("POST")
 	staticfile := http.FileServer(http.Dir("assets"))
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets", staticfile))
 	fmt.Println("Frontend compiled successfully")
