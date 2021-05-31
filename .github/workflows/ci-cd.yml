@@ -77,8 +77,8 @@ jobs:
           file: ./build/restapi/Dockerfile
           tags: ghcr.io/kaatinga/plantbook/restapi:latest
           build-args: |
-            BUILD_NUMBER=${{ github.sha }}
-            GITSHA=${{ github.build.number }}
+            BUILD_NUMBER=${{ github.build.number  }}
+            GITSHA=${{ github.sha }}
 
   deploy:
     needs: push_to_registry
