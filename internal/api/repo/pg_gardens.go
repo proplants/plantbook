@@ -40,7 +40,7 @@ func (pg *PG) ListGarden(ctx context.Context, garden *models.Garden) ([]models.G
 	}
 	defer gardensList.Close()
 
-	var gardenArr []models.Garden
+	gardenArr := make([]models.Garden, 0, 2)
 	for gardensList.Next() {
 		var gardenOne models.Garden
 		err = gardensList.Scan(&gardenOne.ID, &gardenOne.UserID, &gardenOne.Title, &gardenOne.Description)
