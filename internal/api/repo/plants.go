@@ -9,6 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+//  Получение растений из справочника по параметрам или просто все, обязательные поля limit and offset
 func (pg *PG) GetPlants(ctx context.Context, params plant.GetPlantsParams) ([]*models.Plant, error) {
 	query := `select id, title, category_id, short_info::jsonb, notes::jsonb,
 			img_links::jsonb, creator, created_at, modifier, modified_at
@@ -58,7 +59,7 @@ func (pg *PG) GetPlants(ctx context.Context, params plant.GetPlantsParams) ([]*m
 	// Получение строк с базы
 	rows, err := pg.db.Query(ctx, query)
 	if err != nil {
-		return nil, errors.WithMessage(err, "select rows failed")
+		return nil, errors.WithMessage(err, "Select rows error: ")
 	}
 	defer rows.Close()
 	for rows.Next() {
@@ -66,10 +67,25 @@ func (pg *PG) GetPlants(ctx context.Context, params plant.GetPlantsParams) ([]*m
 		err = rows.Scan(&plant.ID, &plant.Title, &plant.Category, &plant.ShortInfo, &plant.Infos,
 			&plant.Images, &plant.Creater, &plant.CreatedAt, &plant.Modifier, &plant.ModifiedAt)
 		if err != nil {
-			return nil, errors.WithMessage(err, "scan rows failed")
+			return nil, errors.WithMessage(err, "Scan rows error: ")
 		}
 		plants = append(plants, &plant)
 	}
 
 	return plants, err
+}
+
+func (pg *PG) GetPlantByID(ctx context.Context, id int64) (*models.Plant, error) {
+	query := `select id, title, category_id, short_info::jsonb, notes::jsonb,
+			img_links::jsonb, creator, created_at, modifier, modified_at
+			from reference.plants where id= `
+	query = query + strconv.Itoa(int(id)) + ";"
+	var plant models.Plant
+	err := pg.db.QueryRow(ctx, query).Scan(&plant.ID, &plant.Title, &plant.Category, &plant.ShortInfo, &plant.Infos,
+		&plant.Images, &plant.Creater, &plant.CreatedAt, &plant.Modifier, &plant.ModifiedAt)
+	if err != nil {
+		return nil, errors.WithMessage(err, "QueryRow.Scan error")
+	}
+
+	return &plant, err
 }

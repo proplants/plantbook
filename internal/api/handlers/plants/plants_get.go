@@ -16,11 +16,11 @@ func NewGetPlantsHandler(repo RepoInterface) plant.GetPlantsHandler {
 
 func (impl *GetPlantsImpl) Handle(params plant.GetPlantsParams) middleware.Responder {
 	log := logging.FromContext(params.HTTPRequest.Context())
-	plants, err := impl.repo.GetPlants(params.HTTPRequest.Context(), params)
+	somePlants, err := impl.repo.GetPlants(params.HTTPRequest.Context(), params)
 	if err != nil {
 		log.Errorf("error handle: %v", err)
 		return plant.NewGetPlantsBadRequest()
 
 	}
-	return plant.NewGetPlantsOK().WithPayload(plants)
+	return plant.NewGetPlantsOK().WithPayload(somePlants)
 }

@@ -35,7 +35,7 @@ func init() {
   "paths": {
     "/api/v1/plant": {
       "get": {
-        "description": "find plants by parameters",
+        "description": "find reference plants by parameters",
         "consumes": [
           "application/json"
         ],
@@ -122,13 +122,25 @@ func init() {
           },
           "404": {
             "description": "Plants not found"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "error"
+              }
+            }
           }
         }
       }
     },
     "/api/v1/plant/{id}": {
       "get": {
-        "description": "Returns a single plant",
+        "description": "Returns a single reference plant",
         "produces": [
           "application/json"
         ],
@@ -159,6 +171,18 @@ func init() {
           },
           "404": {
             "description": "Plant not found"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "error"
+              }
+            }
           }
         }
       }
@@ -655,7 +679,7 @@ func init() {
         "classifiers": {
           "type": "string"
         },
-        "floweringTime": {
+        "flowering_Time": {
           "type": "string"
         },
         "hight": {
@@ -664,13 +688,13 @@ func init() {
         "kind": {
           "type": "string"
         },
-        "recommendPosition": {
+        "recommend_Position": {
           "type": "string"
         },
-        "regardToLight": {
+        "regard_To_Light": {
           "type": "string"
         },
-        "regardToMoisture": {
+        "regard_To_Moisture": {
           "type": "string"
         }
       }
@@ -762,7 +786,7 @@ func init() {
   "paths": {
     "/api/v1/plant": {
       "get": {
-        "description": "find plants by parameters",
+        "description": "find reference plants by parameters",
         "consumes": [
           "application/json"
         ],
@@ -849,13 +873,25 @@ func init() {
           },
           "404": {
             "description": "Plants not found"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "error"
+              }
+            }
           }
         }
       }
     },
     "/api/v1/plant/{id}": {
       "get": {
-        "description": "Returns a single plant",
+        "description": "Returns a single reference plant",
         "produces": [
           "application/json"
         ],
@@ -886,6 +922,18 @@ func init() {
           },
           "404": {
             "description": "Plant not found"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "error"
+              }
+            }
           }
         }
       }
@@ -1383,7 +1431,7 @@ func init() {
         "classifiers": {
           "type": "string"
         },
-        "floweringTime": {
+        "flowering_Time": {
           "type": "string"
         },
         "hight": {
@@ -1392,13 +1440,13 @@ func init() {
         "kind": {
           "type": "string"
         },
-        "recommendPosition": {
+        "recommend_Position": {
           "type": "string"
         },
-        "regardToLight": {
+        "regard_To_Light": {
           "type": "string"
         },
-        "regardToMoisture": {
+        "regard_To_Moisture": {
           "type": "string"
         }
       }

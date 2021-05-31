@@ -70,7 +70,7 @@ paths:
       tags:
         - "plant"
       operationId: "getPlants"
-      description: "find plants by parameters"
+      description: "find reference plants by parameters"
       summary: "find plants"
       consumes:
         - "application/json"
@@ -134,6 +134,14 @@ paths:
           description: "Invalid input"
         "404":
           description: "Plants not found"
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: error
+              type: string
+          schema:
+            $ref: '#/definitions/ErrorResponse'
     # post:
     #   tags:
     #     - "plant"
@@ -183,7 +191,7 @@ paths:
       tags:
         - "plant"
       summary: "Find plant by ID"
-      description: "Returns a single plant"
+      description: "Returns a single reference plant"
       operationId: "getPlantById"
       produces:
         - "application/json"
@@ -203,6 +211,14 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "Plant not found"
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: error
+              type: string
+          schema:
+            $ref: '#/definitions/ErrorResponse'
     # post:
     #   tags:
     #     - "plant"
@@ -557,13 +573,13 @@ definitions:
     properties: 
       kind:
         type: "string"
-      recommendPosition:
+      recommend_Position:
         type: "string"
-      regardToLight:
+      regard_To_Light:
         type: "string"
-      regardToMoisture:
+      regard_To_Moisture:
         type: "string"
-      floweringTime:
+      flowering_Time:
         type: "string"
       hight:
         type: "string"

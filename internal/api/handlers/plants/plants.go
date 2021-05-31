@@ -9,4 +9,5 @@ import (
 
 type RepoInterface interface {
 	GetPlants(ctx context.Context, params plant.GetPlantsParams) ([]*models.Plant, error)
+	GetPlantByID(ctx context.Context, id int64) (*models.Plant, error)
 }

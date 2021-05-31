@@ -33,7 +33,7 @@ func NewGetPlantByID(ctx *middleware.Context, handler GetPlantByIDHandler) *GetP
 
 Find plant by ID
 
-Returns a single plant
+Returns a single reference plant
 
 */
 type GetPlantByID struct {

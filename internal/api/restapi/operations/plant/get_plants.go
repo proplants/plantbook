@@ -33,7 +33,7 @@ func NewGetPlants(ctx *middleware.Context, handler GetPlantsHandler) *GetPlants 
 
 find plants
 
-find plants by parameters
+find reference plants by parameters
 
 */
 type GetPlants struct {

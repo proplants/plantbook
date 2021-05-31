@@ -22,7 +22,6 @@ import (
 	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/repo"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
 	"github.com/kaatinga/plantbook/internal/config"
 	"github.com/kaatinga/plantbook/internal/metric"
@@ -92,6 +91,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 
 	// plants TODO: fill me
 	api.PlantGetPlantsHandler = phandlers.NewGetPlantsHandler(repo)
+	api.PlantGetPlantByIDHandler = phandlers.NewGetPlantByIDHandler(repo)
 	//
 
 	// generated code...
@@ -126,12 +126,12 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 			return middleware.NotImplemented("operation user.DeleteUser has not yet been implemented")
 		})
 	}
-	if api.PlantGetPlantByIDHandler == nil {
-		api.PlantGetPlantByIDHandler = plant.GetPlantByIDHandlerFunc(
-			func(params plant.GetPlantByIDParams) middleware.Responder {
-				return middleware.NotImplemented("operation plant.GetPlantByID has not yet been implemented")
-			})
-	}
+	// if api.PlantGetPlantByIDHandler == nil {
+	// 	api.PlantGetPlantByIDHandler = plant.GetPlantByIDHandlerFunc(
+	// 		func(params plant.GetPlantByIDParams) middleware.Responder {
+	// 			return middleware.NotImplemented("operation plant.GetPlantByID has not yet been implemented")
+	// 		})
+	// }
 	if api.UserGetUserByNameHandler == nil {
 		api.UserGetUserByNameHandler = user.GetUserByNameHandlerFunc(
 			func(params user.GetUserByNameParams) middleware.Responder {

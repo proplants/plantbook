@@ -107,3 +107,83 @@ func (o *GetPlantsNotFound) WriteResponse(rw http.ResponseWriter, producer runti
 
 	rw.WriteHeader(404)
 }
+
+/*GetPlantsDefault unexpected error
+
+swagger:response getPlantsDefault
+*/
+type GetPlantsDefault struct {
+	_statusCode int
+	/*error
+
+	 */
+	XRequestID string `json:"X-Request-Id"`
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorResponse `json:"body,omitempty"`
+}
+
+// NewGetPlantsDefault creates GetPlantsDefault with default headers values
+func NewGetPlantsDefault(code int) *GetPlantsDefault {
+	if code <= 0 {
+		code = 500
+	}
+
+	return &GetPlantsDefault{
+		_statusCode: code,
+	}
+}
+
+// WithStatusCode adds the status to the get plants default response
+func (o *GetPlantsDefault) WithStatusCode(code int) *GetPlantsDefault {
+	o._statusCode = code
+	return o
+}
+
+// SetStatusCode sets the status to the get plants default response
+func (o *GetPlantsDefault) SetStatusCode(code int) {
+	o._statusCode = code
+}
+
+// WithXRequestID adds the xRequestId to the get plants default response
+func (o *GetPlantsDefault) WithXRequestID(xRequestID string) *GetPlantsDefault {
+	o.XRequestID = xRequestID
+	return o
+}
+
+// SetXRequestID sets the xRequestId to the get plants default response
+func (o *GetPlantsDefault) SetXRequestID(xRequestID string) {
+	o.XRequestID = xRequestID
+}
+
+// WithPayload adds the payload to the get plants default response
+func (o *GetPlantsDefault) WithPayload(payload *models.ErrorResponse) *GetPlantsDefault {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the get plants default response
+func (o *GetPlantsDefault) SetPayload(payload *models.ErrorResponse) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *GetPlantsDefault) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	// response header X-Request-Id
+
+	xRequestID := o.XRequestID
+	if xRequestID != "" {
+		rw.Header().Set("X-Request-Id", xRequestID)
+	}
+
+	rw.WriteHeader(o._statusCode)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}

@@ -21,7 +21,7 @@ type ShortInfo struct {
 	Classifiers string `json:"classifiers,omitempty"`
 
 	// flowering time
-	FloweringTime string `json:"floweringTime,omitempty"`
+	FloweringTime string `json:"flowering_Time,omitempty"`
 
 	// hight
 	Hight string `json:"hight,omitempty"`
@@ -30,13 +30,13 @@ type ShortInfo struct {
 	Kind string `json:"kind,omitempty"`
 
 	// recommend position
-	RecommendPosition string `json:"recommendPosition,omitempty"`
+	RecommendPosition string `json:"recommend_Position,omitempty"`
 
 	// regard to light
-	RegardToLight string `json:"regardToLight,omitempty"`
+	RegardToLight string `json:"regard_To_Light,omitempty"`
 
 	// regard to moisture
-	RegardToMoisture string `json:"regardToMoisture,omitempty"`
+	RegardToMoisture string `json:"regard_To_Moisture,omitempty"`
 }
 
 // Validate validates this short info
