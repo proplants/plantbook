@@ -45,12 +45,13 @@ func (pg *PG) ListGarden(ctx context.Context, garden *models.Garden) ([]models.G
 		var gardenOne models.Garden
 		err = gardensList.Scan(&gardenOne.ID, &gardenOne.UserID, &gardenOne.Title, &gardenOne.Description)
 		if err != nil {
-			return nil, errors.WithMessage(err, "can not extract the row ")
+			return nil, errors.WithMessage(err, "can not extract the row")
 		}
 
 	}
 	return gardenArr, nil
 }
+
 // FindGardenByID extracts garden from db by specified id.
 func (pg *PG) FindGardenByID(ctx context.Context, gardenID int64) (*models.Garden, error) {
 	const query string = `SELECT id, user_id, title, description
