@@ -3,6 +3,7 @@ package repo
 import (
 	"context"
 
+	"github.com/jackc/pgx/v4"
 	"github.com/kaatinga/plantbook/internal/api/models"
 
 	"github.com/pkg/errors"
@@ -49,4 +50,36 @@ func (pg *PG) ListGarden(ctx context.Context, garden *models.Garden) ([]models.G
 
 	}
 	return gardenArr, nil
+}
+// FindGardenByID extracts garden from db by specified id.
+func (pg *PG) FindGardenByID(ctx context.Context, gardenID int64) (*models.Garden, error) {
+	const query string = `SELECT id, user_id, title, description
+		FROM public.gardens WHERE id=$1;`
+
+	garden := &models.Garden{}
+	err := pg.db.QueryRow(ctx, query, gardenID).Scan(&garden.ID, &garden.UserID, &garden.Title, &garden.Description)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, nil
+		}
+		return nil, errors.WithMessage(err, "fetch garden failed")
+	}
+	return garden, nil
+}
+
+// DeleteGarden deletes garden from db by specified id.
+func (pg *PG) DeleteGarden(ctx context.Context, gardenID int64) error {
+	const query string = `DELETE FROM public.gardens WHERE id=$1 returning id;`
+	var deletedGardenID int64
+	err := pg.db.QueryRow(ctx, query, gardenID).Scan(&deletedGardenID)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return errors.Errorf("no rows deleted")
+		}
+		return errors.WithMessage(err, "delete garden failed")
+	}
+	if deletedGardenID == gardenID {
+		return nil
+	}
+	return errors.Errorf("expected delete with id=%d, but deleted with id=%d", gardenID, deletedGardenID)
 }
