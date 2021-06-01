@@ -45,7 +45,8 @@ func (pg *PG) GetPlants(ctx context.Context, params plant.GetPlantsParams) ([]*m
 	if tsquery != "" {
 		// Проверяем заполнена ли категория
 		if params.Category != nil {
-			query = query + " where to_tsvector('russian', short_info) @@ plainto_tsquery('russian','" + tsquery + "') and category_id = " + strconv.Itoa(int(*params.Category))
+			query = query + " where to_tsvector('russian', short_info) @@ plainto_tsquery('russian','" +
+				tsquery + "') and category_id = " + strconv.Itoa(int(*params.Category))
 		}
 	} else {
 		if params.Category != nil {
@@ -54,7 +55,7 @@ func (pg *PG) GetPlants(ctx context.Context, params plant.GetPlantsParams) ([]*m
 	}
 
 	// Добавляем лимит и оффсет
-	query = query + limitoffset
+	query += limitoffset
 
 	// Получение строк с базы
 	rows, err := pg.db.Query(ctx, query)
