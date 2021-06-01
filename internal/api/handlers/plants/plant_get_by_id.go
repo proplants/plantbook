@@ -8,15 +8,15 @@ import (
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
 )
 
-type GetPlantByIdImpl struct {
+type GetPlantByIDImpl struct {
 	repo RepoInterface
 }
 
 func NewGetPlantByIDHandler(repo RepoInterface) plant.GetPlantByIDHandler {
-	return &GetPlantByIdImpl{repo: repo}
+	return &GetPlantByIDImpl{repo: repo}
 }
 
-func (impl *GetPlantByIdImpl) Handle(params plant.GetPlantByIDParams) middleware.Responder {
+func (impl *GetPlantByIDImpl) Handle(params plant.GetPlantByIDParams) middleware.Responder {
 	onePlant, err := impl.repo.GetPlantByID(params.HTTPRequest.Context(), params.ID)
 	if err != nil {
 		return plant.NewGetPlantByIDDefault(http.StatusInternalServerError).
