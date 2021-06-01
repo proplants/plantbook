@@ -33,7 +33,6 @@ func init() {
   },
   "basePath": "/",
   "paths": {
-    "/api/v1/refplant/{id}": {
     "/api/v1/gardens": {
       "get": {
         "description": "Shows list users's gardens",
@@ -234,73 +233,7 @@ func init() {
         }
       }
     },
-    "/api/v1/plant": {
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Update an existing plant",
-        "operationId": "updatePlant",
-        "parameters": [
-          {
-            "description": "Plant object that needs to be added to the garden",
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Plant not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        }
-      },
-      "post": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Add a new plant to the garden",
-        "operationId": "addPlant",
-        "parameters": [
-          {
-            "description": "Plant object that needs to be added to the garden",
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
-    },
-    "/api/v1/plant/{plantId}": {
+    "/api/v1/refplant/{id}": {
       "get": {
         "description": "Returns a single reference plant",
         "produces": [
@@ -865,40 +798,6 @@ func init() {
         }
       }
     },
-    "Info": {
-      "type": "object",
-      "properties": {
-        "content": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        }
-      }
-    },
-    "RefPlant": {
-      "type": "object",
-      "required": [
-        "title",
-        "images"
-      ],
-      "properties": {
-        "category": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "createdAt": {
-          "x-go-type": {
-            "hints": {
-              "noValidation": true
-            },
-            "import": {
-              "package": "time"
-            },
-            "type": "Time"
-          }
-        },
-        "creater": {
     "Garden": {
       "type": "object",
       "required": [
@@ -912,7 +811,6 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
-        "images": {
         "title": {
           "type": "string",
           "example": "rose"
@@ -941,6 +839,17 @@ func init() {
         }
       }
     },
+    "Info": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
     "Plant": {
       "type": "object",
       "required": [
@@ -957,6 +866,56 @@ func init() {
           "format": "int64"
         },
         "photoUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "plantReferenceId": {
+          "description": "plant's identifier from reference",
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string",
+          "example": "rose"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "RefPlant": {
+      "type": "object",
+      "required": [
+        "title",
+        "images"
+      ],
+      "properties": {
+        "category": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "x-go-type": {
+            "hints": {
+              "noValidation": true
+            },
+            "import": {
+              "package": "time"
+            },
+            "type": "Time"
+          }
+        },
+        "creater": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "images": {
           "type": "array",
           "items": {
             "type": "string"
@@ -991,44 +950,6 @@ func init() {
         }
       }
     },
-    "ShortInfo": {
-      "type": "object",
-      "properties": {
-        "classifiers": {
-          "type": "string"
-        },
-        "flowering_Time": {
-          "type": "string"
-        },
-        "hight": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string"
-        },
-        "recommend_Position": {
-          "type": "string"
-        },
-        "regard_To_Light": {
-          "type": "string"
-        },
-        "regard_To_Moisture": {
-          "type": "string"
-        "plantReferenceId": {
-          "description": "plant's identifier from reference",
-          "type": "integer",
-          "format": "int64"
-        },
-        "title": {
-          "type": "string",
-          "example": "rose"
-        },
-        "userId": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
     "Response": {
       "type": "object",
       "properties": {
@@ -1055,6 +976,32 @@ func init() {
         "total": {
           "type": "integer",
           "format": "int64"
+        }
+      }
+    },
+    "ShortInfo": {
+      "type": "object",
+      "properties": {
+        "classifiers": {
+          "type": "string"
+        },
+        "flowering_Time": {
+          "type": "string"
+        },
+        "hight": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "recommend_Position": {
+          "type": "string"
+        },
+        "regard_To_Light": {
+          "type": "string"
+        },
+        "regard_To_Moisture": {
+          "type": "string"
         }
       }
     },
@@ -1147,7 +1094,6 @@ func init() {
   },
   "basePath": "/",
   "paths": {
-    "/api/v1/refplant/{id}": {
     "/api/v1/gardens": {
       "get": {
         "description": "Shows list users's gardens",
@@ -1348,73 +1294,7 @@ func init() {
         }
       }
     },
-    "/api/v1/plant": {
-      "put": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Update an existing plant",
-        "operationId": "updatePlant",
-        "parameters": [
-          {
-            "description": "Plant object that needs to be added to the garden",
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Plant not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        }
-      },
-      "post": {
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Add a new plant to the garden",
-        "operationId": "addPlant",
-        "parameters": [
-          {
-            "description": "Plant object that needs to be added to the garden",
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
-    },
-    "/api/v1/plant/{plantId}": {
+    "/api/v1/refplant/{id}": {
       "get": {
         "description": "Returns a single reference plant",
         "produces": [
@@ -1979,40 +1859,6 @@ func init() {
         }
       }
     },
-    "Info": {
-      "type": "object",
-      "properties": {
-        "content": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        }
-      }
-    },
-    "RefPlant": {
-      "type": "object",
-      "required": [
-        "title",
-        "images"
-      ],
-      "properties": {
-        "category": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "createdAt": {
-          "x-go-type": {
-            "hints": {
-              "noValidation": true
-            },
-            "import": {
-              "package": "time"
-            },
-            "type": "Time"
-          }
-        },
-        "creater": {
     "Garden": {
       "type": "object",
       "required": [
@@ -2026,7 +1872,6 @@ func init() {
           "type": "integer",
           "format": "int64"
         },
-        "images": {
         "title": {
           "type": "string",
           "example": "rose"
@@ -2055,6 +1900,17 @@ func init() {
         }
       }
     },
+    "Info": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
     "Plant": {
       "type": "object",
       "required": [
@@ -2071,6 +1927,56 @@ func init() {
           "format": "int64"
         },
         "photoUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "plantReferenceId": {
+          "description": "plant's identifier from reference",
+          "type": "integer",
+          "format": "int64"
+        },
+        "title": {
+          "type": "string",
+          "example": "rose"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "RefPlant": {
+      "type": "object",
+      "required": [
+        "title",
+        "images"
+      ],
+      "properties": {
+        "category": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createdAt": {
+          "x-go-type": {
+            "hints": {
+              "noValidation": true
+            },
+            "import": {
+              "package": "time"
+            },
+            "type": "Time"
+          }
+        },
+        "creater": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "images": {
           "type": "array",
           "items": {
             "type": "string"
@@ -2106,44 +2012,6 @@ func init() {
         }
       }
     },
-    "ShortInfo": {
-      "type": "object",
-      "properties": {
-        "classifiers": {
-          "type": "string"
-        },
-        "flowering_Time": {
-          "type": "string"
-        },
-        "hight": {
-          "type": "string"
-        },
-        "kind": {
-          "type": "string"
-        },
-        "recommend_Position": {
-          "type": "string"
-        },
-        "regard_To_Light": {
-          "type": "string"
-        },
-        "regard_To_Moisture": {
-          "type": "string"
-        "plantReferenceId": {
-          "description": "plant's identifier from reference",
-          "type": "integer",
-          "format": "int64"
-        },
-        "title": {
-          "type": "string",
-          "example": "rose"
-        },
-        "userId": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
     "Response": {
       "type": "object",
       "properties": {
@@ -2170,6 +2038,32 @@ func init() {
         "total": {
           "type": "integer",
           "format": "int64"
+        }
+      }
+    },
+    "ShortInfo": {
+      "type": "object",
+      "properties": {
+        "classifiers": {
+          "type": "string"
+        },
+        "flowering_Time": {
+          "type": "string"
+        },
+        "hight": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "recommend_Position": {
+          "type": "string"
+        },
+        "regard_To_Light": {
+          "type": "string"
+        },
+        "regard_To_Moisture": {
+          "type": "string"
         }
       }
     },

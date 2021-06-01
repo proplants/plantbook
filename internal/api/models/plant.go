@@ -7,8 +7,6 @@ package models
 
 import (
 	"context"
-	"strconv"
-	timeext "time"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -76,6 +74,11 @@ func (m *Plant) validateTitle(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this plant based on context it is used
+func (m *Plant) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

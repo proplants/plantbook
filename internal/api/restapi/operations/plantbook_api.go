@@ -57,21 +57,8 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		UserCreateUserHandler: user.CreateUserHandlerFunc(func(params user.CreateUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.CreateUser has not yet been implemented")
 		}),
-<<<<<<< HEAD
-		UserDeleteUserHandler: user.DeleteUserHandlerFunc(func(params user.DeleteUserParams) middleware.Responder {
-			return middleware.NotImplemented("operation user.DeleteUser has not yet been implemented")
-		}),
-		RefplantGetRefPlantByIDHandler: refplant.GetRefPlantByIDHandlerFunc(func(params refplant.GetRefPlantByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation refplant.GetRefPlantByID has not yet been implemented")
-		}),
-		RefplantGetRefPlantsHandler: refplant.GetRefPlantsHandlerFunc(func(params refplant.GetRefPlantsParams) middleware.Responder {
-			return middleware.NotImplemented("operation refplant.GetRefPlants has not yet been implemented")
-=======
 		GardensCreateUserGardenHandler: gardens.CreateUserGardenHandlerFunc(func(params gardens.CreateUserGardenParams) middleware.Responder {
 			return middleware.NotImplemented("operation gardens.CreateUserGarden has not yet been implemented")
-		}),
-		PlantDeletePlantHandler: plant.DeletePlantHandlerFunc(func(params plant.DeletePlantParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.DeletePlant has not yet been implemented")
 		}),
 		UserDeleteUserHandler: user.DeleteUserHandlerFunc(func(params user.DeleteUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.DeleteUser has not yet been implemented")
@@ -79,9 +66,11 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		GardensDeleteUserGardenHandler: gardens.DeleteUserGardenHandlerFunc(func(params gardens.DeleteUserGardenParams) middleware.Responder {
 			return middleware.NotImplemented("operation gardens.DeleteUserGarden has not yet been implemented")
 		}),
-		PlantGetPlantByIDHandler: plant.GetPlantByIDHandlerFunc(func(params plant.GetPlantByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.GetPlantByID has not yet been implemented")
->>>>>>> 2a4189edfad2e17afc3e2e5e62964b3f263d8756
+		RefplantGetRefPlantByIDHandler: refplant.GetRefPlantByIDHandlerFunc(func(params refplant.GetRefPlantByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation refplant.GetRefPlantByID has not yet been implemented")
+		}),
+		RefplantGetRefPlantsHandler: refplant.GetRefPlantsHandlerFunc(func(params refplant.GetRefPlantsParams) middleware.Responder {
+			return middleware.NotImplemented("operation refplant.GetRefPlants has not yet been implemented")
 		}),
 		UserGetUserByNameHandler: user.GetUserByNameHandlerFunc(func(params user.GetUserByNameParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.GetUserByName has not yet been implemented")
@@ -152,25 +141,16 @@ type PlantbookAPI struct {
 	HealthAPIVersionHandler health.APIVersionHandler
 	// UserCreateUserHandler sets the operation handler for the create user operation
 	UserCreateUserHandler user.CreateUserHandler
-<<<<<<< HEAD
-	// UserDeleteUserHandler sets the operation handler for the delete user operation
-	UserDeleteUserHandler user.DeleteUserHandler
-	// RefplantGetRefPlantByIDHandler sets the operation handler for the get ref plant by Id operation
-	RefplantGetRefPlantByIDHandler refplant.GetRefPlantByIDHandler
-	// RefplantGetRefPlantsHandler sets the operation handler for the get ref plants operation
-	RefplantGetRefPlantsHandler refplant.GetRefPlantsHandler
-=======
 	// GardensCreateUserGardenHandler sets the operation handler for the create user garden operation
 	GardensCreateUserGardenHandler gardens.CreateUserGardenHandler
-	// PlantDeletePlantHandler sets the operation handler for the delete plant operation
-	PlantDeletePlantHandler plant.DeletePlantHandler
 	// UserDeleteUserHandler sets the operation handler for the delete user operation
 	UserDeleteUserHandler user.DeleteUserHandler
 	// GardensDeleteUserGardenHandler sets the operation handler for the delete user garden operation
 	GardensDeleteUserGardenHandler gardens.DeleteUserGardenHandler
-	// PlantGetPlantByIDHandler sets the operation handler for the get plant by Id operation
-	PlantGetPlantByIDHandler plant.GetPlantByIDHandler
->>>>>>> 2a4189edfad2e17afc3e2e5e62964b3f263d8756
+	// RefplantGetRefPlantByIDHandler sets the operation handler for the get ref plant by Id operation
+	RefplantGetRefPlantByIDHandler refplant.GetRefPlantByIDHandler
+	// RefplantGetRefPlantsHandler sets the operation handler for the get ref plants operation
+	RefplantGetRefPlantsHandler refplant.GetRefPlantsHandler
 	// UserGetUserByNameHandler sets the operation handler for the get user by name operation
 	UserGetUserByNameHandler user.GetUserByNameHandler
 	// GardensGetUserGardenByIDHandler sets the operation handler for the get user garden by ID operation
@@ -276,21 +256,8 @@ func (o *PlantbookAPI) Validate() error {
 	if o.UserCreateUserHandler == nil {
 		unregistered = append(unregistered, "user.CreateUserHandler")
 	}
-<<<<<<< HEAD
-	if o.UserDeleteUserHandler == nil {
-		unregistered = append(unregistered, "user.DeleteUserHandler")
-	}
-	if o.RefplantGetRefPlantByIDHandler == nil {
-		unregistered = append(unregistered, "refplant.GetRefPlantByIDHandler")
-	}
-	if o.RefplantGetRefPlantsHandler == nil {
-		unregistered = append(unregistered, "refplant.GetRefPlantsHandler")
-=======
 	if o.GardensCreateUserGardenHandler == nil {
 		unregistered = append(unregistered, "gardens.CreateUserGardenHandler")
-	}
-	if o.PlantDeletePlantHandler == nil {
-		unregistered = append(unregistered, "plant.DeletePlantHandler")
 	}
 	if o.UserDeleteUserHandler == nil {
 		unregistered = append(unregistered, "user.DeleteUserHandler")
@@ -298,9 +265,11 @@ func (o *PlantbookAPI) Validate() error {
 	if o.GardensDeleteUserGardenHandler == nil {
 		unregistered = append(unregistered, "gardens.DeleteUserGardenHandler")
 	}
-	if o.PlantGetPlantByIDHandler == nil {
-		unregistered = append(unregistered, "plant.GetPlantByIDHandler")
->>>>>>> 2a4189edfad2e17afc3e2e5e62964b3f263d8756
+	if o.RefplantGetRefPlantByIDHandler == nil {
+		unregistered = append(unregistered, "refplant.GetRefPlantByIDHandler")
+	}
+	if o.RefplantGetRefPlantsHandler == nil {
+		unregistered = append(unregistered, "refplant.GetRefPlantsHandler")
 	}
 	if o.UserGetUserByNameHandler == nil {
 		unregistered = append(unregistered, "user.GetUserByNameHandler")

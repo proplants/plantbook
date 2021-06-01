@@ -94,9 +94,9 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	api.UserLoginUserHandler = uhandlers.NewLoginUserHandler(storage, tm, tokenExpireDelay)
 	api.UserLogoutUserHandler = uhandlers.NewLogoutUserHandler(tokenExpireDelay)
 
-	// plants TODO: fill me
-	api.RefplantGetRefPlantsHandler = rphandlers.NewGetRefPlantsHandler(repo)
-	api.RefplantGetRefPlantByIDHandler = rphandlers.NewGetRefPlantByIDHandler(repo)
+	// reference plants
+	api.RefplantGetRefPlantsHandler = rphandlers.NewGetRefPlantsHandler(storage)
+	api.RefplantGetRefPlantByIDHandler = rphandlers.NewGetRefPlantByIDHandler(storage)
 	//
 	// plants
 
