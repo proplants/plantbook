@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"time"
 
+	env "github.com/kaatinga/env_loader"
+
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
@@ -16,6 +18,7 @@ import (
 	"github.com/kaatinga/plantbook/pkg/logging"
 	"github.com/kaatinga/plantbook/pkg/token"
 
+	ghandlers "github.com/kaatinga/plantbook/internal/api/handlers/gardens"
 	hhandlers "github.com/kaatinga/plantbook/internal/api/handlers/health"
 	rphandlers "github.com/kaatinga/plantbook/internal/api/handlers/refplants"
 	uhandlers "github.com/kaatinga/plantbook/internal/api/handlers/users"
@@ -50,20 +53,22 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	api.ServeError = errors.ServeError
 
 	// read config
-	err := config.Read(&config.Defaults, &cfg)
+	err := env.LoadSettings(&cfg)
 	if err != nil {
 		log.Fatalf("read config fatal error, %s", err)
 	}
+
 	// set logger
-	logger := logging.NewLogger(cfg.LOG.Debug, cfg.LOG.Format)
+	logger := logging.NewLogger(cfg.Log.Debug, cfg.Log.Format)
 	logger = logger.With("version", version)
 	logger = logger.With("build", build)
 	logger = logger.With("githash", githash)
 	logger = logger.With("build_at", buildAt)
 
 	ctx := logging.WithLogger(context.Background(), logger)
+
 	// make repo
-	repo, err := repo.NewPG(ctx, cfg.DB.URL, cfg.LOG.Debug)
+	storage, err := repo.NewPG(ctx, cfg.DB.URL, cfg.Log.Debug)
 	if err != nil {
 		logger.Fatalf("connect to storage error, %s", err)
 	}
@@ -74,7 +79,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	// make handlers
 	// health
 	api.HealthHealthAliveHandler = hhandlers.NewHealthAliveHandler()
-	api.HealthHealthReadyHandler = hhandlers.NewHealthReadyHandler(repo)
+	api.HealthHealthReadyHandler = hhandlers.NewHealthReadyHandler(storage)
 
 	buildAtTime, err := time.Parse(time.RFC3339, buildAt)
 	if err != nil {
@@ -85,14 +90,19 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	// metrics
 
 	// users
-	api.UserCreateUserHandler = uhandlers.NewCreateUserHandler(repo, tm)
-	api.UserLoginUserHandler = uhandlers.NewLoginUserHandler(repo, tm, tokenExpireDelay)
+	api.UserCreateUserHandler = uhandlers.NewCreateUserHandler(storage, tm)
+	api.UserLoginUserHandler = uhandlers.NewLoginUserHandler(storage, tm, tokenExpireDelay)
 	api.UserLogoutUserHandler = uhandlers.NewLogoutUserHandler(tokenExpireDelay)
 
 	// plants TODO: fill me
 	api.RefplantGetRefPlantsHandler = rphandlers.NewGetRefPlantsHandler(repo)
 	api.RefplantGetRefPlantByIDHandler = rphandlers.NewGetRefPlantByIDHandler(repo)
 	//
+	// plants
+
+	// gardens
+	api.GardensCreateUserGardenHandler = ghandlers.NewCreateUserGardenHandler(storage, tm)
+	api.GardensDeleteUserGardenHandler = ghandlers.NewDeleteUserGardenHandler(storage, tm)
 
 	// generated code...
 	api.UseSwaggerUI()

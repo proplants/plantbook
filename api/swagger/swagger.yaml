@@ -14,6 +14,8 @@ tags:
     description: "Operations about user"
   - name: "health"
     description: "Operations about health checks"
+  - name: "gardens"
+    description: "Operations about user's gardens"
 schemes:
   - "http"
 paths:
@@ -469,6 +471,140 @@ paths:
           description: "Invalid username supplied"
         "404":
           description: "User not found"
+  /api/v1/gardens:
+    get:
+      tags:
+        - "gardens"
+      summary: "Get list users's gardens"
+      description: "Shows list users's gardens"
+      operationId: "getUserGardens"
+      parameters:
+        - in: query
+          name: offset
+          type: integer
+          format: "int64"
+          description: The number of items to skip before starting to collect the result set.
+        - in: query
+          name: limit
+          type: integer
+          format: "int64"
+          description: The numbers of items to return.
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "List of the gardens"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/GardensResponse"
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      tags:
+        - "gardens"
+      summary: "Create new users's garden"
+      description: "Creates new garden for user"
+      operationId: "createUserGarden"
+      parameters:
+        - in: body
+          name: garden
+          required: true
+          schema:
+            $ref: "#/definitions/Garden"
+          description: New garden parameters without id
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        "201":
+          description: "New garden with id"
+          schema:
+            $ref: "#/definitions/Garden"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/v1/gardens/{garden_id}:
+    get:
+      tags:
+        - "gardens"
+      summary: "Get garden by id"
+      description: "Shows users's garden by specified garden_id"
+      operationId: "getUserGardenByID"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: garden_id
+          type: integer
+          required: true
+          description: Numeric ID of the user's garden to get.
+      responses:
+        "200":
+          description: "Exists garden"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/Garden"
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      tags:
+        - "gardens"
+      summary: "Delete garden"
+      description: "Deletes user's garden, can only admin or owner"
+      operationId: "deleteUserGarden"
+      parameters:
+        - in: path
+          name: garden_id
+          type: integer
+          required: true
+          description: Numeric ID of the user's garden to delete.
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "Garden deleted"
+          schema:
+            $ref: "#/definitions/Response"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/version:
     get:
       tags:
@@ -543,6 +679,60 @@ definitions:
         type: "integer"
         format: "int32"
         description: "User Status"
+  Plant:
+    type: "object"
+    required:
+      - "title"
+      - "photoUrls"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+        example: "rose"
+      userId:
+        type: "integer"
+        format: "int64"
+      gardenId:
+        type: "integer"
+        format: "int64"
+      photoUrls:
+        type: "array"
+        items:
+          type: "string"
+      plantReferenceId:
+        type: "integer"
+        format: "int64"
+        description: "plant's identifier from reference"
+  Garden:
+    type: "object"
+    required:
+      - "title"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      userId:
+        type: "integer"
+        format: "int64"
+        description: "owner identifier"
+      title:
+        type: "string"
+        example: "rose"
+      description:
+        type: "string"
+  Gardens:
+    type: "array"
+    items:
+      $ref: "#/definitions/Garden"
+  GardensResponse:
+    type: "object"
+    properties:
+      data:
+        $ref: "#/definitions/Gardens"
+      result_set:
+        $ref: "#/definitions/ResultSet"
   ApiResponse:
     type: "object"
     properties:
@@ -636,3 +826,23 @@ definitions:
           hints:
             noValidation: true
         x-nullable: true
+  Response:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+  ResultSet:
+    type: "object"
+    properties:
+      count:
+        type: "integer"
+        format: "int64"
+      limit:
+        type: "integer"
+        format: "int64"
+      offset:
+        type: "integer"
+        format: "int64"
+      total:
+        type: "integer"
+        format: "int64"
