@@ -1,0 +1,98 @@
+{
+	"info": {
+		"_postman_id": "29ec8403-d3d4-4d75-a13a-4748f74de3cc",
+		"name": "plants and plantByID tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "plants",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "10.111.100.240:8085/api/v1/plants?limit=10&category=1&offset=0&kind=кустарник&hight=Низкий и высокое и среднее&classifiers=красивоцветущее&regardToMoisture=влаголюбивое&regardToLight=светолюбивое&recommendPosition=южные окна&floweringTimе=лето",
+					"host": [
+						"10",
+						"111",
+						"100",
+						"240"
+					],
+					"port": "8085",
+					"path": [
+						"api",
+						"v1",
+						"plants"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "category",
+							"value": "1"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						},
+						{
+							"key": "kind",
+							"value": "кустарник"
+						},
+						{
+							"key": "hight",
+							"value": "Низкий и высокое и среднее"
+						},
+						{
+							"key": "classifiers",
+							"value": "красивоцветущее"
+						},
+						{
+							"key": "regardToMoisture",
+							"value": "влаголюбивое"
+						},
+						{
+							"key": "regardToLight",
+							"value": "светолюбивое"
+						},
+						{
+							"key": "recommendPosition",
+							"value": "южные окна"
+						},
+						{
+							"key": "floweringTimе",
+							"value": "лето"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "plantByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "10.111.100.240:8085/api/v1/plant/1",
+					"host": [
+						"10",
+						"111",
+						"100",
+						"240"
+					],
+					"port": "8085",
+					"path": [
+						"api",
+						"v1",
+						"plant",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
