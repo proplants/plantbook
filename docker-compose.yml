@@ -36,6 +36,8 @@ services:
         - postgresql
     restart: on-failure
     container_name: plantbook-server
+    depends_on:
+      - postgresql
     ports:
       - "8085:8081"
       - "8086:8082"
