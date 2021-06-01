@@ -173,8 +173,8 @@ paths:
           description: "unexpected error"
           headers:
             X-Request-Id:
-              description: error
-              type: string
+                description: The request id this is a response to
+                type: string
           schema:
             $ref: "#/definitions/ErrorResponse"
   /api/v1/user:
