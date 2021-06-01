@@ -28,6 +28,30 @@ func (pg *PG) StoreGarden(ctx context.Context, garden *models.Garden) (*models.G
 	return garden, nil
 }
 
+
+// ListGarden shows a list of user's gardens
+func (pg *PG) ListGarden(ctx context.Context, garden *models.Garden) ([]models.Garden, error) {
+	const query string = `SELECT (id, userId, title, description) FROM public.gardens
+		WHERE user_id=$1;`
+	
+	gardensList, err := pg.db.Query(ctx, query, garden.UserID)
+	if err != nil {
+		return nil, errors.WithMessage(err, "the list of the user's gardens could not be displayed")
+	}
+	defer gardensList.Close()
+
+	gardenArr := make([]models.Garden, 0, 2)
+	for gardensList.Next() {
+		var gardenOne models.Garden
+		err = gardensList.Scan(&gardenOne.ID, &gardenOne.UserID, &gardenOne.Title, &gardenOne.Description)
+		if err != nil {
+			return nil, errors.WithMessage(err, "can not extract the row")
+		}
+
+	}
+	return gardenArr, nil
+}
+
 // FindGardenByID extracts garden from db by specified id.
 func (pg *PG) FindGardenByID(ctx context.Context, gardenID int64) (*models.Garden, error) {
 	const query string = `SELECT id, user_id, title, description
