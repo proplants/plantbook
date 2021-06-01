@@ -33,22 +33,22 @@ func init() {
   },
   "basePath": "/",
   "paths": {
-    "/api/v1/plant/{id}": {
+    "/api/v1/refplant/{id}": {
       "get": {
         "description": "Returns a single reference plant",
         "produces": [
           "application/json"
         ],
         "tags": [
-          "plant"
+          "refplant"
         ],
-        "summary": "Find plant by ID",
-        "operationId": "getPlantById",
+        "summary": "Find reference plant by ID",
+        "operationId": "getRefPlantById",
         "parameters": [
           {
             "type": "integer",
             "format": "int64",
-            "description": "ID of plant to return",
+            "description": "ID of reference plant to return",
             "name": "id",
             "in": "path",
             "required": true
@@ -58,7 +58,7 @@ func init() {
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/Plant"
+              "$ref": "#/definitions/RefPlant"
             }
           },
           "400": {
@@ -82,7 +82,7 @@ func init() {
         }
       }
     },
-    "/api/v1/plants": {
+    "/api/v1/refplants": {
       "get": {
         "description": "find reference plants by parameters or all",
         "consumes": [
@@ -92,10 +92,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "plant"
+          "refplant"
         ],
-        "summary": "find plants",
-        "operationId": "getPlants",
+        "summary": "find reference plants",
+        "operationId": "getRefPlants",
         "parameters": [
           {
             "type": "integer",
@@ -162,7 +162,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Plant"
+                "$ref": "#/definitions/RefPlant"
               }
             }
           },
@@ -609,7 +609,7 @@ func init() {
         }
       }
     },
-    "Plant": {
+    "RefPlant": {
       "type": "object",
       "required": [
         "title",
@@ -784,22 +784,22 @@ func init() {
   },
   "basePath": "/",
   "paths": {
-    "/api/v1/plant/{id}": {
+    "/api/v1/refplant/{id}": {
       "get": {
         "description": "Returns a single reference plant",
         "produces": [
           "application/json"
         ],
         "tags": [
-          "plant"
+          "refplant"
         ],
-        "summary": "Find plant by ID",
-        "operationId": "getPlantById",
+        "summary": "Find reference plant by ID",
+        "operationId": "getRefPlantById",
         "parameters": [
           {
             "type": "integer",
             "format": "int64",
-            "description": "ID of plant to return",
+            "description": "ID of reference plant to return",
             "name": "id",
             "in": "path",
             "required": true
@@ -809,7 +809,7 @@ func init() {
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/Plant"
+              "$ref": "#/definitions/RefPlant"
             }
           },
           "400": {
@@ -833,7 +833,7 @@ func init() {
         }
       }
     },
-    "/api/v1/plants": {
+    "/api/v1/refplants": {
       "get": {
         "description": "find reference plants by parameters or all",
         "consumes": [
@@ -843,10 +843,10 @@ func init() {
           "application/json"
         ],
         "tags": [
-          "plant"
+          "refplant"
         ],
-        "summary": "find plants",
-        "operationId": "getPlants",
+        "summary": "find reference plants",
+        "operationId": "getRefPlants",
         "parameters": [
           {
             "type": "integer",
@@ -913,7 +913,7 @@ func init() {
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/Plant"
+                "$ref": "#/definitions/RefPlant"
               }
             }
           },
@@ -1360,7 +1360,7 @@ func init() {
         }
       }
     },
-    "Plant": {
+    "RefPlant": {
       "type": "object",
       "required": [
         "title",

@@ -20,7 +20,7 @@ import (
 	"github.com/go-openapi/swag"
 
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
+	"github.com/kaatinga/plantbook/internal/api/restapi/operations/refplant"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
 )
 
@@ -59,11 +59,11 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		UserDeleteUserHandler: user.DeleteUserHandlerFunc(func(params user.DeleteUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.DeleteUser has not yet been implemented")
 		}),
-		PlantGetPlantByIDHandler: plant.GetPlantByIDHandlerFunc(func(params plant.GetPlantByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.GetPlantByID has not yet been implemented")
+		RefplantGetRefPlantByIDHandler: refplant.GetRefPlantByIDHandlerFunc(func(params refplant.GetRefPlantByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation refplant.GetRefPlantByID has not yet been implemented")
 		}),
-		PlantGetPlantsHandler: plant.GetPlantsHandlerFunc(func(params plant.GetPlantsParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.GetPlants has not yet been implemented")
+		RefplantGetRefPlantsHandler: refplant.GetRefPlantsHandlerFunc(func(params refplant.GetRefPlantsParams) middleware.Responder {
+			return middleware.NotImplemented("operation refplant.GetRefPlants has not yet been implemented")
 		}),
 		UserGetUserByNameHandler: user.GetUserByNameHandlerFunc(func(params user.GetUserByNameParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.GetUserByName has not yet been implemented")
@@ -130,10 +130,10 @@ type PlantbookAPI struct {
 	UserCreateUserHandler user.CreateUserHandler
 	// UserDeleteUserHandler sets the operation handler for the delete user operation
 	UserDeleteUserHandler user.DeleteUserHandler
-	// PlantGetPlantByIDHandler sets the operation handler for the get plant by Id operation
-	PlantGetPlantByIDHandler plant.GetPlantByIDHandler
-	// PlantGetPlantsHandler sets the operation handler for the get plants operation
-	PlantGetPlantsHandler plant.GetPlantsHandler
+	// RefplantGetRefPlantByIDHandler sets the operation handler for the get ref plant by Id operation
+	RefplantGetRefPlantByIDHandler refplant.GetRefPlantByIDHandler
+	// RefplantGetRefPlantsHandler sets the operation handler for the get ref plants operation
+	RefplantGetRefPlantsHandler refplant.GetRefPlantsHandler
 	// UserGetUserByNameHandler sets the operation handler for the get user by name operation
 	UserGetUserByNameHandler user.GetUserByNameHandler
 	// HealthHealthAliveHandler sets the operation handler for the health alive operation
@@ -238,11 +238,11 @@ func (o *PlantbookAPI) Validate() error {
 	if o.UserDeleteUserHandler == nil {
 		unregistered = append(unregistered, "user.DeleteUserHandler")
 	}
-	if o.PlantGetPlantByIDHandler == nil {
-		unregistered = append(unregistered, "plant.GetPlantByIDHandler")
+	if o.RefplantGetRefPlantByIDHandler == nil {
+		unregistered = append(unregistered, "refplant.GetRefPlantByIDHandler")
 	}
-	if o.PlantGetPlantsHandler == nil {
-		unregistered = append(unregistered, "plant.GetPlantsHandler")
+	if o.RefplantGetRefPlantsHandler == nil {
+		unregistered = append(unregistered, "refplant.GetRefPlantsHandler")
 	}
 	if o.UserGetUserByNameHandler == nil {
 		unregistered = append(unregistered, "user.GetUserByNameHandler")
@@ -371,11 +371,11 @@ func (o *PlantbookAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/api/v1/plant/{id}"] = plant.NewGetPlantByID(o.context, o.PlantGetPlantByIDHandler)
+	o.handlers["GET"]["/api/v1/refplant/{id}"] = refplant.NewGetRefPlantByID(o.context, o.RefplantGetRefPlantByIDHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/api/v1/plants"] = plant.NewGetPlants(o.context, o.PlantGetPlantsHandler)
+	o.handlers["GET"]["/api/v1/refplants"] = refplant.NewGetRefPlants(o.context, o.RefplantGetRefPlantsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

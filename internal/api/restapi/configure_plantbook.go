@@ -17,7 +17,7 @@ import (
 	"github.com/kaatinga/plantbook/pkg/token"
 
 	hhandlers "github.com/kaatinga/plantbook/internal/api/handlers/health"
-	phandlers "github.com/kaatinga/plantbook/internal/api/handlers/plants"
+	rphandlers "github.com/kaatinga/plantbook/internal/api/handlers/refplants"
 	uhandlers "github.com/kaatinga/plantbook/internal/api/handlers/users"
 	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/repo"
@@ -90,8 +90,8 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	api.UserLogoutUserHandler = uhandlers.NewLogoutUserHandler(tokenExpireDelay)
 
 	// plants TODO: fill me
-	api.PlantGetPlantsHandler = phandlers.NewGetPlantsHandler(repo)
-	api.PlantGetPlantByIDHandler = phandlers.NewGetPlantByIDHandler(repo)
+	api.RefplantGetRefPlantsHandler = rphandlers.NewGetRefPlantsHandler(repo)
+	api.RefplantGetRefPlantByIDHandler = rphandlers.NewGetRefPlantByIDHandler(repo)
 	//
 
 	// generated code...

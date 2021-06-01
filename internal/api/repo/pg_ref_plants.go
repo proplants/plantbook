@@ -5,16 +5,16 @@ import (
 	"strconv"
 
 	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
+	"github.com/kaatinga/plantbook/internal/api/restapi/operations/refplant"
 	"github.com/pkg/errors"
 )
 
 //  Получение растений из справочника по параметрам или просто все, обязательные поля limit and offset
-func (pg *PG) GetPlants(ctx context.Context, params plant.GetPlantsParams) ([]*models.Plant, error) {
+func (pg *PG) GetRefPlants(ctx context.Context, params refplant.GetRefPlantsParams) ([]*models.RefPlant, error) {
 	query := `select id, title, category_id, short_info::jsonb, notes::jsonb,
 			img_links::jsonb, creator, created_at, modifier, modified_at
 			from reference.plants`
-	var plants []*models.Plant
+	var refPlants []*models.RefPlant
 	// log := logging.FromContext(params.HTTPRequest.Context())
 	limitoffset := " limit " + strconv.Itoa(int(params.Limit)) + " offset " + strconv.Itoa(int(params.Offset)) + ";"
 
@@ -64,29 +64,30 @@ func (pg *PG) GetPlants(ctx context.Context, params plant.GetPlantsParams) ([]*m
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var plant models.Plant
-		err = rows.Scan(&plant.ID, &plant.Title, &plant.Category, &plant.ShortInfo, &plant.Infos,
-			&plant.Images, &plant.Creater, &plant.CreatedAt, &plant.Modifier, &plant.ModifiedAt)
+		var refPlant models.RefPlant
+		err = rows.Scan(&refPlant.ID, &refPlant.Title, &refPlant.Category, &refPlant.ShortInfo, &refPlant.Infos,
+			&refPlant.Images, &refPlant.Creater, &refPlant.CreatedAt, &refPlant.Modifier, &refPlant.ModifiedAt)
 		if err != nil {
 			return nil, errors.WithMessage(err, "Scan rows error: ")
 		}
-		plants = append(plants, &plant)
+		refPlants = append(refPlants, &refPlant)
 	}
 
-	return plants, err
+	return refPlants, err
 }
 
-func (pg *PG) GetPlantByID(ctx context.Context, id int64) (*models.Plant, error) {
+func (pg *PG) GetRefPlantByID(ctx context.Context, id int64) (*models.RefPlant, error) {
 	query := `select id, title, category_id, short_info::jsonb, notes::jsonb,
 			img_links::jsonb, creator, created_at, modifier, modified_at
 			from reference.plants where id= `
 	query = query + strconv.Itoa(int(id)) + ";"
-	var plant models.Plant
-	err := pg.db.QueryRow(ctx, query).Scan(&plant.ID, &plant.Title, &plant.Category, &plant.ShortInfo, &plant.Infos,
-		&plant.Images, &plant.Creater, &plant.CreatedAt, &plant.Modifier, &plant.ModifiedAt)
+	var refPlant models.RefPlant
+	err := pg.db.QueryRow(ctx, query).Scan(&refPlant.ID, &refPlant.Title, &refPlant.Category,
+		&refPlant.ShortInfo, &refPlant.Infos, &refPlant.Images, &refPlant.Creater, &refPlant.CreatedAt,
+		&refPlant.Modifier, &refPlant.ModifiedAt)
 	if err != nil {
 		return nil, errors.WithMessage(err, "QueryRow.Scan error")
 	}
 
-	return &plant, err
+	return &refPlant, err
 }
