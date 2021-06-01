@@ -50,7 +50,7 @@ func (o *GetPlantsURL) SetBasePath(bp string) {
 func (o *GetPlantsURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/api/v1/plant"
+	var _path = "/api/v1/plants"
 
 	_basePath := o._basePath
 	if _basePath == "" {

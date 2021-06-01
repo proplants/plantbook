@@ -375,7 +375,7 @@ func (o *PlantbookAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/api/v1/plant"] = plant.NewGetPlants(o.context, o.PlantGetPlantsHandler)
+	o.handlers["GET"]["/api/v1/plants"] = plant.NewGetPlants(o.context, o.PlantGetPlantsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

@@ -29,11 +29,11 @@ func NewGetPlants(ctx *middleware.Context, handler GetPlantsHandler) *GetPlants 
 	return &GetPlants{Context: ctx, Handler: handler}
 }
 
-/* GetPlants swagger:route GET /api/v1/plant plant getPlants
+/* GetPlants swagger:route GET /api/v1/plants plant getPlants
 
 find plants
 
-find reference plants by parameters
+find reference plants by parameters or all
 
 */
 type GetPlants struct {

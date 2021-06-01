@@ -33,9 +33,58 @@ func init() {
   },
   "basePath": "/",
   "paths": {
-    "/api/v1/plant": {
+    "/api/v1/plant/{id}": {
       "get": {
-        "description": "find reference plants by parameters",
+        "description": "Returns a single reference plant",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "plant"
+        ],
+        "summary": "Find plant by ID",
+        "operationId": "getPlantById",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID of plant to return",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Plant"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Plant not found"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "error"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/plants": {
+      "get": {
+        "description": "find reference plants by parameters or all",
         "consumes": [
           "application/json"
         ],
@@ -122,55 +171,6 @@ func init() {
           },
           "404": {
             "description": "Plants not found"
-          },
-          "default": {
-            "description": "unexpected error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            },
-            "headers": {
-              "X-Request-Id": {
-                "type": "string",
-                "description": "error"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/plant/{id}": {
-      "get": {
-        "description": "Returns a single reference plant",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Find plant by ID",
-        "operationId": "getPlantById",
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "ID of plant to return",
-            "name": "id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Plant not found"
           },
           "default": {
             "description": "unexpected error",
@@ -784,9 +784,58 @@ func init() {
   },
   "basePath": "/",
   "paths": {
-    "/api/v1/plant": {
+    "/api/v1/plant/{id}": {
       "get": {
-        "description": "find reference plants by parameters",
+        "description": "Returns a single reference plant",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "plant"
+        ],
+        "summary": "Find plant by ID",
+        "operationId": "getPlantById",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID of plant to return",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Plant"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Plant not found"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "error"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/plants": {
+      "get": {
+        "description": "find reference plants by parameters or all",
         "consumes": [
           "application/json"
         ],
@@ -873,55 +922,6 @@ func init() {
           },
           "404": {
             "description": "Plants not found"
-          },
-          "default": {
-            "description": "unexpected error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            },
-            "headers": {
-              "X-Request-Id": {
-                "type": "string",
-                "description": "error"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/plant/{id}": {
-      "get": {
-        "description": "Returns a single reference plant",
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Find plant by ID",
-        "operationId": "getPlantById",
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "ID of plant to return",
-            "name": "id",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Plant not found"
           },
           "default": {
             "description": "unexpected error",

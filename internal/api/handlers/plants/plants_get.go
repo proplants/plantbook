@@ -1,9 +1,11 @@
 package plants
 
 import (
+	"net/http"
+
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/kaatinga/plantbook/internal/api/models"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
-	"github.com/kaatinga/plantbook/pkg/logging"
 )
 
 type GetPlantsImpl struct {
@@ -15,11 +17,10 @@ func NewGetPlantsHandler(repo RepoInterface) plant.GetPlantsHandler {
 }
 
 func (impl *GetPlantsImpl) Handle(params plant.GetPlantsParams) middleware.Responder {
-	log := logging.FromContext(params.HTTPRequest.Context())
 	somePlants, err := impl.repo.GetPlants(params.HTTPRequest.Context(), params)
 	if err != nil {
-		log.Errorf("error handle: %v", err)
-		return plant.NewGetPlantsBadRequest()
+		return plant.NewGetPlantsDefault(http.StatusInternalServerError).
+			WithPayload(&models.ErrorResponse{Message: err.Error()})
 
 	}
 	return plant.NewGetPlantsOK().WithPayload(somePlants)

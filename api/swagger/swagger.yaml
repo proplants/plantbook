@@ -31,8 +31,8 @@ paths:
             type: "string"
           headers:
             X-Request-Id:
-                description: The request id this is a response to
-                type: string
+              description: The request id this is a response to
+              type: string
         default:
           description: "unexpected error"
           headers:
@@ -40,7 +40,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
   /health/ready:
     get:
       tags:
@@ -55,8 +55,8 @@ paths:
             type: "string"
           headers:
             X-Request-Id:
-                description: The request id this is a response to
-                type: string
+              description: The request id this is a response to
+              type: string
         default:
           description: "unexpected error"
           headers:
@@ -64,13 +64,13 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
-  /api/v1/plant:
+            $ref: "#/definitions/ErrorResponse"
+  /api/v1/plants:
     get:
       tags:
         - "plant"
       operationId: "getPlants"
-      description: "find reference plants by parameters"
+      description: "find reference plants by parameters or all"
       summary: "find plants"
       consumes:
         - "application/json"
@@ -141,7 +141,7 @@ paths:
               description: error
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
     # post:
     #   tags:
     #     - "plant"
@@ -218,7 +218,7 @@ paths:
               description: error
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
     # post:
     #   tags:
     #     - "plant"
@@ -325,14 +325,14 @@ paths:
           schema:
             $ref: "#/definitions/User"
       responses:
-        '201':
+        "201":
           description: "created user with id and status"
           headers:
             X-Request-Id:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/User'
+            $ref: "#/definitions/User"
         default:
           description: "unexpected error"
           headers:
@@ -340,7 +340,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/user/login:
     post:
       tags:
@@ -354,8 +354,8 @@ paths:
         - name: "login/password"
           in: "body"
           schema:
-            $ref: '#/definitions/UserLoginPassword'
-          
+            $ref: "#/definitions/UserLoginPassword"
+
       responses:
         "200":
           description: "successful operation"
@@ -373,7 +373,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/user/logout:
     get:
       tags:
@@ -400,7 +400,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/user/{username}:
     get:
       tags:
@@ -479,14 +479,14 @@ paths:
       produces:
         - "application/json"
       responses:
-        '200':
+        "200":
           description: "version info"
           headers:
             X-Request-Id:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ApiVersion'
+            $ref: "#/definitions/ApiVersion"
         default:
           description: "unexpected error"
           headers:
@@ -494,14 +494,14 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
   /metrics:
     get:
       tags:
         - health
       summary: "Prometheus metrics"
       produces:
-      - "text/plain"
+        - "text/plain"
       responses:
         200:
           description: ok
@@ -510,7 +510,7 @@ paths:
 definitions:
   UserLoginPassword:
     type: "object"
-    required: [login,password]
+    required: [login, password]
     properties:
       login:
         type: "string"
@@ -555,7 +555,7 @@ definitions:
         type: "string"
   ApiVersion:
     type: "object"
-    properties: 
+    properties:
       version:
         type: "string"
       githash:
@@ -565,12 +565,12 @@ definitions:
         format: "date-time"
   ErrorResponse:
     type: "object"
-    properties: 
+    properties:
       message:
         type: "string"
   ShortInfo:
     type: "object"
-    properties: 
+    properties:
       kind:
         type: "string"
       recommend_Position:
@@ -587,11 +587,11 @@ definitions:
         type: "string"
   Info:
     type: "object"
-    properties: 
-        title:
-          type: "string"
-        content:
-          type: "string"
+    properties:
+      title:
+        type: "string"
+      content:
+        type: "string"
   Plant:
     type: "object"
     required:
@@ -607,15 +607,15 @@ definitions:
         type: "integer"
         format: "int32"
       shortInfo:
-          $ref: '#/definitions/ShortInfo'
+        $ref: "#/definitions/ShortInfo"
       images:
         type: "array"
         items:
           type: "string"
       infos:
         type: "array"
-        items: 
-          $ref: '#/definitions/Info'
+        items:
+          $ref: "#/definitions/Info"
       creater:
         type: "string"
       createdAt:
