@@ -36,3 +36,8 @@ func RequestID(ctx context.Context, next http.Handler) http.Handler {
 func GetRequestID(r *http.Request) string {
 	return r.Header.Get(XRequestIDHeader)
 }
+
+// GetCookie extracts session cookie from http.Requiest.
+func GetCookie(r *http.Request) (*http.Cookie, error) {
+	return r.Cookie(JWTCookieName)
+}
