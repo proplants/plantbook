@@ -11,15 +11,15 @@ import (
 	golangswaggerpaths "path"
 )
 
-// AddPlantURL generates an URL for the add plant operation
-type AddPlantURL struct {
+// CreateUserPlantURL generates an URL for the create user plant operation
+type CreateUserPlantURL struct {
 	_basePath string
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *AddPlantURL) WithBasePath(bp string) *AddPlantURL {
+func (o *CreateUserPlantURL) WithBasePath(bp string) *CreateUserPlantURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -27,12 +27,12 @@ func (o *AddPlantURL) WithBasePath(bp string) *AddPlantURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *AddPlantURL) SetBasePath(bp string) {
+func (o *CreateUserPlantURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *AddPlantURL) Build() (*url.URL, error) {
+func (o *CreateUserPlantURL) Build() (*url.URL, error) {
 	var _result url.URL
 
 	var _path = "/api/v1/plant"
@@ -47,7 +47,7 @@ func (o *AddPlantURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *AddPlantURL) Must(u *url.URL, err error) *url.URL {
+func (o *CreateUserPlantURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -58,17 +58,17 @@ func (o *AddPlantURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *AddPlantURL) String() string {
+func (o *CreateUserPlantURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *AddPlantURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *CreateUserPlantURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on AddPlantURL")
+		return nil, errors.New("scheme is required for a full url on CreateUserPlantURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on AddPlantURL")
+		return nil, errors.New("host is required for a full url on CreateUserPlantURL")
 	}
 
 	base, err := o.Build()
@@ -82,6 +82,6 @@ func (o *AddPlantURL) BuildFull(scheme, host string) (*url.URL, error) {
 }
 
 // StringFull returns the string representation of a complete url
-func (o *AddPlantURL) StringFull(scheme, host string) string {
+func (o *CreateUserPlantURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }

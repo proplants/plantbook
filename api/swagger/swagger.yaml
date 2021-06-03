@@ -33,8 +33,8 @@ paths:
             type: "string"
           headers:
             X-Request-Id:
-                description: The request id this is a response to
-                type: string
+              description: The request id this is a response to
+              type: string
         default:
           description: "unexpected error"
           headers:
@@ -42,7 +42,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
   /health/ready:
     get:
       tags:
@@ -57,8 +57,8 @@ paths:
             type: "string"
           headers:
             X-Request-Id:
-                description: The request id this is a response to
-                type: string
+              description: The request id this is a response to
+              type: string
         default:
           description: "unexpected error"
           headers:
@@ -66,164 +66,117 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
-  /api/v1/plant:
-    post:
-      tags:
-        - "plant"
-      summary: "Add a new plant to the garden"
-      description: ""
-      operationId: "addPlant"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Plant object that needs to be added to the garden"
-          required: true
-          schema:
-            $ref: "#/definitions/Plant"
-      responses:
-        "405":
-          description: "Invalid input"
-    put:
-      tags:
-        - "plant"
-      summary: "Update an existing plant"
-      description: ""
-      operationId: "updatePlant"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Plant object that needs to be added to the garden"
-          required: true
-          schema:
-            $ref: "#/definitions/Plant"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Plant not found"
-        "405":
-          description: "Validation exception"
-  /api/v1/plant/{plantId}:
+            $ref: "#/definitions/ErrorResponse"
+  /api/v1/refplants:
     get:
       tags:
-        - "plant"
-      summary: "Find plant by ID"
-      description: "Returns a single plant"
-      operationId: "getPlantById"
+        - "refplant"
+      operationId: "getRefPlants"
+      description: "find reference plants by parameters or all"
+      summary: "find reference plants"
+      consumes:
+        - "application/json"
       produces:
         - "application/json"
       parameters:
-        - name: "plantId"
-          in: "path"
-          description: "ID of plant to return"
-          required: true
+        - name: "category"
+          in: "query"
+          description: "plant category"
+          required: false
           type: "integer"
-          format: "int64"
+          format: "int32"
+        - name: kind
+          in: query
+          type: string
+          required: false
+        - name: recommendPosition
+          in: query
+          type: string
+          required: false
+        - name: regardToLight
+          in: query
+          type: string
+          required: false
+        - name: regardToMoisture
+          in: query
+          type: string
+          required: false
+        - name: floweringTime
+          in: query
+          type: string
+          required: false
+        - name: hight
+          in: query
+          type: string
+          required: false
+        - name: classifiers
+          in: query
+          type: string
+          required: false
+        - name: limit
+          in: query
+          type: integer
+          format: int32
+          required: true
+          allowEmptyValue: true
+        - name: offset
+          in: query
+          type: integer
+          format: int32
+          required: true
+          allowEmptyValue: true
       responses:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/Plant"
+            type: "array"
+            items:
+              $ref: "#/definitions/RefPlant"
         "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Plant not found"
-    post:
-      tags:
-        - "plant"
-      summary: "Updates a plant in the garden with form data"
-      description: ""
-      operationId: "updatePlantWithForm"
-      consumes:
-        - "application/x-www-form-urlencoded"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "plantId"
-          in: "path"
-          description: "ID of pplant that needs to be updated"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "name"
-          in: "formData"
-          description: "Updated name of the plant"
-          required: false
-          type: "string"
-        - name: "status"
-          in: "formData"
-          description: "Updated status of the plant"
-          required: false
-          type: "string"
-      responses:
-        "405":
           description: "Invalid input"
-    delete:
-      tags:
-        - "plant"
-      summary: "Deletes a plant"
-      description: ""
-      operationId: "deletePlant"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "api_key"
-          in: "header"
-          required: false
-          type: "string"
-        - name: "plantId"
-          in: "path"
-          description: "Plant id to delete"
-          required: true
-          type: "integer"
-          format: "int64"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
         "404":
-          description: "Plant not found"
-  /api/v1/plant/{plantId}/uploadImage:
-    post:
+          description: "Plants not found"
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+                description: The request id this is a response to
+                type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/v1/refplant/{id}:
+    get:
       tags:
-        - "plant"
-      summary: "uploads an image"
-      description: ""
-      operationId: "uploadFile"
-      consumes:
-        - "multipart/form-data"
+        - "refplant"
+      summary: "Find reference plant by ID"
+      description: "Returns a single reference plant"
+      operationId: "getRefPlantById"
       produces:
         - "application/json"
       parameters:
-        - name: "plantId"
+        - name: "id"
           in: "path"
-          description: "ID of plant to update"
+          description: "ID of reference plant to return"
           required: true
           type: "integer"
           format: "int64"
-        - name: "additionalMetadata"
-          in: "formData"
-          description: "Additional data to pass to server"
-          required: false
-          type: "string"
-        - name: "file"
-          in: "formData"
-          description: "file to upload"
-          required: false
-          type: "file"
       responses:
         "200":
           description: "successful operation"
           schema:
-            $ref: "#/definitions/ApiResponse"
+            $ref: "#/definitions/RefPlant"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Plant not found"
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+                description: The request id this is a response to
+                type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/user:
     post:
       tags:
@@ -243,14 +196,14 @@ paths:
           schema:
             $ref: "#/definitions/User"
       responses:
-        '201':
+        "201":
           description: "created user with id and status"
           headers:
             X-Request-Id:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/User'
+            $ref: "#/definitions/User"
         default:
           description: "unexpected error"
           headers:
@@ -258,7 +211,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/user/login:
     post:
       tags:
@@ -272,8 +225,8 @@ paths:
         - name: "login/password"
           in: "body"
           schema:
-            $ref: '#/definitions/UserLoginPassword'
-          
+            $ref: "#/definitions/UserLoginPassword"
+
       responses:
         "200":
           description: "successful operation"
@@ -291,7 +244,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/user/logout:
     get:
       tags:
@@ -318,7 +271,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/user/{username}:
     get:
       tags:
@@ -408,14 +361,14 @@ paths:
       produces:
         - "application/json"
       responses:
-        '200':
+        "200":
           description: "List of the gardens"
           headers:
             X-Request-Id:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/GardensResponse'
+            $ref: "#/definitions/GardensResponse"
         default:
           description: "unexpected error"
           headers:
@@ -423,7 +376,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
     post:
       tags:
         - "gardens"
@@ -435,17 +388,17 @@ paths:
           name: garden
           required: true
           schema:
-            $ref: '#/definitions/Garden'
+            $ref: "#/definitions/Garden"
           description: New garden parameters without id
       consumes:
         - "application/json"
       produces:
         - "application/json"
       responses:
-        '201':
+        "201":
           description: "New garden with id"
           schema:
-            $ref: '#/definitions/Garden'
+            $ref: "#/definitions/Garden"
           headers:
             X-Request-Id:
               description: The request id this is a response to
@@ -457,7 +410,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/gardens/{garden_id}:
     get:
       tags:
@@ -474,14 +427,14 @@ paths:
           required: true
           description: Numeric ID of the user's garden to get.
       responses:
-        '200':
+        "200":
           description: "Exists garden"
           headers:
             X-Request-Id:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/Garden'
+            $ref: "#/definitions/Garden"
         default:
           description: "unexpected error"
           headers:
@@ -489,7 +442,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
         - "gardens"
@@ -505,10 +458,10 @@ paths:
       produces:
         - "application/json"
       responses:
-        '200':
+        "200":
           description: "Garden deleted"
           schema:
-            $ref: '#/definitions/Response'
+            $ref: "#/definitions/Response"
           headers:
             X-Request-Id:
               description: The request id this is a response to
@@ -520,7 +473,42 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
+  /api/v1/plant:
+    post:
+      tags:
+        - "plant"
+      summary: "Add a new plant for user"
+      description: "Add a new plant for user"
+      operationId: "createUserPlant"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "plant"
+          description: "New plant parameters of user"
+          required: true
+          schema:
+            $ref: "#/definitions/Plant"
+      responses:
+        "200":
+          description: "Plant added"
+          schema:
+            $ref: "#/definitions/Response"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/version:
     get:
       tags:
@@ -531,14 +519,14 @@ paths:
       produces:
         - "application/json"
       responses:
-        '200':
+        "200":
           description: "version info"
           headers:
             X-Request-Id:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ApiVersion'
+            $ref: "#/definitions/ApiVersion"
         default:
           description: "unexpected error"
           headers:
@@ -546,14 +534,14 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: "#/definitions/ErrorResponse"
   /metrics:
     get:
       tags:
         - health
       summary: "Prometheus metrics"
       produces:
-      - "text/plain"
+        - "text/plain"
       responses:
         200:
           description: ok
@@ -562,7 +550,7 @@ paths:
 definitions:
   UserLoginPassword:
     type: "object"
-    required: [login,password]
+    required: [login, password]
     properties:
       login:
         type: "string"
@@ -635,7 +623,7 @@ definitions:
         description: "owner identifier"
       title:
         type: "string"
-        example: "rose"   
+        example: "rose"
       description:
         type: "string"
   Gardens:
@@ -646,9 +634,9 @@ definitions:
     type: "object"
     properties:
       data:
-        $ref: '#/definitions/Gardens'
+        $ref: "#/definitions/Gardens"
       result_set:
-        $ref: '#/definitions/ResultSet'
+        $ref: "#/definitions/ResultSet"
   ApiResponse:
     type: "object"
     properties:
@@ -661,7 +649,7 @@ definitions:
         type: "string"
   ApiVersion:
     type: "object"
-    properties: 
+    properties:
       version:
         type: "string"
       githash:
@@ -671,17 +659,85 @@ definitions:
         format: "date-time"
   ErrorResponse:
     type: "object"
-    properties: 
+    properties:
       message:
         type: "string"
+  ShortInfo:
+    type: "object"
+    properties:
+      kind:
+        type: "string"
+      recommend_Position:
+        type: "string"
+      regard_To_Light:
+        type: "string"
+      regard_To_Moisture:
+        type: "string"
+      flowering_Time:
+        type: "string"
+      hight:
+        type: "string"
+      classifiers:
+        type: "string"
+  Info:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+      content:
+        type: "string"
+  RefPlant:
+    type: "object"
+    required:
+      - "title"
+      - "images"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      category:
+        type: "integer"
+        format: "int32"
+      shortInfo:
+        $ref: "#/definitions/ShortInfo"
+      images:
+        type: "array"
+        items:
+          type: "string"
+      infos:
+        type: "array"
+        items:
+          $ref: "#/definitions/Info"
+      creater:
+        type: "string"
+      createdAt:
+        x-go-type:
+          type: "Time"
+          import:
+            package: "time"
+          hints:
+            noValidation: true
+      modifier:
+        type: string
+        minLength: 0
+      modifiedAt:
+        x-go-type:
+          type: "Time"
+          import:
+            package: "time"
+          hints:
+            noValidation: true
+        x-nullable: true
   Response:
     type: "object"
-    properties: 
+    properties:
       message:
         type: "string"
   ResultSet:
     type: "object"
-    properties: 
+    properties:
       count:
         type: "integer"
         format: "int64"

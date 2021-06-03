@@ -18,35 +18,35 @@ import (
 	"github.com/kaatinga/plantbook/internal/api/models"
 )
 
-// NewUpdatePlantParams creates a new UpdatePlantParams object
+// NewCreateUserPlantParams creates a new CreateUserPlantParams object
 //
 // There are no default values defined in the spec.
-func NewUpdatePlantParams() UpdatePlantParams {
+func NewCreateUserPlantParams() CreateUserPlantParams {
 
-	return UpdatePlantParams{}
+	return CreateUserPlantParams{}
 }
 
-// UpdatePlantParams contains all the bound params for the update plant operation
+// CreateUserPlantParams contains all the bound params for the create user plant operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters updatePlant
-type UpdatePlantParams struct {
+// swagger:parameters createUserPlant
+type CreateUserPlantParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*Plant object that needs to be added to the garden
+	/*New plant parameters of user
 	  Required: true
 	  In: body
 	*/
-	Body *models.Plant
+	Plant *models.Plant
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewUpdatePlantParams() beforehand.
-func (o *UpdatePlantParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewCreateUserPlantParams() beforehand.
+func (o *CreateUserPlantParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -56,9 +56,9 @@ func (o *UpdatePlantParams) BindRequest(r *http.Request, route *middleware.Match
 		var body models.Plant
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			if err == io.EOF {
-				res = append(res, errors.Required("body", "body", ""))
+				res = append(res, errors.Required("plant", "body", ""))
 			} else {
-				res = append(res, errors.NewParseError("body", "body", "", err))
+				res = append(res, errors.NewParseError("plant", "body", "", err))
 			}
 		} else {
 			// validate body object
@@ -72,11 +72,11 @@ func (o *UpdatePlantParams) BindRequest(r *http.Request, route *middleware.Match
 			}
 
 			if len(res) == 0 {
-				o.Body = &body
+				o.Plant = &body
 			}
 		}
 	} else {
-		res = append(res, errors.Required("body", "body", ""))
+		res = append(res, errors.Required("plant", "body", ""))
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)

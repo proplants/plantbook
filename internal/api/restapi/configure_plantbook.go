@@ -20,11 +20,12 @@ import (
 
 	ghandlers "github.com/kaatinga/plantbook/internal/api/handlers/gardens"
 	hhandlers "github.com/kaatinga/plantbook/internal/api/handlers/health"
+	phandlers "github.com/kaatinga/plantbook/internal/api/handlers/plants"
+	rphandlers "github.com/kaatinga/plantbook/internal/api/handlers/refplants"
 	uhandlers "github.com/kaatinga/plantbook/internal/api/handlers/users"
 	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/repo"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
 	"github.com/kaatinga/plantbook/internal/config"
 	"github.com/kaatinga/plantbook/internal/metric"
@@ -94,8 +95,12 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	api.UserLoginUserHandler = uhandlers.NewLoginUserHandler(storage, tm, tokenExpireDelay)
 	api.UserLogoutUserHandler = uhandlers.NewLogoutUserHandler(tokenExpireDelay)
 
+	// reference plants
+	api.RefplantGetRefPlantsHandler = rphandlers.NewGetRefPlantsHandler(storage)
+	api.RefplantGetRefPlantByIDHandler = rphandlers.NewGetRefPlantByIDHandler(storage)
+	//
 	// plants
-
+	api.PlantCreateUserPlantHandler = phandlers.NewCreateUserPlantHandler(storage)
 	// gardens
 	api.GardensCreateUserGardenHandler = ghandlers.NewCreateUserGardenHandler(storage, tm)
 	api.GardensDeleteUserGardenHandler = ghandlers.NewDeleteUserGardenHandler(storage, tm)
@@ -106,8 +111,8 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	// api.UseRedoc()
 
 	api.JSONConsumer = runtime.JSONConsumer()
-	api.MultipartformConsumer = runtime.DiscardConsumer
-	api.UrlformConsumer = runtime.DiscardConsumer
+	// api.MultipartformConsumer = runtime.DiscardConsumer
+	// api.UrlformConsumer = runtime.DiscardConsumer
 
 	api.JSONProducer = runtime.JSONProducer()
 
@@ -116,55 +121,55 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	// You may change here the memory limit for this multipart form parser. Below is the default (32 MB).
 	// plant.UploadFileMaxParseMemory = 32 << 20
 
-	if api.PlantAddPlantHandler == nil {
-		api.PlantAddPlantHandler = plant.AddPlantHandlerFunc(func(params plant.AddPlantParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.AddPlant has not yet been implemented")
-		})
-	}
+	// if api.PlantAddPlantHandler == nil {
+	// 	api.PlantAddPlantHandler = plant.AddPlantHandlerFunc(func(params plant.AddPlantParams) middleware.Responder {
+	// 		return middleware.NotImplemented("operation plant.AddPlant has not yet been implemented")
+	// 	})
+	// }
 
-	if api.PlantDeletePlantHandler == nil {
-		api.PlantDeletePlantHandler = plant.DeletePlantHandlerFunc(func(params plant.DeletePlantParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.DeletePlant has not yet been implemented")
-		})
-	}
+	// if api.PlantDeletePlantHandler == nil {
+	// 	api.PlantDeletePlantHandler = plant.DeletePlantHandlerFunc(func(params plant.DeletePlantParams) middleware.Responder {
+	// 		return middleware.NotImplemented("operation plant.DeletePlant has not yet been implemented")
+	// 	})
+	// }
 	if api.UserDeleteUserHandler == nil {
 		api.UserDeleteUserHandler = user.DeleteUserHandlerFunc(func(params user.DeleteUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.DeleteUser has not yet been implemented")
 		})
 	}
-	if api.PlantGetPlantByIDHandler == nil {
-		api.PlantGetPlantByIDHandler = plant.GetPlantByIDHandlerFunc(
-			func(params plant.GetPlantByIDParams) middleware.Responder {
-				return middleware.NotImplemented("operation plant.GetPlantByID has not yet been implemented")
-			})
-	}
+	// if api.PlantGetPlantByIDHandler == nil {
+	// 	api.PlantGetPlantByIDHandler = plant.GetPlantByIDHandlerFunc(
+	// 		func(params plant.GetPlantByIDParams) middleware.Responder {
+	// 			return middleware.NotImplemented("operation plant.GetPlantByID has not yet been implemented")
+	// 		})
+	// }
 	if api.UserGetUserByNameHandler == nil {
 		api.UserGetUserByNameHandler = user.GetUserByNameHandlerFunc(
 			func(params user.GetUserByNameParams) middleware.Responder {
 				return middleware.NotImplemented("operation user.GetUserByName has not yet been implemented")
 			})
 	}
-	if api.PlantUpdatePlantHandler == nil {
-		api.PlantUpdatePlantHandler = plant.UpdatePlantHandlerFunc(func(params plant.UpdatePlantParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.UpdatePlant has not yet been implemented")
-		})
-	}
-	if api.PlantUpdatePlantWithFormHandler == nil {
-		api.PlantUpdatePlantWithFormHandler = plant.UpdatePlantWithFormHandlerFunc(
-			func(params plant.UpdatePlantWithFormParams) middleware.Responder {
-				return middleware.NotImplemented("operation plant.UpdatePlantWithForm has not yet been implemented")
-			})
-	}
+	// if api.PlantUpdatePlantHandler == nil {
+	// 	api.PlantUpdatePlantHandler = plant.UpdatePlantHandlerFunc(func(params plant.UpdatePlantParams) middleware.Responder {
+	// 		return middleware.NotImplemented("operation plant.UpdatePlant has not yet been implemented")
+	// 	})
+	// }
+	// if api.PlantUpdatePlantWithFormHandler == nil {
+	// 	api.PlantUpdatePlantWithFormHandler = plant.UpdatePlantWithFormHandlerFunc(
+	// 		func(params plant.UpdatePlantWithFormParams) middleware.Responder {
+	// 			return middleware.NotImplemented("operation plant.UpdatePlantWithForm has not yet been implemented")
+	// 		})
+	// }
 	if api.UserUpdateUserHandler == nil {
 		api.UserUpdateUserHandler = user.UpdateUserHandlerFunc(func(params user.UpdateUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.UpdateUser has not yet been implemented")
 		})
 	}
-	if api.PlantUploadFileHandler == nil {
-		api.PlantUploadFileHandler = plant.UploadFileHandlerFunc(func(params plant.UploadFileParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.UploadFile has not yet been implemented")
-		})
-	}
+	// if api.PlantUploadFileHandler == nil {
+	// 	api.PlantUploadFileHandler = plant.UploadFileHandlerFunc(func(params plant.UploadFileParams) middleware.Responder {
+	// 		return middleware.NotImplemented("operation plant.UploadFile has not yet been implemented")
+	// 	})
+	// }
 
 	api.PreServerShutdown = func() {}
 

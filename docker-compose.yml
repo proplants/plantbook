@@ -1,0 +1,45 @@
+# Для локального запуска базы + миграция + api server
+version: '3'
+services:
+  # База данных
+  postgresql:
+    image: "postgres:13.2"
+    restart: always
+    container_name: postgres_plantbook
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: plantbook_admin
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: plantbook_admin
+      PG_DATA: /var/lib/pgdata
+
+  #  Миграция
+  migrate:
+    image: "migrate/migrate:v4.14.1"
+    links:
+      - postgresql
+    restart: on-failure
+    container_name: migrate_postgres
+    volumes:
+      - ./database/migrations_schema:/database/migrations_schema
+    working_dir: /database
+
+    entrypoint: migrate -database postgres://plantbook_admin:mypassword@postgresql:5432/plantbook_admin?sslmode=disable -path ./migrations_schema up
+
+  #plantbook-server
+  plantbook-server:
+    build: 
+      context: .
+      dockerfile: ./build/restapi/Dockerfile
+    links:
+        - postgresql
+    restart: on-failure
+    container_name: plantbook-server
+    depends_on:
+      - postgresql
+    ports:
+      - "8085:8081"
+      - "8086:8082"
+    environment:
+      PLANTBOOK_DB_URL: postgres://plantbook_admin:mypassword@postgresql:5432/plantbook_admin?sslmode=disable

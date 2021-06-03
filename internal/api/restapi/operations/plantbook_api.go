@@ -22,6 +22,7 @@ import (
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/gardens"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
+	"github.com/kaatinga/plantbook/internal/api/restapi/operations/refplant"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
 )
 
@@ -43,18 +44,13 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		APIKeyAuthenticator: security.APIKeyAuth,
 		BearerAuthenticator: security.BearerAuth,
 
-		JSONConsumer:          runtime.JSONConsumer(),
-		MultipartformConsumer: runtime.DiscardConsumer,
-		UrlformConsumer:       runtime.DiscardConsumer,
+		JSONConsumer: runtime.JSONConsumer(),
 
 		JSONProducer: runtime.JSONProducer(),
 		TxtProducer:  runtime.TextProducer(),
 
 		HealthGetMetricsHandler: health.GetMetricsHandlerFunc(func(params health.GetMetricsParams) middleware.Responder {
 			return middleware.NotImplemented("operation health.GetMetrics has not yet been implemented")
-		}),
-		PlantAddPlantHandler: plant.AddPlantHandlerFunc(func(params plant.AddPlantParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.AddPlant has not yet been implemented")
 		}),
 		HealthAPIVersionHandler: health.APIVersionHandlerFunc(func(params health.APIVersionParams) middleware.Responder {
 			return middleware.NotImplemented("operation health.APIVersion has not yet been implemented")
@@ -65,8 +61,8 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		GardensCreateUserGardenHandler: gardens.CreateUserGardenHandlerFunc(func(params gardens.CreateUserGardenParams) middleware.Responder {
 			return middleware.NotImplemented("operation gardens.CreateUserGarden has not yet been implemented")
 		}),
-		PlantDeletePlantHandler: plant.DeletePlantHandlerFunc(func(params plant.DeletePlantParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.DeletePlant has not yet been implemented")
+		PlantCreateUserPlantHandler: plant.CreateUserPlantHandlerFunc(func(params plant.CreateUserPlantParams) middleware.Responder {
+			return middleware.NotImplemented("operation plant.CreateUserPlant has not yet been implemented")
 		}),
 		UserDeleteUserHandler: user.DeleteUserHandlerFunc(func(params user.DeleteUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.DeleteUser has not yet been implemented")
@@ -74,8 +70,11 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		GardensDeleteUserGardenHandler: gardens.DeleteUserGardenHandlerFunc(func(params gardens.DeleteUserGardenParams) middleware.Responder {
 			return middleware.NotImplemented("operation gardens.DeleteUserGarden has not yet been implemented")
 		}),
-		PlantGetPlantByIDHandler: plant.GetPlantByIDHandlerFunc(func(params plant.GetPlantByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.GetPlantByID has not yet been implemented")
+		RefplantGetRefPlantByIDHandler: refplant.GetRefPlantByIDHandlerFunc(func(params refplant.GetRefPlantByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation refplant.GetRefPlantByID has not yet been implemented")
+		}),
+		RefplantGetRefPlantsHandler: refplant.GetRefPlantsHandlerFunc(func(params refplant.GetRefPlantsParams) middleware.Responder {
+			return middleware.NotImplemented("operation refplant.GetRefPlants has not yet been implemented")
 		}),
 		UserGetUserByNameHandler: user.GetUserByNameHandlerFunc(func(params user.GetUserByNameParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.GetUserByName has not yet been implemented")
@@ -98,17 +97,8 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		UserLogoutUserHandler: user.LogoutUserHandlerFunc(func(params user.LogoutUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.LogoutUser has not yet been implemented")
 		}),
-		PlantUpdatePlantHandler: plant.UpdatePlantHandlerFunc(func(params plant.UpdatePlantParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.UpdatePlant has not yet been implemented")
-		}),
-		PlantUpdatePlantWithFormHandler: plant.UpdatePlantWithFormHandlerFunc(func(params plant.UpdatePlantWithFormParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.UpdatePlantWithForm has not yet been implemented")
-		}),
 		UserUpdateUserHandler: user.UpdateUserHandlerFunc(func(params user.UpdateUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.UpdateUser has not yet been implemented")
-		}),
-		PlantUploadFileHandler: plant.UploadFileHandlerFunc(func(params plant.UploadFileParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.UploadFile has not yet been implemented")
 		}),
 	}
 }
@@ -141,12 +131,6 @@ type PlantbookAPI struct {
 	// JSONConsumer registers a consumer for the following mime types:
 	//   - application/json
 	JSONConsumer runtime.Consumer
-	// MultipartformConsumer registers a consumer for the following mime types:
-	//   - multipart/form-data
-	MultipartformConsumer runtime.Consumer
-	// UrlformConsumer registers a consumer for the following mime types:
-	//   - application/x-www-form-urlencoded
-	UrlformConsumer runtime.Consumer
 
 	// JSONProducer registers a producer for the following mime types:
 	//   - application/json
@@ -157,22 +141,22 @@ type PlantbookAPI struct {
 
 	// HealthGetMetricsHandler sets the operation handler for the get metrics operation
 	HealthGetMetricsHandler health.GetMetricsHandler
-	// PlantAddPlantHandler sets the operation handler for the add plant operation
-	PlantAddPlantHandler plant.AddPlantHandler
 	// HealthAPIVersionHandler sets the operation handler for the api version operation
 	HealthAPIVersionHandler health.APIVersionHandler
 	// UserCreateUserHandler sets the operation handler for the create user operation
 	UserCreateUserHandler user.CreateUserHandler
 	// GardensCreateUserGardenHandler sets the operation handler for the create user garden operation
 	GardensCreateUserGardenHandler gardens.CreateUserGardenHandler
-	// PlantDeletePlantHandler sets the operation handler for the delete plant operation
-	PlantDeletePlantHandler plant.DeletePlantHandler
+	// PlantCreateUserPlantHandler sets the operation handler for the create user plant operation
+	PlantCreateUserPlantHandler plant.CreateUserPlantHandler
 	// UserDeleteUserHandler sets the operation handler for the delete user operation
 	UserDeleteUserHandler user.DeleteUserHandler
 	// GardensDeleteUserGardenHandler sets the operation handler for the delete user garden operation
 	GardensDeleteUserGardenHandler gardens.DeleteUserGardenHandler
-	// PlantGetPlantByIDHandler sets the operation handler for the get plant by Id operation
-	PlantGetPlantByIDHandler plant.GetPlantByIDHandler
+	// RefplantGetRefPlantByIDHandler sets the operation handler for the get ref plant by Id operation
+	RefplantGetRefPlantByIDHandler refplant.GetRefPlantByIDHandler
+	// RefplantGetRefPlantsHandler sets the operation handler for the get ref plants operation
+	RefplantGetRefPlantsHandler refplant.GetRefPlantsHandler
 	// UserGetUserByNameHandler sets the operation handler for the get user by name operation
 	UserGetUserByNameHandler user.GetUserByNameHandler
 	// GardensGetUserGardenByIDHandler sets the operation handler for the get user garden by ID operation
@@ -187,14 +171,8 @@ type PlantbookAPI struct {
 	UserLoginUserHandler user.LoginUserHandler
 	// UserLogoutUserHandler sets the operation handler for the logout user operation
 	UserLogoutUserHandler user.LogoutUserHandler
-	// PlantUpdatePlantHandler sets the operation handler for the update plant operation
-	PlantUpdatePlantHandler plant.UpdatePlantHandler
-	// PlantUpdatePlantWithFormHandler sets the operation handler for the update plant with form operation
-	PlantUpdatePlantWithFormHandler plant.UpdatePlantWithFormHandler
 	// UserUpdateUserHandler sets the operation handler for the update user operation
 	UserUpdateUserHandler user.UpdateUserHandler
-	// PlantUploadFileHandler sets the operation handler for the upload file operation
-	PlantUploadFileHandler plant.UploadFileHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -267,12 +245,6 @@ func (o *PlantbookAPI) Validate() error {
 	if o.JSONConsumer == nil {
 		unregistered = append(unregistered, "JSONConsumer")
 	}
-	if o.MultipartformConsumer == nil {
-		unregistered = append(unregistered, "MultipartformConsumer")
-	}
-	if o.UrlformConsumer == nil {
-		unregistered = append(unregistered, "UrlformConsumer")
-	}
 
 	if o.JSONProducer == nil {
 		unregistered = append(unregistered, "JSONProducer")
@@ -284,9 +256,6 @@ func (o *PlantbookAPI) Validate() error {
 	if o.HealthGetMetricsHandler == nil {
 		unregistered = append(unregistered, "health.GetMetricsHandler")
 	}
-	if o.PlantAddPlantHandler == nil {
-		unregistered = append(unregistered, "plant.AddPlantHandler")
-	}
 	if o.HealthAPIVersionHandler == nil {
 		unregistered = append(unregistered, "health.APIVersionHandler")
 	}
@@ -296,8 +265,8 @@ func (o *PlantbookAPI) Validate() error {
 	if o.GardensCreateUserGardenHandler == nil {
 		unregistered = append(unregistered, "gardens.CreateUserGardenHandler")
 	}
-	if o.PlantDeletePlantHandler == nil {
-		unregistered = append(unregistered, "plant.DeletePlantHandler")
+	if o.PlantCreateUserPlantHandler == nil {
+		unregistered = append(unregistered, "plant.CreateUserPlantHandler")
 	}
 	if o.UserDeleteUserHandler == nil {
 		unregistered = append(unregistered, "user.DeleteUserHandler")
@@ -305,8 +274,11 @@ func (o *PlantbookAPI) Validate() error {
 	if o.GardensDeleteUserGardenHandler == nil {
 		unregistered = append(unregistered, "gardens.DeleteUserGardenHandler")
 	}
-	if o.PlantGetPlantByIDHandler == nil {
-		unregistered = append(unregistered, "plant.GetPlantByIDHandler")
+	if o.RefplantGetRefPlantByIDHandler == nil {
+		unregistered = append(unregistered, "refplant.GetRefPlantByIDHandler")
+	}
+	if o.RefplantGetRefPlantsHandler == nil {
+		unregistered = append(unregistered, "refplant.GetRefPlantsHandler")
 	}
 	if o.UserGetUserByNameHandler == nil {
 		unregistered = append(unregistered, "user.GetUserByNameHandler")
@@ -329,17 +301,8 @@ func (o *PlantbookAPI) Validate() error {
 	if o.UserLogoutUserHandler == nil {
 		unregistered = append(unregistered, "user.LogoutUserHandler")
 	}
-	if o.PlantUpdatePlantHandler == nil {
-		unregistered = append(unregistered, "plant.UpdatePlantHandler")
-	}
-	if o.PlantUpdatePlantWithFormHandler == nil {
-		unregistered = append(unregistered, "plant.UpdatePlantWithFormHandler")
-	}
 	if o.UserUpdateUserHandler == nil {
 		unregistered = append(unregistered, "user.UpdateUserHandler")
-	}
-	if o.PlantUploadFileHandler == nil {
-		unregistered = append(unregistered, "plant.UploadFileHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -372,10 +335,6 @@ func (o *PlantbookAPI) ConsumersFor(mediaTypes []string) map[string]runtime.Cons
 		switch mt {
 		case "application/json":
 			result["application/json"] = o.JSONConsumer
-		case "multipart/form-data":
-			result["multipart/form-data"] = o.MultipartformConsumer
-		case "application/x-www-form-urlencoded":
-			result["application/x-www-form-urlencoded"] = o.UrlformConsumer
 		}
 
 		if c, ok := o.customConsumers[mt]; ok {
@@ -439,10 +398,6 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/metrics"] = health.NewGetMetrics(o.context, o.HealthGetMetricsHandler)
-	if o.handlers["POST"] == nil {
-		o.handlers["POST"] = make(map[string]http.Handler)
-	}
-	o.handlers["POST"]["/api/v1/plant"] = plant.NewAddPlant(o.context, o.PlantAddPlantHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -455,10 +410,10 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/api/v1/gardens"] = gardens.NewCreateUserGarden(o.context, o.GardensCreateUserGardenHandler)
-	if o.handlers["DELETE"] == nil {
-		o.handlers["DELETE"] = make(map[string]http.Handler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/api/v1/plant/{plantId}"] = plant.NewDeletePlant(o.context, o.PlantDeletePlantHandler)
+	o.handlers["POST"]["/api/v1/plant"] = plant.NewCreateUserPlant(o.context, o.PlantCreateUserPlantHandler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
@@ -470,7 +425,11 @@ func (o *PlantbookAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/api/v1/plant/{plantId}"] = plant.NewGetPlantByID(o.context, o.PlantGetPlantByIDHandler)
+	o.handlers["GET"]["/api/v1/refplant/{id}"] = refplant.NewGetRefPlantByID(o.context, o.RefplantGetRefPlantByIDHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/api/v1/refplants"] = refplant.NewGetRefPlants(o.context, o.RefplantGetRefPlantsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -502,19 +461,7 @@ func (o *PlantbookAPI) initHandlerCache() {
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
-	o.handlers["PUT"]["/api/v1/plant"] = plant.NewUpdatePlant(o.context, o.PlantUpdatePlantHandler)
-	if o.handlers["POST"] == nil {
-		o.handlers["POST"] = make(map[string]http.Handler)
-	}
-	o.handlers["POST"]["/api/v1/plant/{plantId}"] = plant.NewUpdatePlantWithForm(o.context, o.PlantUpdatePlantWithFormHandler)
-	if o.handlers["PUT"] == nil {
-		o.handlers["PUT"] = make(map[string]http.Handler)
-	}
 	o.handlers["PUT"]["/api/v1/user/{username}"] = user.NewUpdateUser(o.context, o.UserUpdateUserHandler)
-	if o.handlers["POST"] == nil {
-		o.handlers["POST"] = make(map[string]http.Handler)
-	}
-	o.handlers["POST"]["/api/v1/plant/{plantId}/uploadImage"] = plant.NewUploadFile(o.context, o.PlantUploadFileHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP
