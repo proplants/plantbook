@@ -474,6 +474,41 @@ paths:
               type: string
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /api/v1/plant:
+    post:
+      tags:
+        - "plant"
+      summary: "Add a new plant for user"
+      description: "Add a new plant for user"
+      operationId: "createUserPlant"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "plant"
+          description: "New plant parameters of user"
+          required: true
+          schema:
+            $ref: "#/definitions/Plant"
+      responses:
+        "200":
+          description: "Plant added"
+          schema:
+            $ref: "#/definitions/Response"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/version:
     get:
       tags:

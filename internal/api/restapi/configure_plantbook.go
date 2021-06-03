@@ -20,6 +20,7 @@ import (
 
 	ghandlers "github.com/kaatinga/plantbook/internal/api/handlers/gardens"
 	hhandlers "github.com/kaatinga/plantbook/internal/api/handlers/health"
+	phandlers "github.com/kaatinga/plantbook/internal/api/handlers/plants"
 	rphandlers "github.com/kaatinga/plantbook/internal/api/handlers/refplants"
 	uhandlers "github.com/kaatinga/plantbook/internal/api/handlers/users"
 	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
@@ -99,7 +100,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	api.RefplantGetRefPlantByIDHandler = rphandlers.NewGetRefPlantByIDHandler(storage)
 	//
 	// plants
-
+	api.PlantCreateUserPlantHandler = phandlers.NewCreateUserPlantHandler(storage)
 	// gardens
 	api.GardensCreateUserGardenHandler = ghandlers.NewCreateUserGardenHandler(storage, tm)
 	api.GardensDeleteUserGardenHandler = ghandlers.NewDeleteUserGardenHandler(storage, tm)

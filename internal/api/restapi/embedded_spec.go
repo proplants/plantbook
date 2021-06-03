@@ -233,6 +233,59 @@ func init() {
         }
       }
     },
+    "/api/v1/plant": {
+      "post": {
+        "description": "Add a new plant for user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "plant"
+        ],
+        "summary": "Add a new plant for user",
+        "operationId": "createUserPlant",
+        "parameters": [
+          {
+            "description": "New plant parameters of user",
+            "name": "plant",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Plant"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plant added",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/refplant/{id}": {
       "get": {
         "description": "Returns a single reference plant",
@@ -275,7 +328,7 @@ func init() {
             "headers": {
               "X-Request-Id": {
                 "type": "string",
-                "description": "error"
+                "description": "The request id this is a response to"
               }
             }
           }
@@ -380,7 +433,7 @@ func init() {
             "headers": {
               "X-Request-Id": {
                 "type": "string",
-                "description": "error"
+                "description": "The request id this is a response to"
               }
             }
           }
@@ -1294,6 +1347,59 @@ func init() {
         }
       }
     },
+    "/api/v1/plant": {
+      "post": {
+        "description": "Add a new plant for user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "plant"
+        ],
+        "summary": "Add a new plant for user",
+        "operationId": "createUserPlant",
+        "parameters": [
+          {
+            "description": "New plant parameters of user",
+            "name": "plant",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Plant"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plant added",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/refplant/{id}": {
       "get": {
         "description": "Returns a single reference plant",
@@ -1336,7 +1442,7 @@ func init() {
             "headers": {
               "X-Request-Id": {
                 "type": "string",
-                "description": "error"
+                "description": "The request id this is a response to"
               }
             }
           }
@@ -1441,7 +1547,7 @@ func init() {
             "headers": {
               "X-Request-Id": {
                 "type": "string",
-                "description": "error"
+                "description": "The request id this is a response to"
               }
             }
           }
