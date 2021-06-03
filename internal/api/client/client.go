@@ -16,7 +16,7 @@ const (
 	maxIdleConns int    = 10
 )
 
-// API rest-api client for plantbook-server
+// API rest-api client for plantbook-server.
 type API struct {
 	apiPrefix string
 	baseURL   *url.URL
