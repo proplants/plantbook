@@ -32,22 +32,23 @@ func TestAPI_Auth(t *testing.T) {
 	wantCookie := &http.Cookie{Name: middleware.JWTCookieName}
 	// test cases
 	tests := []struct {
-		name    string
-		ctx     context.Context
-		url     string
-		params  models.UserLoginPassword
-		want    *http.Cookie
-		want1   int
-		wantErr bool
+		name       string
+		ctx        context.Context
+		url        string
+		apiVersion string
+		params     models.UserLoginPassword
+		want       *http.Cookie
+		want1      int
+		wantErr    bool
 	}{
-		{"200_fillLoginPass_errFalse", ctx, tsOK.URL, models.UserLoginPassword{Login: &uLogin, Password: &uPassword}, wantCookie, http.StatusOK, false},
-		{"400_emptyLoginPass_errTrue", ctx, tsOK.URL, models.UserLoginPassword{Login: &uEmptyLogin, Password: &uEmptyPassword}, wantCookie, http.StatusBadRequest, true},
-		{"200_missCookie_errTrue", ctx, tsFail.URL, models.UserLoginPassword{Login: &uLogin, Password: &uPassword}, wantCookie, http.StatusOK, true},
-		{"500_any_errTrue", ctx, "http://127.0.0.1", models.UserLoginPassword{Login: &uLogin, Password: &uPassword}, wantCookie, http.StatusInternalServerError, true},
+		{"200_fillLoginPass_errFalse", ctx, tsOK.URL, APIV1URL, models.UserLoginPassword{Login: &uLogin, Password: &uPassword}, wantCookie, http.StatusOK, false},
+		{"400_emptyLoginPass_errTrue", ctx, tsOK.URL, APIV1URL, models.UserLoginPassword{Login: &uEmptyLogin, Password: &uEmptyPassword}, wantCookie, http.StatusBadRequest, true},
+		{"200_missCookie_errTrue", ctx, tsFail.URL, APIV1URL, models.UserLoginPassword{Login: &uLogin, Password: &uPassword}, wantCookie, http.StatusOK, true},
+		{"500_any_errTrue", ctx, "http://127.0.0.1", APIV1URL, models.UserLoginPassword{Login: &uLogin, Password: &uPassword}, wantCookie, http.StatusInternalServerError, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			api, err := New(tt.url, timeoutTestAPI)
+			api, err := New(tt.url, tt.apiVersion, timeoutTestAPI)
 			if err != nil {
 				t.Errorf("unexpected new api error, %s", err)
 				return
@@ -78,7 +79,7 @@ func TestAPI_Auth(t *testing.T) {
 func dummyPlantbookServer(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	switch path {
-	case cliAuthURL:
+	case APIV1URL + cliAuthURL:
 		if !methodCheck(http.MethodPost, w, r) {
 			return
 		}
@@ -110,14 +111,13 @@ func dummyPlantbookServer(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// dummyPlantbookServer
+// dummyPlantbookServerMissCookie
 // need more similar as origin server,
-// Auth checks only empty or not login&password
-//
+// Auth checks only empty or not login&password and doesn't set cookie
 func dummyPlantbookServerMissCookie(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	switch path {
-	case cliAuthURL:
+	case APIV1URL + cliAuthURL:
 		if !methodCheck(http.MethodPost, w, r) {
 			return
 		}

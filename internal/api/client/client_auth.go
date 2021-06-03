@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	"github.com/kaatinga/plantbook/internal/api/middleware"
@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	cliAuthURL string = "/api/v1/user/login"
+	cliAuthURL string = "/user/login"
 )
 
 // Auth request session cookie from api by pass loginPassword credentials,
@@ -39,7 +39,7 @@ func (a *API) Auth(ctx context.Context, params models.UserLoginPassword) (*http.
 	defer resp.Body.Close()
 	// process response
 	if resp.StatusCode != http.StatusOK {
-		body, err := ioutil.ReadAll(resp.Body)
+		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			body = []byte{}
 		}
