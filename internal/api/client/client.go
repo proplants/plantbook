@@ -16,13 +16,14 @@ const (
 	maxIdleConns int    = 10
 )
 
+// API rest-api client for plantbook-server
 type API struct {
 	apiPrefix string
 	baseURL   *url.URL
 	handler   *http.Client
 }
 
-// New builder for API
+// New builder for API.
 func New(uri, apiVersionURL string, timeout time.Duration) (*API, error) {
 	u, err := url.Parse(uri + apiVersionURL)
 	if err != nil {
