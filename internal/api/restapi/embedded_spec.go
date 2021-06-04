@@ -262,7 +262,7 @@ func init() {
           "200": {
             "description": "Plant added",
             "schema": {
-              "$ref": "#/definitions/Response"
+              "$ref": "#/definitions/Plant"
             },
             "headers": {
               "X-Request-Id": {
@@ -1376,7 +1376,7 @@ func init() {
           "200": {
             "description": "Plant added",
             "schema": {
-              "$ref": "#/definitions/Response"
+              "$ref": "#/definitions/Plant"
             },
             "headers": {
               "X-Request-Id": {
