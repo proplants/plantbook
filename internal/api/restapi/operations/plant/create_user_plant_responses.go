@@ -29,7 +29,7 @@ type CreateUserPlantOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *models.Response `json:"body,omitempty"`
+	Payload *models.Plant `json:"body,omitempty"`
 }
 
 // NewCreateUserPlantOK creates CreateUserPlantOK with default headers values
@@ -50,13 +50,13 @@ func (o *CreateUserPlantOK) SetXRequestID(xRequestID string) {
 }
 
 // WithPayload adds the payload to the create user plant o k response
-func (o *CreateUserPlantOK) WithPayload(payload *models.Response) *CreateUserPlantOK {
+func (o *CreateUserPlantOK) WithPayload(payload *models.Plant) *CreateUserPlantOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the create user plant o k response
-func (o *CreateUserPlantOK) SetPayload(payload *models.Response) {
+func (o *CreateUserPlantOK) SetPayload(payload *models.Plant) {
 	o.Payload = payload
 }
 

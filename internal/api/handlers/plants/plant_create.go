@@ -56,4 +56,13 @@ func (impl *createPlantImpl) Handle(params plant.CreateUserPlantParams) middlewa
 	if roleID == handlers.UserRoleGardener || params.Plant.UserID == 0 {
 		params.Plant.UserID = uid
 	}
+	newPlant, err := impl.storage.StorePlant(params.HTTPRequest.Context(), params.Plant)
+	if err != nil {
+		log.Errorf("Handle StoragePlant error, %s", err)
+		return plant.NewCreateUserPlantDefault(http.StatusInternalServerError).
+			WithPayload(&models.ErrorResponse{Message: "db error"})
+	}
+
+	return plant.NewCreateUserPlantOK().WithPayload(newPlant).
+		WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 }

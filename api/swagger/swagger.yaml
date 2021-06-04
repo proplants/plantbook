@@ -496,7 +496,7 @@ paths:
         "200":
           description: "Plant added"
           schema:
-            $ref: "#/definitions/Response"
+            $ref: "#/definitions/Plant"
           headers:
             X-Request-Id:
               description: The request id this is a response to
