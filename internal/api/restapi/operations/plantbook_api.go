@@ -21,9 +21,9 @@ import (
 
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/gardens"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/refplant"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
+	"github.com/kaatinga/plantbook/internal/api/restapi/operations/userplant"
 )
 
 // NewPlantbookAPI creates a new Plantbook instance
@@ -61,8 +61,8 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		GardensCreateUserGardenHandler: gardens.CreateUserGardenHandlerFunc(func(params gardens.CreateUserGardenParams) middleware.Responder {
 			return middleware.NotImplemented("operation gardens.CreateUserGarden has not yet been implemented")
 		}),
-		PlantCreateUserPlantHandler: plant.CreateUserPlantHandlerFunc(func(params plant.CreateUserPlantParams) middleware.Responder {
-			return middleware.NotImplemented("operation plant.CreateUserPlant has not yet been implemented")
+		UserplantCreateUserPlantHandler: userplant.CreateUserPlantHandlerFunc(func(params userplant.CreateUserPlantParams) middleware.Responder {
+			return middleware.NotImplemented("operation userplant.CreateUserPlant has not yet been implemented")
 		}),
 		UserDeleteUserHandler: user.DeleteUserHandlerFunc(func(params user.DeleteUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.DeleteUser has not yet been implemented")
@@ -147,8 +147,8 @@ type PlantbookAPI struct {
 	UserCreateUserHandler user.CreateUserHandler
 	// GardensCreateUserGardenHandler sets the operation handler for the create user garden operation
 	GardensCreateUserGardenHandler gardens.CreateUserGardenHandler
-	// PlantCreateUserPlantHandler sets the operation handler for the create user plant operation
-	PlantCreateUserPlantHandler plant.CreateUserPlantHandler
+	// UserplantCreateUserPlantHandler sets the operation handler for the create user plant operation
+	UserplantCreateUserPlantHandler userplant.CreateUserPlantHandler
 	// UserDeleteUserHandler sets the operation handler for the delete user operation
 	UserDeleteUserHandler user.DeleteUserHandler
 	// GardensDeleteUserGardenHandler sets the operation handler for the delete user garden operation
@@ -265,8 +265,8 @@ func (o *PlantbookAPI) Validate() error {
 	if o.GardensCreateUserGardenHandler == nil {
 		unregistered = append(unregistered, "gardens.CreateUserGardenHandler")
 	}
-	if o.PlantCreateUserPlantHandler == nil {
-		unregistered = append(unregistered, "plant.CreateUserPlantHandler")
+	if o.UserplantCreateUserPlantHandler == nil {
+		unregistered = append(unregistered, "userplant.CreateUserPlantHandler")
 	}
 	if o.UserDeleteUserHandler == nil {
 		unregistered = append(unregistered, "user.DeleteUserHandler")
@@ -413,7 +413,7 @@ func (o *PlantbookAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/api/v1/plant"] = plant.NewCreateUserPlant(o.context, o.PlantCreateUserPlantHandler)
+	o.handlers["POST"]["/api/v1/user/plants"] = userplant.NewCreateUserPlant(o.context, o.UserplantCreateUserPlantHandler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}

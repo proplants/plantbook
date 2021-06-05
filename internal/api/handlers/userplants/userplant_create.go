@@ -1,4 +1,4 @@
-package plants
+package userplants
 
 import (
 	"net/http"
@@ -7,62 +7,62 @@ import (
 	"github.com/kaatinga/plantbook/internal/api/handlers"
 	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/plant"
+	"github.com/kaatinga/plantbook/internal/api/restapi/operations/userplant"
 	"github.com/kaatinga/plantbook/pkg/logging"
 	"github.com/kaatinga/plantbook/pkg/token"
 )
 
-type createPlantImpl struct {
+type createUserPlantImpl struct {
 	storage RepoInterface
 	tm      token.Manager
 }
 
-func NewCreateUserPlantHandler(storage RepoInterface, tm token.Manager) plant.CreateUserPlantHandler {
-	return &createPlantImpl{storage: storage, tm: tm}
+func NewCreateUserPlantHandler(storage RepoInterface, tm token.Manager) userplant.CreateUserPlantHandler {
+	return &createUserPlantImpl{storage: storage, tm: tm}
 }
 
-func (impl *createPlantImpl) Handle(params plant.CreateUserPlantParams) middleware.Responder {
+func (impl *createUserPlantImpl) Handle(params userplant.CreateUserPlantParams) middleware.Responder {
 	log := logging.FromContext(params.HTTPRequest.Context())
 	cookie, err := params.HTTPRequest.Cookie(apimiddleware.JWTCookieName)
 	if err != nil {
 		log.Errorf("get cookie %s error, %s", apimiddleware.JWTCookieName, err)
-		return plant.NewCreateUserPlantDefault(http.StatusUnauthorized).
+		return userplant.NewCreateUserPlantDefault(http.StatusUnauthorized).
 			WithPayload(&models.ErrorResponse{Message: "not token cookie"})
 	}
 	if cookie == nil {
-		return plant.NewCreateUserPlantDefault(http.StatusUnauthorized).
+		return userplant.NewCreateUserPlantDefault(http.StatusUnauthorized).
 			WithPayload(&models.ErrorResponse{Message: "empty token cookie"})
 	}
 	ok, err := impl.tm.Check(params.HTTPRequest.Context(), cookie.Value)
 	if err != nil {
 		log.Errorf("check token %s error, %s", cookie.Value, err)
-		return plant.NewCreateUserPlantDefault(http.StatusUnauthorized).
+		return userplant.NewCreateUserPlantDefault(http.StatusUnauthorized).
 			WithPayload(&models.ErrorResponse{Message: "check token error"})
 	}
 	if !ok {
-		return plant.NewCreateUserPlantDefault(http.StatusUnauthorized).
+		return userplant.NewCreateUserPlantDefault(http.StatusUnauthorized).
 			WithPayload(&models.ErrorResponse{Message: "token expired"})
 	}
 
 	uid, _, roleID, err := impl.tm.FindUserData(cookie.Value)
 	if err != nil {
 		log.Errorf("get user attributes from token %s error, %s", cookie.Value, err)
-		return plant.NewCreateUserPlantDefault(http.StatusForbidden).
+		return userplant.NewCreateUserPlantDefault(http.StatusForbidden).
 			WithPayload(&models.ErrorResponse{Message: "check permission error"})
 	}
 
 	// fill owner_id for garden if userRole = gardener
 	// if userRole = admin, miss because admin must to set OwnerID
-	if roleID == handlers.UserRoleGardener || params.Plant.UserID == 0 {
-		params.Plant.UserID = uid
+	if roleID == handlers.UserRoleGardener || params.Userplant.UserID == 0 {
+		params.Userplant.UserID = uid
 	}
-	newPlant, err := impl.storage.StorePlant(params.HTTPRequest.Context(), params.Plant)
+	newUserPlant, err := impl.storage.StorePlant(params.HTTPRequest.Context(), params.Userplant)
 	if err != nil {
 		log.Errorf("Handle StoragePlant error, %s", err)
-		return plant.NewCreateUserPlantDefault(http.StatusInternalServerError).
+		return userplant.NewCreateUserPlantDefault(http.StatusInternalServerError).
 			WithPayload(&models.ErrorResponse{Message: "db error"})
 	}
 
-	return plant.NewCreateUserPlantOK().WithPayload(newPlant).
+	return userplant.NewCreateUserPlantOK().WithPayload(newUserPlant).
 		WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 }

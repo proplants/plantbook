@@ -1,4 +1,4 @@
-package plants
+package userplants
 
 import (
 	"context"
@@ -7,5 +7,5 @@ import (
 )
 
 type RepoInterface interface {
-	StorePlant(ctx context.Context, plant *models.Plant) (*models.Plant, error)
+	StorePlant(ctx context.Context, plant *models.UserPlant) (*models.UserPlant, error)
 }
