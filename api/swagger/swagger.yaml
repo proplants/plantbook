@@ -8,7 +8,7 @@ info:
     url: "https://opensource.org/licenses/mit-license.php"
 basePath: "/"
 tags:
-  - name: "userplants"
+  - name: "userplant"
     description: "Everything about your Plants"
   - name: "refplant"
     description: "reference plants"
@@ -477,6 +477,55 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   /api/v1/user/plants:
+    get:
+      tags:
+        - "userplant"
+      operationId: "getUserPlants"
+      description: "Find all of the user’s plants"
+      summary: "Find all of the user’s plants"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: offset
+          type: integer
+          required: false
+          default: 0
+          minimum: 0
+          description: The number of items to skip before starting to collect the result set.
+        - in: query
+          name: limit
+          type: integer
+          required: false
+          default: 20
+          minimum: 1
+          maximum: 100
+          description: The numbers of items to return.
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/UserPlant"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Plants not found"
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+                description: The request id this is a response to
+                type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
     post:
       tags:
         - "userplant"
@@ -605,6 +654,7 @@ definitions:
       gardenId:
         type: "integer"
         format: "int64"
+        minimum: 0
       photoUrls:
         type: "array"
         items:
@@ -612,43 +662,27 @@ definitions:
       plantReferenceId:
         type: "integer"
         format: "int64"
+        minimum: 0
         description: "plant's identifier from reference"
       plantingDate:
         type: "string"
         description: "When the plant was planted"
         format: "date"
       wateringInterval:
-        type: "string"
         description: "How often you water them"
+        type: "string"
       lastWatering:
-        x-go-type:
-          type: "Time"
-          import:
-            package: "time"
-          hints:
-            noValidation: true
+        type: "string"
+        format: "date-time"
       nextWatering:
-        x-go-type:
-          type: "Time"
-          import:
-            package: "time"
-          hints:
-            noValidation: true
+        type: "string"
+        format: "date-time"
       createdAt:
-        x-go-type:
-          type: "Time"
-          import:
-            package: "time"
-          hints:
-            noValidation: true
+        type: "string"
+        format: "date-time"
       modifiedAt:
-        x-go-type:
-          type: "Time"
-          import:
-            package: "time"
-          hints:
-            noValidation: true
-        x-nullable: true
+        type: "string"
+        minLength: 0
   Garden:
     type: "object"
     required:

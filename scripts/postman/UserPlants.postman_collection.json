@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "8c7e390f-2aec-41bd-a771-cff26910a742",
+		"name": "UserPlants",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "StorePlant",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "plantbook_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MjM1MTcwMjYsInVpZCI6MSwidXNlciI6InJvb3QiLCJ1c2VyX3JvbGUiOjF9.ltnbhOQ81XHodmmflnGmmVbp5X2jZQpf7i1T91tWxJU; Path=/; Expires=Sat, 12 Jun 2021 16:57:06 GMT;",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Name\": \"Мой кактус\",\r\n  \"description\": \"Просто мой кактус\",\r\n  \"PhotoUrls\":[],\r\n  \"PlantingDate\": \"2025-10-01\",\r\n  \"WateringInterval\": \"1 day 26:00:25\",\r\n  \"LastWatering\":\"2006-01-02T15:04:05Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}/api/v1/user/plants",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"plants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListUserPlants",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "plantbook_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MjM1MTcwMjYsInVpZCI6MSwidXNlciI6InJvb3QiLCJ1c2VyX3JvbGUiOjF9.ltnbhOQ81XHodmmflnGmmVbp5X2jZQpf7i1T91tWxJU; Path=/; Expires=Sat, 12 Jun 2021 16:57:06 GMT;",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{baseURL}}/api/v1/user/plants?limit=10&offset=0",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"plants"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "localhost:8085"
+		}
+	]
+}

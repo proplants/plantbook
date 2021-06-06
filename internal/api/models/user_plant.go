@@ -7,7 +7,6 @@ package models
 
 import (
 	"context"
-	timeext "time"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -21,24 +20,26 @@ import (
 type UserPlant struct {
 
 	// created at
-	CreatedAt timeext.Time `json:"createdAt,omitempty"`
+	// Format: date-time
+	CreatedAt strfmt.DateTime `json:"createdAt,omitempty"`
 
 	// description
 	Description string `json:"description,omitempty"`
 
 	// garden Id
-	GardenID int64 `json:"gardenId,omitempty"`
+	// Minimum: 0
+	GardenID *int64 `json:"gardenId,omitempty"`
 
 	// id
 	ID int64 `json:"id,omitempty"`
 
 	// last watering
-	LastWatering timeext.Time `json:"lastWatering,omitempty"`
+	// Format: date-time
+	LastWatering strfmt.DateTime `json:"lastWatering,omitempty"`
 
 	// modified at
 	// Min Length: 0
-	// Format: date-time
-	ModifiedAt strfmt.DateTime `json:"modifiedAt,omitempty"`
+	ModifiedAt *string `json:"modifiedAt,omitempty"`
 
 	// name
 	// Example: my super rose
@@ -46,14 +47,16 @@ type UserPlant struct {
 	Name *string `json:"name"`
 
 	// next watering
-	NextWatering timeext.Time `json:"nextWatering,omitempty"`
+	// Format: date-time
+	NextWatering strfmt.DateTime `json:"nextWatering,omitempty"`
 
 	// photo urls
 	// Required: true
 	PhotoUrls []string `json:"photoUrls"`
 
 	// plant's identifier from reference
-	PlantReferenceID int64 `json:"plantReferenceId,omitempty"`
+	// Minimum: 0
+	PlantReferenceID *int64 `json:"plantReferenceId,omitempty"`
 
 	// When the plant was planted
 	// Format: date
@@ -70,6 +73,18 @@ type UserPlant struct {
 func (m *UserPlant) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCreatedAt(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateGardenID(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateLastWatering(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateModifiedAt(formats); err != nil {
 		res = append(res, err)
 	}
@@ -78,7 +93,15 @@ func (m *UserPlant) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateNextWatering(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validatePhotoUrls(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validatePlantReferenceID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -92,16 +115,48 @@ func (m *UserPlant) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *UserPlant) validateCreatedAt(formats strfmt.Registry) error {
+	if swag.IsZero(m.CreatedAt) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("createdAt", "body", "date-time", m.CreatedAt.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *UserPlant) validateGardenID(formats strfmt.Registry) error {
+	if swag.IsZero(m.GardenID) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("gardenId", "body", *m.GardenID, 0, false); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *UserPlant) validateLastWatering(formats strfmt.Registry) error {
+	if swag.IsZero(m.LastWatering) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("lastWatering", "body", "date-time", m.LastWatering.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *UserPlant) validateModifiedAt(formats strfmt.Registry) error {
 	if swag.IsZero(m.ModifiedAt) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("modifiedAt", "body", m.ModifiedAt.String(), 0); err != nil {
-		return err
-	}
-
-	if err := validate.FormatOf("modifiedAt", "body", "date-time", m.ModifiedAt.String(), formats); err != nil {
+	if err := validate.MinLength("modifiedAt", "body", *m.ModifiedAt, 0); err != nil {
 		return err
 	}
 
@@ -117,9 +172,33 @@ func (m *UserPlant) validateName(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *UserPlant) validateNextWatering(formats strfmt.Registry) error {
+	if swag.IsZero(m.NextWatering) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("nextWatering", "body", "date-time", m.NextWatering.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m *UserPlant) validatePhotoUrls(formats strfmt.Registry) error {
 
 	if err := validate.Required("photoUrls", "body", m.PhotoUrls); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *UserPlant) validatePlantReferenceID(formats strfmt.Registry) error {
+	if swag.IsZero(m.PlantReferenceID) { // not required
+		return nil
+	}
+
+	if err := validate.MinimumInt("plantReferenceId", "body", *m.PlantReferenceID, 0, false); err != nil {
 		return err
 	}
 

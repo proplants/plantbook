@@ -85,6 +85,9 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		GardensGetUserGardensHandler: gardens.GetUserGardensHandlerFunc(func(params gardens.GetUserGardensParams) middleware.Responder {
 			return middleware.NotImplemented("operation gardens.GetUserGardens has not yet been implemented")
 		}),
+		UserplantGetUserPlantsHandler: userplant.GetUserPlantsHandlerFunc(func(params userplant.GetUserPlantsParams) middleware.Responder {
+			return middleware.NotImplemented("operation userplant.GetUserPlants has not yet been implemented")
+		}),
 		HealthHealthAliveHandler: health.HealthAliveHandlerFunc(func(params health.HealthAliveParams) middleware.Responder {
 			return middleware.NotImplemented("operation health.HealthAlive has not yet been implemented")
 		}),
@@ -163,6 +166,8 @@ type PlantbookAPI struct {
 	GardensGetUserGardenByIDHandler gardens.GetUserGardenByIDHandler
 	// GardensGetUserGardensHandler sets the operation handler for the get user gardens operation
 	GardensGetUserGardensHandler gardens.GetUserGardensHandler
+	// UserplantGetUserPlantsHandler sets the operation handler for the get user plants operation
+	UserplantGetUserPlantsHandler userplant.GetUserPlantsHandler
 	// HealthHealthAliveHandler sets the operation handler for the health alive operation
 	HealthHealthAliveHandler health.HealthAliveHandler
 	// HealthHealthReadyHandler sets the operation handler for the health ready operation
@@ -288,6 +293,9 @@ func (o *PlantbookAPI) Validate() error {
 	}
 	if o.GardensGetUserGardensHandler == nil {
 		unregistered = append(unregistered, "gardens.GetUserGardensHandler")
+	}
+	if o.UserplantGetUserPlantsHandler == nil {
+		unregistered = append(unregistered, "userplant.GetUserPlantsHandler")
 	}
 	if o.HealthHealthAliveHandler == nil {
 		unregistered = append(unregistered, "health.HealthAliveHandler")
@@ -442,6 +450,10 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/api/v1/gardens"] = gardens.NewGetUserGardens(o.context, o.GardensGetUserGardensHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/api/v1/user/plants"] = userplant.NewGetUserPlants(o.context, o.UserplantGetUserPlantsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

@@ -101,6 +101,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	//
 	// plants
 	api.UserplantCreateUserPlantHandler = uphandlers.NewCreateUserPlantHandler(storage, tm)
+	api.UserplantGetUserPlantsHandler = uphandlers.NewGetUserPlantHandler(storage, tm)
 	// gardens
 	api.GardensCreateUserGardenHandler = ghandlers.NewCreateUserGardenHandler(storage, tm)
 	api.GardensDeleteUserGardenHandler = ghandlers.NewDeleteUserGardenHandler(storage, tm)
