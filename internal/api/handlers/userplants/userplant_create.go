@@ -27,28 +27,33 @@ func (impl *createUserPlantImpl) Handle(params userplant.CreateUserPlantParams) 
 	if err != nil {
 		log.Errorf("get cookie %s error, %s", apimiddleware.JWTCookieName, err)
 		return userplant.NewCreateUserPlantDefault(http.StatusUnauthorized).
-			WithPayload(&models.ErrorResponse{Message: "not token cookie"})
+			WithPayload(&models.ErrorResponse{Message: "not token cookie"}).
+			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 	if cookie == nil {
 		return userplant.NewCreateUserPlantDefault(http.StatusUnauthorized).
-			WithPayload(&models.ErrorResponse{Message: "empty token cookie"})
+			WithPayload(&models.ErrorResponse{Message: "empty token cookie"}).
+			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 	ok, err := impl.tm.Check(params.HTTPRequest.Context(), cookie.Value)
 	if err != nil {
 		log.Errorf("check token %s error, %s", cookie.Value, err)
 		return userplant.NewCreateUserPlantDefault(http.StatusUnauthorized).
-			WithPayload(&models.ErrorResponse{Message: "check token error"})
+			WithPayload(&models.ErrorResponse{Message: "check token error"}).
+			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 	if !ok {
 		return userplant.NewCreateUserPlantDefault(http.StatusUnauthorized).
-			WithPayload(&models.ErrorResponse{Message: "token expired"})
+			WithPayload(&models.ErrorResponse{Message: "token expired"}).
+			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 
 	uid, _, roleID, err := impl.tm.FindUserData(cookie.Value)
 	if err != nil {
 		log.Errorf("get user attributes from token %s error, %s", cookie.Value, err)
 		return userplant.NewCreateUserPlantDefault(http.StatusForbidden).
-			WithPayload(&models.ErrorResponse{Message: "check permission error"})
+			WithPayload(&models.ErrorResponse{Message: "check permission error"}).
+			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 
 	// fill owner_id for garden if userRole = gardener
@@ -60,7 +65,8 @@ func (impl *createUserPlantImpl) Handle(params userplant.CreateUserPlantParams) 
 	if err != nil {
 		log.Errorf("Handle StoragePlant error, %s", err)
 		return userplant.NewCreateUserPlantDefault(http.StatusInternalServerError).
-			WithPayload(&models.ErrorResponse{Message: "db error"})
+			WithPayload(&models.ErrorResponse{Message: "db error"}).
+			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 
 	return userplant.NewCreateUserPlantOK().WithPayload(newUserPlant).

@@ -495,6 +495,7 @@ paths:
           default: 0
           minimum: 0
           description: The number of items to skip before starting to collect the result set.
+          allowEmptyValue: true
         - in: query
           name: limit
           type: integer
@@ -503,6 +504,7 @@ paths:
           minimum: 1
           maximum: 100
           description: The numbers of items to return.
+          allowEmptyValue: true
       responses:
         "200":
           description: "List of the user's plants"
@@ -635,13 +637,13 @@ definitions:
   UserPlant:
     type: "object"
     required:
-      - "name"
+      - "title"
       - "photoUrls"
     properties:
       id:
         type: "integer"
         format: "int64"
-      name:
+      title:
         type: "string"
         example: "my super rose"
       description:
@@ -681,18 +683,17 @@ definitions:
       modifiedAt:
         type: "string"
         minLength: 0
-    UserPlants:
-        type: "array",
-        items: 
-            $ref: "#/definitions/UserPlant"
-    UserPlantsResponse:
-        type: "object"
-        properties:
-          data:
-            $ref: "#/definitions/UserPlants"
-          result_set:
-            $ref: "#/definitions/ResultSet"
-        
+  UserPlants:
+      type: "array"
+      items: 
+          $ref: "#/definitions/UserPlant"
+  UserPlantsResponse:
+      type: "object"
+      properties:
+        data:
+          $ref: "#/definitions/UserPlants"
+        result_set:
+          $ref: "#/definitions/ResultSet"
   Garden:
     type: "object"
     required:

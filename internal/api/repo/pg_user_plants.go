@@ -15,7 +15,7 @@ func (pg *PG) StorePlant(ctx context.Context, plant *models.UserPlant) (*models.
 	values ($1, $2, $3, $4, $5, $6, $7, $8, $9) 
 	returning id, next_watering, created_at;`
 	err := pg.db.QueryRow(ctx, query, plant.UserID, plant.PlantReferenceID, plant.GardenID, plant.PlantingDate,
-		plant.WateringInterval, plant.LastWatering, plant.PhotoUrls, plant.Name, plant.Description).
+		plant.WateringInterval, plant.LastWatering, plant.PhotoUrls, plant.Title, plant.Description).
 		Scan(&plant.ID, &plant.NextWatering, &plant.CreatedAt)
 	if err != nil {
 		return nil, errors.WithMessage(err, "insert plant failed")
@@ -48,7 +48,7 @@ func (pg *PG) ListUserPlants(ctx context.Context,
 		var interval time.Duration
 		err = rows.Scan(&userPlant.ID, &userPlant.UserID, &userPlant.PlantReferenceID,
 			&userPlant.GardenID, &userPlant.PlantingDate, &interval, &userPlant.LastWatering,
-			&userPlant.NextWatering, &userPlant.PhotoUrls, &userPlant.Name, &userPlant.Description,
+			&userPlant.NextWatering, &userPlant.PhotoUrls, &userPlant.Title, &userPlant.Description,
 			&userPlant.CreatedAt, &userPlant.ModifiedAt)
 		if err != nil {
 			return nil, errors.WithMessage(err, "Scan rows error: ")

@@ -41,11 +41,6 @@ type UserPlant struct {
 	// Min Length: 0
 	ModifiedAt *string `json:"modifiedAt,omitempty"`
 
-	// name
-	// Example: my super rose
-	// Required: true
-	Name *string `json:"name"`
-
 	// next watering
 	// Format: date-time
 	NextWatering strfmt.DateTime `json:"nextWatering,omitempty"`
@@ -61,6 +56,11 @@ type UserPlant struct {
 	// When the plant was planted
 	// Format: date
 	PlantingDate strfmt.Date `json:"plantingDate,omitempty"`
+
+	// title
+	// Example: my super rose
+	// Required: true
+	Title *string `json:"title"`
 
 	// user Id
 	UserID int64 `json:"userId,omitempty"`
@@ -89,10 +89,6 @@ func (m *UserPlant) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateName(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateNextWatering(formats); err != nil {
 		res = append(res, err)
 	}
@@ -106,6 +102,10 @@ func (m *UserPlant) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validatePlantingDate(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateTitle(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -163,15 +163,6 @@ func (m *UserPlant) validateModifiedAt(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *UserPlant) validateName(formats strfmt.Registry) error {
-
-	if err := validate.Required("name", "body", m.Name); err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func (m *UserPlant) validateNextWatering(formats strfmt.Registry) error {
 	if swag.IsZero(m.NextWatering) { // not required
 		return nil
@@ -211,6 +202,15 @@ func (m *UserPlant) validatePlantingDate(formats strfmt.Registry) error {
 	}
 
 	if err := validate.FormatOf("plantingDate", "body", "date", m.PlantingDate.String(), formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *UserPlant) validateTitle(formats strfmt.Registry) error {
+
+	if err := validate.Required("title", "body", m.Title); err != nil {
 		return err
 	}
 

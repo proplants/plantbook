@@ -28,9 +28,9 @@ func NewGetUserPlantsParams() GetUserPlantsParams {
 	)
 
 	return GetUserPlantsParams{
-		Limit: &limitDefault,
+		Limit: limitDefault,
 
-		Offset: &offsetDefault,
+		Offset: offsetDefault,
 	}
 }
 
@@ -49,13 +49,13 @@ type GetUserPlantsParams struct {
 	  In: query
 	  Default: 20
 	*/
-	Limit *int64
+	Limit int64
 	/*The number of items to skip before starting to collect the result set.
 	  Minimum: 0
 	  In: query
 	  Default: 0
 	*/
-	Offset *int64
+	Offset int64
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -92,7 +92,7 @@ func (o *GetUserPlantsParams) bindLimit(rawData []string, hasKey bool, formats s
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		// Default values have been previously initialized by NewGetUserPlantsParams()
@@ -103,7 +103,7 @@ func (o *GetUserPlantsParams) bindLimit(rawData []string, hasKey bool, formats s
 	if err != nil {
 		return errors.InvalidType("limit", "query", "int64", raw)
 	}
-	o.Limit = &value
+	o.Limit = value
 
 	if err := o.validateLimit(formats); err != nil {
 		return err
@@ -115,11 +115,11 @@ func (o *GetUserPlantsParams) bindLimit(rawData []string, hasKey bool, formats s
 // validateLimit carries on validations for parameter Limit
 func (o *GetUserPlantsParams) validateLimit(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("limit", "query", *o.Limit, 1, false); err != nil {
+	if err := validate.MinimumInt("limit", "query", o.Limit, 1, false); err != nil {
 		return err
 	}
 
-	if err := validate.MaximumInt("limit", "query", *o.Limit, 100, false); err != nil {
+	if err := validate.MaximumInt("limit", "query", o.Limit, 100, false); err != nil {
 		return err
 	}
 
@@ -134,7 +134,7 @@ func (o *GetUserPlantsParams) bindOffset(rawData []string, hasKey bool, formats 
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		// Default values have been previously initialized by NewGetUserPlantsParams()
@@ -145,7 +145,7 @@ func (o *GetUserPlantsParams) bindOffset(rawData []string, hasKey bool, formats 
 	if err != nil {
 		return errors.InvalidType("offset", "query", "int64", raw)
 	}
-	o.Offset = &value
+	o.Offset = value
 
 	if err := o.validateOffset(formats); err != nil {
 		return err
@@ -157,7 +157,7 @@ func (o *GetUserPlantsParams) bindOffset(rawData []string, hasKey bool, formats 
 // validateOffset carries on validations for parameter Offset
 func (o *GetUserPlantsParams) validateOffset(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("offset", "query", *o.Offset, 0, false); err != nil {
+	if err := validate.MinimumInt("offset", "query", o.Offset, 0, false); err != nil {
 		return err
 	}
 

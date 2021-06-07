@@ -548,7 +548,8 @@ func init() {
             "default": 0,
             "description": "The number of items to skip before starting to collect the result set.",
             "name": "offset",
-            "in": "query"
+            "in": "query",
+            "allowEmptyValue": true
           },
           {
             "maximum": 100,
@@ -557,17 +558,15 @@ func init() {
             "default": 20,
             "description": "The numbers of items to return.",
             "name": "limit",
-            "in": "query"
+            "in": "query",
+            "allowEmptyValue": true
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "List of the user's plants",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/UserPlant"
-              }
+              "$ref": "#/definitions/UserPlantsResponse"
             },
             "headers": {
               "X-Request-Id": {
@@ -1145,7 +1144,7 @@ func init() {
     "UserPlant": {
       "type": "object",
       "required": [
-        "name",
+        "title",
         "photoUrls"
       ],
       "properties": {
@@ -1171,10 +1170,6 @@ func init() {
         "modifiedAt": {
           "type": "string"
         },
-        "name": {
-          "type": "string",
-          "example": "my super rose"
-        },
         "nextWatering": {
           "type": "string",
           "format": "date-time"
@@ -1195,6 +1190,10 @@ func init() {
           "type": "string",
           "format": "date"
         },
+        "title": {
+          "type": "string",
+          "example": "my super rose"
+        },
         "userId": {
           "type": "integer",
           "format": "int64"
@@ -1202,6 +1201,23 @@ func init() {
         "wateringInterval": {
           "description": "How often you water them",
           "type": "string"
+        }
+      }
+    },
+    "UserPlants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/UserPlant"
+      }
+    },
+    "UserPlantsResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/UserPlants"
+        },
+        "result_set": {
+          "$ref": "#/definitions/ResultSet"
         }
       }
     }
@@ -1761,7 +1777,8 @@ func init() {
             "default": 0,
             "description": "The number of items to skip before starting to collect the result set.",
             "name": "offset",
-            "in": "query"
+            "in": "query",
+            "allowEmptyValue": true
           },
           {
             "maximum": 100,
@@ -1770,17 +1787,15 @@ func init() {
             "default": 20,
             "description": "The numbers of items to return.",
             "name": "limit",
-            "in": "query"
+            "in": "query",
+            "allowEmptyValue": true
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "List of the user's plants",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/UserPlant"
-              }
+              "$ref": "#/definitions/UserPlantsResponse"
             },
             "headers": {
               "X-Request-Id": {
@@ -2359,7 +2374,7 @@ func init() {
     "UserPlant": {
       "type": "object",
       "required": [
-        "name",
+        "title",
         "photoUrls"
       ],
       "properties": {
@@ -2387,10 +2402,6 @@ func init() {
           "type": "string",
           "minLength": 0
         },
-        "name": {
-          "type": "string",
-          "example": "my super rose"
-        },
         "nextWatering": {
           "type": "string",
           "format": "date-time"
@@ -2412,6 +2423,10 @@ func init() {
           "type": "string",
           "format": "date"
         },
+        "title": {
+          "type": "string",
+          "example": "my super rose"
+        },
         "userId": {
           "type": "integer",
           "format": "int64"
@@ -2419,6 +2434,23 @@ func init() {
         "wateringInterval": {
           "description": "How often you water them",
           "type": "string"
+        }
+      }
+    },
+    "UserPlants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/UserPlant"
+      }
+    },
+    "UserPlantsResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/UserPlants"
+        },
+        "result_set": {
+          "$ref": "#/definitions/ResultSet"
         }
       }
     }

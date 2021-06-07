@@ -16,7 +16,7 @@ import (
 // GetUserPlantsOKCode is the HTTP code returned for type GetUserPlantsOK
 const GetUserPlantsOKCode int = 200
 
-/*GetUserPlantsOK successful operation
+/*GetUserPlantsOK List of the user's plants
 
 swagger:response getUserPlantsOK
 */
@@ -29,7 +29,7 @@ type GetUserPlantsOK struct {
 	/*
 	  In: Body
 	*/
-	Payload []*models.UserPlant `json:"body,omitempty"`
+	Payload *models.UserPlantsResponse `json:"body,omitempty"`
 }
 
 // NewGetUserPlantsOK creates GetUserPlantsOK with default headers values
@@ -50,13 +50,13 @@ func (o *GetUserPlantsOK) SetXRequestID(xRequestID string) {
 }
 
 // WithPayload adds the payload to the get user plants o k response
-func (o *GetUserPlantsOK) WithPayload(payload []*models.UserPlant) *GetUserPlantsOK {
+func (o *GetUserPlantsOK) WithPayload(payload *models.UserPlantsResponse) *GetUserPlantsOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get user plants o k response
-func (o *GetUserPlantsOK) SetPayload(payload []*models.UserPlant) {
+func (o *GetUserPlantsOK) SetPayload(payload *models.UserPlantsResponse) {
 	o.Payload = payload
 }
 
@@ -71,14 +71,11 @@ func (o *GetUserPlantsOK) WriteResponse(rw http.ResponseWriter, producer runtime
 	}
 
 	rw.WriteHeader(200)
-	payload := o.Payload
-	if payload == nil {
-		// return empty array
-		payload = make([]*models.UserPlant, 0, 50)
-	}
-
-	if err := producer.Produce(rw, payload); err != nil {
-		panic(err) // let the recovery middleware deal with this
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
 	}
 }
 

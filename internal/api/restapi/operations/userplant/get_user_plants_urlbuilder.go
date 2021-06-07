@@ -15,8 +15,8 @@ import (
 
 // GetUserPlantsURL generates an URL for the get user plants operation
 type GetUserPlantsURL struct {
-	Limit  *int64
-	Offset *int64
+	Limit  int64
+	Offset int64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -52,18 +52,12 @@ func (o *GetUserPlantsURL) Build() (*url.URL, error) {
 
 	qs := make(url.Values)
 
-	var limitQ string
-	if o.Limit != nil {
-		limitQ = swag.FormatInt64(*o.Limit)
-	}
+	limitQ := swag.FormatInt64(o.Limit)
 	if limitQ != "" {
 		qs.Set("limit", limitQ)
 	}
 
-	var offsetQ string
-	if o.Offset != nil {
-		offsetQ = swag.FormatInt64(*o.Offset)
-	}
+	offsetQ := swag.FormatInt64(o.Offset)
 	if offsetQ != "" {
 		qs.Set("offset", offsetQ)
 	}
