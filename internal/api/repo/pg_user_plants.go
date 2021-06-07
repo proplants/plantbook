@@ -27,7 +27,7 @@ func (pg *PG) StorePlant(ctx context.Context, plant *models.UserPlant) (*models.
 }
 
 func (pg *PG) ListUserPlants(ctx context.Context,
-	userID int64, limit int64, offset int64) ([]*models.UserPlant, error) {
+	userID, limit, offset int64) ([]*models.UserPlant, error) {
 	query := `SELECT id, user_id, ref_id, garden_id, planting_date, watering_interval,
 		last_watering, next_watering, photo_url, name, description,
 		created_at, modified_at
