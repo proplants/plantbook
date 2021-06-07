@@ -505,15 +505,13 @@ paths:
           description: The numbers of items to return.
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/UserPlant"
+          description: "List of the user's plants"
           headers:
             X-Request-Id:
               description: The request id this is a response to
               type: string
+          schema:
+            $ref: "#/definitions/UserPlantsResponse"
         "400":
           description: "Invalid input"
         "404":
