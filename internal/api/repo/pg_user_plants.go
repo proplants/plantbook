@@ -32,7 +32,10 @@ func (pg *PG) ListUserPlants(ctx context.Context,
 		last_watering, next_watering, photo_url, name, description,
 		created_at, modified_at
 	FROM public.user_plants
-	WHERE user_id = $1 limit $2 offset $3;`
+	WHERE user_id = $1
+	ORDER BY name
+	OFFSET $3
+	LIMIT $2;`
 	var userPlants []*models.UserPlant
 	rows, err := pg.db.Query(ctx, query, userID, limit, offset)
 	if err != nil {
