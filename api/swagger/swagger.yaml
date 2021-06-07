@@ -683,6 +683,18 @@ definitions:
       modifiedAt:
         type: "string"
         minLength: 0
+    UserPlants:
+        type: "array",
+        items: 
+            $ref: "#/definitions/UserPlant"
+    UserPlantsResponse:
+        type: "object"
+        properties:
+          data:
+            $ref: "#/definitions/UserPlants"
+          result_set:
+            $ref: "#/definitions/ResultSet"
+        
   Garden:
     type: "object"
     required:
