@@ -1,24 +1,21 @@
 {
 	"info": {
 		"_postman_id": "29ec8403-d3d4-4d75-a13a-4748f74de3cc",
-		"name": "reference plants and plantByID tests",
+		"name": "RefPlant",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "refplants",
+			"name": "GetRefPlants",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "10.111.100.240:8085/api/v1/refplants?limit=10&category=1&offset=0&kind=кустарник&hight=Низкий и высокое и среднее&classifiers=красивоцветущее&regardToMoisture=влаголюбивое&regardToLight=светолюбивое&recommendPosition=южные окна&floweringTimе=лето",
+					"raw": "http://{{baseURL}}/api/v1/refplants?limit=10&category=1&offset=0&kind=кустарник&hight=Низкий и высокое и среднее&classifiers=красивоцветущее&regardToMoisture=влаголюбивое&regardToLight=светолюбивое&recommendPosition=южные окна&floweringTimе=лето",
+					"protocol": "http",
 					"host": [
-						"10",
-						"111",
-						"100",
-						"240"
+						"{{baseURL}}"
 					],
-					"port": "8085",
 					"path": [
 						"api",
 						"v1",
@@ -71,19 +68,16 @@
 			"response": []
 		},
 		{
-			"name": "refplantByID",
+			"name": "GetRefPlantByID",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "10.111.100.240:8085/api/v1/refplant/1",
+					"raw": "http://{{baseURL}}/api/v1/refplant/1",
+					"protocol": "http",
 					"host": [
-						"10",
-						"111",
-						"100",
-						"240"
+						"{{baseURL}}"
 					],
-					"port": "8085",
 					"path": [
 						"api",
 						"v1",

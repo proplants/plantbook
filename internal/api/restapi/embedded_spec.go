@@ -233,59 +233,6 @@ func init() {
         }
       }
     },
-    "/api/v1/plant": {
-      "post": {
-        "description": "Add a new plant for user",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Add a new plant for user",
-        "operationId": "createUserPlant",
-        "parameters": [
-          {
-            "description": "New plant parameters of user",
-            "name": "plant",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant added",
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            },
-            "headers": {
-              "X-Request-Id": {
-                "type": "string",
-                "description": "The request id this is a response to"
-              }
-            }
-          },
-          "default": {
-            "description": "unexpected error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            },
-            "headers": {
-              "X-Request-Id": {
-                "type": "string",
-                "description": "The request id this is a response to"
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/refplant/{id}": {
       "get": {
         "description": "Returns a single reference plant",
@@ -560,6 +507,125 @@ func init() {
                 "type": "string",
                 "description": "set expired cookie with name plantbook_token"
               },
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/plants": {
+      "get": {
+        "description": "Find all of the user’s plants",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Find all of the user’s plants",
+        "operationId": "getUserPlants",
+        "parameters": [
+          {
+            "type": "integer",
+            "default": 0,
+            "description": "The number of items to skip before starting to collect the result set.",
+            "name": "offset",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer",
+            "default": 20,
+            "description": "The numbers of items to return.",
+            "name": "limit",
+            "in": "query",
+            "allowEmptyValue": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of the user's plants",
+            "schema": {
+              "$ref": "#/definitions/UserPlantsResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Plants not found"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Add a new plant for user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Add a new plant for user",
+        "operationId": "createUserPlant",
+        "parameters": [
+          {
+            "description": "New plant parameters of user",
+            "name": "userplant",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plant added",
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            },
+            "headers": {
               "X-Request-Id": {
                 "type": "string",
                 "description": "The request id this is a response to"
@@ -903,42 +969,6 @@ func init() {
         }
       }
     },
-    "Plant": {
-      "type": "object",
-      "required": [
-        "title",
-        "photoUrls"
-      ],
-      "properties": {
-        "gardenId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "photoUrls": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "plantReferenceId": {
-          "description": "plant's identifier from reference",
-          "type": "integer",
-          "format": "int64"
-        },
-        "title": {
-          "type": "string",
-          "example": "rose"
-        },
-        "userId": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
     "RefPlant": {
       "type": "object",
       "required": [
@@ -1110,12 +1140,96 @@ func init() {
           "type": "string"
         }
       }
+    },
+    "UserPlant": {
+      "type": "object",
+      "required": [
+        "title",
+        "photoUrls"
+      ],
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string"
+        },
+        "gardenId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastWatering": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modifiedAt": {
+          "type": "string"
+        },
+        "nextWatering": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "photoUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "plantReferenceId": {
+          "description": "plant's identifier from reference",
+          "type": "integer",
+          "format": "int64"
+        },
+        "plantingDate": {
+          "description": "When the plant was planted",
+          "type": "string",
+          "format": "date"
+        },
+        "title": {
+          "type": "string",
+          "example": "my super rose"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "wateringInterval": {
+          "description": "How often you water them",
+          "type": "string"
+        }
+      }
+    },
+    "UserPlants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/UserPlant"
+      }
+    },
+    "UserPlantsResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/UserPlants"
+        },
+        "result_set": {
+          "$ref": "#/definitions/ResultSet"
+        }
+      }
     }
   },
   "tags": [
     {
       "description": "Everything about your Plants",
-      "name": "plant"
+      "name": "userplant"
+    },
+    {
+      "description": "reference plants",
+      "name": "refplant"
     },
     {
       "description": "Operations about user",
@@ -1347,59 +1461,6 @@ func init() {
         }
       }
     },
-    "/api/v1/plant": {
-      "post": {
-        "description": "Add a new plant for user",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "plant"
-        ],
-        "summary": "Add a new plant for user",
-        "operationId": "createUserPlant",
-        "parameters": [
-          {
-            "description": "New plant parameters of user",
-            "name": "plant",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant added",
-            "schema": {
-              "$ref": "#/definitions/Plant"
-            },
-            "headers": {
-              "X-Request-Id": {
-                "type": "string",
-                "description": "The request id this is a response to"
-              }
-            }
-          },
-          "default": {
-            "description": "unexpected error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            },
-            "headers": {
-              "X-Request-Id": {
-                "type": "string",
-                "description": "The request id this is a response to"
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/refplant/{id}": {
       "get": {
         "description": "Returns a single reference plant",
@@ -1674,6 +1735,126 @@ func init() {
                 "type": "string",
                 "description": "set expired cookie with name plantbook_token"
               },
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/plants": {
+      "get": {
+        "description": "Find all of the user’s plants",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Find all of the user’s plants",
+        "operationId": "getUserPlants",
+        "parameters": [
+          {
+            "minimum": 0,
+            "type": "integer",
+            "default": 0,
+            "description": "The number of items to skip before starting to collect the result set.",
+            "name": "offset",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer",
+            "default": 20,
+            "description": "The numbers of items to return.",
+            "name": "limit",
+            "in": "query",
+            "allowEmptyValue": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of the user's plants",
+            "schema": {
+              "$ref": "#/definitions/UserPlantsResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Plants not found"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Add a new plant for user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Add a new plant for user",
+        "operationId": "createUserPlant",
+        "parameters": [
+          {
+            "description": "New plant parameters of user",
+            "name": "userplant",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plant added",
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            },
+            "headers": {
               "X-Request-Id": {
                 "type": "string",
                 "description": "The request id this is a response to"
@@ -2017,42 +2198,6 @@ func init() {
         }
       }
     },
-    "Plant": {
-      "type": "object",
-      "required": [
-        "title",
-        "photoUrls"
-      ],
-      "properties": {
-        "gardenId": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "photoUrls": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "plantReferenceId": {
-          "description": "plant's identifier from reference",
-          "type": "integer",
-          "format": "int64"
-        },
-        "title": {
-          "type": "string",
-          "example": "rose"
-        },
-        "userId": {
-          "type": "integer",
-          "format": "int64"
-        }
-      }
-    },
     "RefPlant": {
       "type": "object",
       "required": [
@@ -2225,12 +2370,99 @@ func init() {
           "type": "string"
         }
       }
+    },
+    "UserPlant": {
+      "type": "object",
+      "required": [
+        "title",
+        "photoUrls"
+      ],
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string"
+        },
+        "gardenId": {
+          "type": "integer",
+          "format": "int64",
+          "minimum": 0
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "lastWatering": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "modifiedAt": {
+          "type": "string",
+          "minLength": 0
+        },
+        "nextWatering": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "photoUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "plantReferenceId": {
+          "description": "plant's identifier from reference",
+          "type": "integer",
+          "format": "int64",
+          "minimum": 0
+        },
+        "plantingDate": {
+          "description": "When the plant was planted",
+          "type": "string",
+          "format": "date"
+        },
+        "title": {
+          "type": "string",
+          "example": "my super rose"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "wateringInterval": {
+          "description": "How often you water them",
+          "type": "string"
+        }
+      }
+    },
+    "UserPlants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/UserPlant"
+      }
+    },
+    "UserPlantsResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/UserPlants"
+        },
+        "result_set": {
+          "$ref": "#/definitions/ResultSet"
+        }
+      }
     }
   },
   "tags": [
     {
       "description": "Everything about your Plants",
-      "name": "plant"
+      "name": "userplant"
+    },
+    {
+      "description": "reference plants",
+      "name": "refplant"
     },
     {
       "description": "Operations about user",

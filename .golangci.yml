@@ -120,7 +120,7 @@ linters:
     - gocritic
     - gocyclo
     #- godox
-    - golint
+    # - golint
     - gosec
     - gosimple
     - govet

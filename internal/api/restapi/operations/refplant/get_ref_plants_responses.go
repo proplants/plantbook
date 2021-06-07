@@ -114,7 +114,7 @@ swagger:response getRefPlantsDefault
 */
 type GetRefPlantsDefault struct {
 	_statusCode int
-	/*error
+	/*The request id this is a response to
 
 	 */
 	XRequestID string `json:"X-Request-Id"`
