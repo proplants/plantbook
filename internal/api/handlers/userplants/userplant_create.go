@@ -17,10 +17,12 @@ type createUserPlantImpl struct {
 	tm      token.Manager
 }
 
+// NewGetRefPlantsHandler builder for userplant.CreateUserPlantHandler interface implementation.
 func NewCreateUserPlantHandler(storage RepoInterface, tm token.Manager) userplant.CreateUserPlantHandler {
 	return &createUserPlantImpl{storage: storage, tm: tm}
 }
 
+// Handle implementation of the userplant.CreateUserPlantHandler interface.
 func (impl *createUserPlantImpl) Handle(params userplant.CreateUserPlantParams) middleware.Responder {
 	log := logging.FromContext(params.HTTPRequest.Context())
 	cookie, err := params.HTTPRequest.Cookie(apimiddleware.JWTCookieName)

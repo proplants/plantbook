@@ -67,7 +67,6 @@ func TestAPI_Auth(t *testing.T) {
 			if tt.want != nil && (got.Name != tt.want.Name) {
 				t.Errorf("API.Auth() got = %v, want %v", got, tt.want)
 			}
-
 		})
 	}
 }

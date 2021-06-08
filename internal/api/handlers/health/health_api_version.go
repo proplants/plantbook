@@ -17,11 +17,12 @@ type apiVersionImpl struct {
 	buildAt time.Time
 }
 
-// NewAPIVersionHandler builder for health.APIVersionHandler interface implementation
+// NewAPIVersionHandler builder for health.APIVersionHandler interface implementation.
 func NewAPIVersionHandler(version, githash string, buildAt time.Time) health.APIVersionHandler {
 	return &apiVersionImpl{version: version, githash: githash, buildAt: buildAt}
 }
 
+// Handle implementation of the health.APIVersionHandler interface.
 func (av *apiVersionImpl) Handle(params health.APIVersionParams) middleware.Responder {
 	return health.NewAPIVersionOK().WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest)).
 		WithPayload(&models.APIVersion{

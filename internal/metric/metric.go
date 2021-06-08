@@ -3,6 +3,7 @@ package metric
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"time"
 
@@ -42,7 +43,7 @@ func (s *Server) Run(ctx context.Context) {
 	log := logging.FromContext(ctx)
 	go func() {
 		log.Infof("Starting listening for metrics on %s", s.addr)
-		if err := s.srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		if err := s.srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatal(err)
 		}
 	}()
@@ -50,8 +51,7 @@ func (s *Server) Run(ctx context.Context) {
 	log.Infof("got signal to shutdown, timeout %v", stopTimeout)
 	ctxstop, cancelstop := context.WithTimeout(context.Background(), stopTimeout)
 	defer cancelstop()
-	err := s.srv.Shutdown(ctxstop)
-	if err != nil {
+	if err := s.srv.Shutdown(ctxstop); err != nil {
 		log.Errorf("srv.Shutdown error, %s", err)
 	}
 }
