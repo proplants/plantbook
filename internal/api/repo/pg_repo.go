@@ -24,16 +24,14 @@ const (
 	pgConnConfigConnectTimeout time.Duration = 1 * time.Second
 )
 
-var (
-	ErrNotFound error = errors.New("user not found")
-)
+var ErrNotFound error = errors.New("user not found")
 
 // PG ...
 type PG struct {
 	db *pgxpool.Pool
 }
 
-// NewPG builder fog postgres implementation of the repo interface
+// NewPG builder fog postgres implementation of the repo interface.
 func NewPG(ctx context.Context, url string, debug bool) (*PG, error) {
 	logger := logging.FromContext(ctx)
 	cfg, err := pgxpool.ParseConfig(url)
@@ -101,7 +99,7 @@ func (pg *PG) StoreUser(ctx context.Context, user *models.User, passwordHash []b
 		return nil, errors.Errorf("insert user failed, empty id")
 	}
 	user.ID = uid
-	// TODO: привести в соответсвие с моделью и спекой
+	// TODO: привести в соответствие с моделью и спекой
 	// что за статус, что он означает?
 	user.UserStatus = 1
 
@@ -121,7 +119,7 @@ func (pg *PG) FindUserByLogin(ctx context.Context, login string) (*models.User, 
 		&hash, &u.FirstName, &u.LastName,
 		&u.Phone, &u.UserRole)
 	if err != nil {
-		if err == pgx.ErrNoRows {
+		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil, ErrNotFound
 		}
 		return nil, nil, errors.WithMessage(err, "fetch user failed")

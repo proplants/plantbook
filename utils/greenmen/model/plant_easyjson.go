@@ -4,6 +4,7 @@ package model
 
 import (
 	json "encoding/json"
+
 	easyjson "github.com/mailru/easyjson"
 	jlexer "github.com/mailru/easyjson/jlexer"
 	jwriter "github.com/mailru/easyjson/jwriter"
@@ -60,6 +61,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel(in *jlex
 		in.Consumed()
 	}
 }
+
 func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel(out *jwriter.Writer, in ShortInfo) {
 	out.RawByte('{')
 	first := true
@@ -125,6 +127,7 @@ func (v *ShortInfo) UnmarshalJSON(data []byte) error {
 func (v *ShortInfo) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel(l, v)
 }
+
 func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel1(in *jlexer.Lexer, out *Plants) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
@@ -153,6 +156,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel1(in *jle
 		in.Consumed()
 	}
 }
+
 func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel1(out *jwriter.Writer, in Plants) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
@@ -191,6 +195,7 @@ func (v *Plants) UnmarshalJSON(data []byte) error {
 func (v *Plants) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel1(l, v)
 }
+
 func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel2(in *jlexer.Lexer, out *Plant) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
@@ -234,6 +239,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel2(in *jle
 		in.Consumed()
 	}
 }
+
 func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel2(out *jwriter.Writer, in Plant) {
 	out.RawByte('{')
 	first := true
@@ -299,6 +305,7 @@ func (v *Plant) UnmarshalJSON(data []byte) error {
 func (v *Plant) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel2(l, v)
 }
+
 func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel3(in *jlexer.Lexer, out *Metadata) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
@@ -332,6 +339,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel3(in *jle
 		in.Consumed()
 	}
 }
+
 func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel3(out *jwriter.Writer, in Metadata) {
 	out.RawByte('{')
 	first := true
@@ -372,6 +380,7 @@ func (v *Metadata) UnmarshalJSON(data []byte) error {
 func (v *Metadata) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel3(l, v)
 }
+
 func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(in *jlexer.Lexer, out *Infos) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
@@ -400,6 +409,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(in *jle
 		in.Consumed()
 	}
 }
+
 func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(out *jwriter.Writer, in Infos) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
@@ -438,6 +448,7 @@ func (v *Infos) UnmarshalJSON(data []byte) error {
 func (v *Infos) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(l, v)
 }
+
 func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel5(in *jlexer.Lexer, out *Info) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
@@ -471,6 +482,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel5(in *jle
 		in.Consumed()
 	}
 }
+
 func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel5(out *jwriter.Writer, in Info) {
 	out.RawByte('{')
 	first := true
@@ -511,6 +523,7 @@ func (v *Info) UnmarshalJSON(data []byte) error {
 func (v *Info) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel5(l, v)
 }
+
 func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel6(in *jlexer.Lexer, out *Images) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
@@ -539,6 +552,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel6(in *jle
 		in.Consumed()
 	}
 }
+
 func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel6(out *jwriter.Writer, in Images) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")

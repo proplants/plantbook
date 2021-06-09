@@ -6,24 +6,22 @@ import (
 	"github.com/kaatinga/plantbook/utils/greenmen/model"
 )
 
-var (
-	roomPlant model.Plant = model.Plant{
-		Title: "plant",
-		ShortInfo: model.ShortInfo{
-			Kind:              "kind",
-			RecommendPosition: "pos",
-			RegardToLight:     "ok",
-			RegardToMoisture:  "bed",
-			FloweringTime:     "spring",
-			Hight:             "ft",
-			Classifiers:       "test",
-		},
-		Images: []string{"http://localhost/plant.png"},
-		Info: []model.Info{
-			{Title: "ititle", Content: "content"},
-		},
-	}
-)
+var roomPlant model.Plant = model.Plant{
+	Title: "plant",
+	ShortInfo: model.ShortInfo{
+		Kind:              "kind",
+		RecommendPosition: "pos",
+		RegardToLight:     "ok",
+		RegardToMoisture:  "bed",
+		FloweringTime:     "spring",
+		Hight:             "ft",
+		Classifiers:       "test",
+	},
+	Images: []string{"http://localhost/plant.png"},
+	Info: []model.Info{
+		{Title: "ititle", Content: "content"},
+	},
+}
 
 func Test_makeSQLInsert(t *testing.T) {
 	type args struct {

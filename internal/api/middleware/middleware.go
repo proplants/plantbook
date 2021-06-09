@@ -12,7 +12,7 @@ import (
 
 const (
 	requestIDLength int = 32
-	// XRequestIDHeader header name
+	// XRequestIDHeader header name.
 	XRequestIDHeader string = "X-Request-Id"
 	JWTCookieName    string = "plantbook_token"
 )

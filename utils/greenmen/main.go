@@ -19,11 +19,12 @@ const (
 
 	// nolint:lll
 	templateRoomPlants string = `INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator) VALUES('%s', 1, '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);`
+	rndLengthLim       int    = 10
 )
 
 // nolint:gosec
 func RandomString() string {
-	b := make([]byte, rand.Intn(10)+10)
+	b := make([]byte, rand.Intn(rndLengthLim)+rndLengthLim)
 	for i := range b {
 		b[i] = letterBytes[rand.Intn(len(letterBytes))]
 	}
@@ -59,8 +60,12 @@ func main() {
 		fmt.Printf("plant: %s\n", singlePlant)
 		return
 	}
-	plants := make(model.Plants, 0, 316)
-	chURLs := make(chan string, 5)
+	const (
+		expectedPlantsLength int = 310
+		chURLLength          int = 5
+	)
+	plants := make(model.Plants, 0, expectedPlantsLength)
+	chURLs := make(chan string, chURLLength)
 	go func() {
 		for {
 			select {

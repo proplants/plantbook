@@ -12,21 +12,24 @@ import (
 )
 
 type healthReadyImpl struct {
-	repo RepoInterface
+	storage RepoInterface
 }
 
-// NewLoginUserHandler builder for user.LoginUserHandler interface implementation
+// NewLoginUserHandler builder for user.LoginUserHandler interface implementation.
 func NewHealthReadyHandler(repo RepoInterface) health.HealthReadyHandler {
-	return &healthReadyImpl{repo: repo}
+	return &healthReadyImpl{storage: repo}
 }
 
+// Handle implementation of the health.HealthReadyHandler interface.
 func (hr *healthReadyImpl) Handle(params health.HealthReadyParams) middleware.Responder {
 	log := logging.FromContext(params.HTTPRequest.Context())
-	err := hr.repo.Health(params.HTTPRequest.Context())
+	err := hr.storage.Health(params.HTTPRequest.Context())
 	if err != nil {
 		log.Errorf("repo.Health error, %s", err)
 		return health.NewHealthReadyDefault(http.StatusInternalServerError).
-			WithPayload(&models.ErrorResponse{Message: "db error happen"})
+			WithPayload(&models.ErrorResponse{Message: "db error happen"}).
+			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
-	return health.NewHealthReadyOK().WithPayload("OK").WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
+	return health.NewHealthReadyOK().WithPayload("OK").
+		WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 }
