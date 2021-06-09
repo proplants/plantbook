@@ -1,0 +1,20 @@
+name: postman-test
+on:
+  workflow_run:
+    workflows:
+      - CI_CD
+    types:
+      - completed
+
+jobs:
+  postman:
+    name: postman
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: API check
+        uses: matt-ball/newman-action@master
+        with:
+          collection: ./scripts/postman/plantbook.postman_collection.json
+          environment: ./scripts/postman/prod.postman_environment.json
