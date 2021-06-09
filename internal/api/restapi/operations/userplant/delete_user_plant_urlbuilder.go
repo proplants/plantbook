@@ -9,13 +9,13 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
-	"strings"
 
 	"github.com/go-openapi/swag"
 )
 
 // DeleteUserPlantURL generates an URL for the delete user plant operation
 type DeleteUserPlantURL struct {
+	UserID      int64
 	UserplantID int64
 
 	_basePath string
@@ -42,20 +42,27 @@ func (o *DeleteUserPlantURL) SetBasePath(bp string) {
 func (o *DeleteUserPlantURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/api/v1/user/plants/{userplant_id}"
-
-	userplantID := swag.FormatInt64(o.UserplantID)
-	if userplantID != "" {
-		_path = strings.Replace(_path, "{userplant_id}", userplantID, -1)
-	} else {
-		return nil, errors.New("userplantId is required on DeleteUserPlantURL")
-	}
+	var _path = "/api/v1/user/plants"
 
 	_basePath := o._basePath
 	if _basePath == "" {
 		_basePath = "/"
 	}
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)
+
+	qs := make(url.Values)
+
+	userIDQ := swag.FormatInt64(o.UserID)
+	if userIDQ != "" {
+		qs.Set("user_id", userIDQ)
+	}
+
+	userplantIDQ := swag.FormatInt64(o.UserplantID)
+	if userplantIDQ != "" {
+		qs.Set("userplant_id", userplantIDQ)
+	}
+
+	_result.RawQuery = qs.Encode()
 
 	return &_result, nil
 }

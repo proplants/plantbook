@@ -449,7 +449,7 @@ func (o *PlantbookAPI) initHandlerCache() {
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/api/v1/user/plants/{userplant_id}"] = userplant.NewDeleteUserPlant(o.context, o.UserplantDeleteUserPlantHandler)
+	o.handlers["DELETE"]["/api/v1/user/plants"] = userplant.NewDeleteUserPlant(o.context, o.UserplantDeleteUserPlantHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

@@ -531,9 +531,6 @@ func init() {
     "/api/v1/user/plants": {
       "get": {
         "description": "Find all of the user’s plants",
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
@@ -696,9 +693,7 @@ func init() {
             }
           }
         }
-      }
-    },
-    "/api/v1/user/plants/{userplant_id}": {
+      },
       "delete": {
         "description": "Delete user's plant",
         "produces": [
@@ -715,7 +710,15 @@ func init() {
             "format": "int64",
             "description": "ID of user's plant.",
             "name": "userplant_id",
-            "in": "path",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "Owner of this plant, user id",
+            "name": "user_id",
+            "in": "query",
             "required": true
           }
         ],
@@ -1860,9 +1863,6 @@ func init() {
     "/api/v1/user/plants": {
       "get": {
         "description": "Find all of the user’s plants",
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
@@ -2026,9 +2026,7 @@ func init() {
             }
           }
         }
-      }
-    },
-    "/api/v1/user/plants/{userplant_id}": {
+      },
       "delete": {
         "description": "Delete user's plant",
         "produces": [
@@ -2045,7 +2043,15 @@ func init() {
             "format": "int64",
             "description": "ID of user's plant.",
             "name": "userplant_id",
-            "in": "path",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "Owner of this plant, user id",
+            "name": "user_id",
+            "in": "query",
             "required": true
           }
         ],

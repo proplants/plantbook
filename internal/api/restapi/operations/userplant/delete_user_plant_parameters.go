@@ -9,9 +9,11 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // NewDeleteUserPlantParams creates a new DeleteUserPlantParams object
@@ -31,9 +33,14 @@ type DeleteUserPlantParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
+	/*Owner of this plant, user id
+	  Required: true
+	  In: query
+	*/
+	UserID int64
 	/*ID of user's plant.
 	  Required: true
-	  In: path
+	  In: query
 	*/
 	UserplantID int64
 }
@@ -47,8 +54,15 @@ func (o *DeleteUserPlantParams) BindRequest(r *http.Request, route *middleware.M
 
 	o.HTTPRequest = r
 
-	rUserplantID, rhkUserplantID, _ := route.Params.GetOK("userplant_id")
-	if err := o.bindUserplantID(rUserplantID, rhkUserplantID, route.Formats); err != nil {
+	qs := runtime.Values(r.URL.Query())
+
+	qUserID, qhkUserID, _ := qs.GetOK("user_id")
+	if err := o.bindUserID(qUserID, qhkUserID, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	qUserplantID, qhkUserplantID, _ := qs.GetOK("userplant_id")
+	if err := o.bindUserplantID(qUserplantID, qhkUserplantID, route.Formats); err != nil {
 		res = append(res, err)
 	}
 	if len(res) > 0 {
@@ -57,19 +71,52 @@ func (o *DeleteUserPlantParams) BindRequest(r *http.Request, route *middleware.M
 	return nil
 }
 
-// bindUserplantID binds and validates parameter UserplantID from path.
-func (o *DeleteUserPlantParams) bindUserplantID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+// bindUserID binds and validates parameter UserID from query.
+func (o *DeleteUserPlantParams) bindUserID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	if !hasKey {
+		return errors.Required("user_id", "query", rawData)
+	}
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
 	}
 
 	// Required: true
-	// Parameter is provided by construction from the route
+	// AllowEmptyValue: false
+
+	if err := validate.RequiredString("user_id", "query", raw); err != nil {
+		return err
+	}
 
 	value, err := swag.ConvertInt64(raw)
 	if err != nil {
-		return errors.InvalidType("userplant_id", "path", "int64", raw)
+		return errors.InvalidType("user_id", "query", "int64", raw)
+	}
+	o.UserID = value
+
+	return nil
+}
+
+// bindUserplantID binds and validates parameter UserplantID from query.
+func (o *DeleteUserPlantParams) bindUserplantID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	if !hasKey {
+		return errors.Required("userplant_id", "query", rawData)
+	}
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: true
+	// AllowEmptyValue: false
+
+	if err := validate.RequiredString("userplant_id", "query", raw); err != nil {
+		return err
+	}
+
+	value, err := swag.ConvertInt64(raw)
+	if err != nil {
+		return errors.InvalidType("userplant_id", "query", "int64", raw)
 	}
 	o.UserplantID = value
 

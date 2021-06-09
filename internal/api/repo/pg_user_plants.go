@@ -35,7 +35,7 @@ func (pg *PG) ListUserPlants(ctx context.Context,
 		created_at, modified_at
 	FROM public.user_plants
 	WHERE user_id = $1
-	ORDER BY name
+	ORDER BY title
 	OFFSET $3
 	LIMIT $2;`
 	var userPlants []*models.UserPlant
