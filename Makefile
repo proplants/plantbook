@@ -1,5 +1,12 @@
 .ONESHELL:
 .DELETE_ON_ERROR:
+
+# h - help
+h help:
+	@echo "h help 	- this help"
+	@echo "build 	- run build docker image for api"
+.PHONY: h
+
 build:
 	docker build -f ./build/restapi/Dockerfile -t plantbook/restapi .
 .PHONY: build
