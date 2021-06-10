@@ -59,7 +59,7 @@ func (impl *updateUserPlantImpl) Handle(params userplant.UpdateUserPlantParams) 
 	}
 	existingUserPlant, err := impl.storage.GetUserPlantByID(params.HTTPRequest.Context(), params.Userplant.ID)
 	if err != nil {
-		log.Infof("storage.GetUserPlantByID with id=%d error, %s", params.Userplant.ID, err)
+		log.Errorf("storage.GetUserPlantByID with id=%d error, %s", params.Userplant.ID, err)
 		return userplant.NewUpdateUserPlantDefault(http.StatusInternalServerError).
 			WithPayload(&models.ErrorResponse{Message: "db error happen"})
 	}
