@@ -142,8 +142,8 @@ paths:
           description: "unexpected error"
           headers:
             X-Request-Id:
-                description: The request id this is a response to
-                type: string
+              description: The request id this is a response to
+              type: string
           schema:
             $ref: "#/definitions/ErrorResponse"
   /api/v1/refplant/{id}:
@@ -175,8 +175,8 @@ paths:
           description: "unexpected error"
           headers:
             X-Request-Id:
-                description: The request id this is a response to
-                type: string
+              description: The request id this is a response to
+              type: string
           schema:
             $ref: "#/definitions/ErrorResponse"
   /api/v1/user:
@@ -520,8 +520,8 @@ paths:
           description: "unexpected error"
           headers:
             X-Request-Id:
-                description: The request id this is a response to
-                type: string
+              description: The request id this is a response to
+              type: string
           schema:
             $ref: "#/definitions/ErrorResponse"
     post:
@@ -592,6 +592,39 @@ paths:
               type: string
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /api/v1/user/plants/{userplant_id}:
+    get:
+      tags:
+        - "userplant"
+      summary: "Get user's plant by id"
+      description: "Get user's plant by id"
+      operationId: "getUserPlantByID"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: userplant_id
+          type: integer
+          required: true
+          format: "int64"
+          description: ID of user's plant.
+      responses:
+        "200":
+          description: "Exists user's plant"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/UserPlant"
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
         - "userplant"
@@ -599,18 +632,12 @@ paths:
       description: "Delete user's plant"
       operationId: "deleteUserPlant"
       parameters:
-        - in: query
+        - in: path
           name: userplant_id
           type: integer
-          format: "int64"
           required: true
+          format: "int64"
           description: ID of user's plant.
-        - in: query
-          name: user_id
-          type: integer
-          format: "int64"
-          required: true
-          description: Owner of this plant, user id
       produces:
         - "application/json"
       responses:
@@ -629,8 +656,7 @@ paths:
               description: The request id this is a response to
               type: string
           schema:
-            $ref: "#/definitions/ErrorResponse"         
-     
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/version:
     get:
       tags:
@@ -756,16 +782,16 @@ definitions:
         format: "date-time"
         minLength: 0
   UserPlants:
-      type: "array"
-      items: 
-          $ref: "#/definitions/UserPlant"
+    type: "array"
+    items:
+      $ref: "#/definitions/UserPlant"
   UserPlantsResponse:
-      type: "object"
-      properties:
-        data:
-          $ref: "#/definitions/UserPlants"
-        result_set:
-          $ref: "#/definitions/ResultSet"
+    type: "object"
+    properties:
+      data:
+        $ref: "#/definitions/UserPlants"
+      result_set:
+        $ref: "#/definitions/ResultSet"
   Garden:
     type: "object"
     required:

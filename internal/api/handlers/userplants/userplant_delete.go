@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/kaatinga/plantbook/internal/api/handlers"
 	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
 	"github.com/kaatinga/plantbook/internal/api/models"
 	"github.com/kaatinga/plantbook/internal/api/restapi/operations/userplant"
@@ -47,20 +48,33 @@ func (impl *deleteUserPlantImpl) Handle(params userplant.DeleteUserPlantParams) 
 			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 
-	uid, _, _, err := impl.tm.FindUserData(cookie.Value)
+	uid, _, userRoleID, err := impl.tm.FindUserData(cookie.Value)
 	if err != nil {
 		log.Errorf("get user attributes from token %s error, %s", cookie.Value, err)
 		return userplant.NewDeleteUserPlantDefault(http.StatusForbidden).
 			WithPayload(&models.ErrorResponse{Message: "check permission error"}).
 			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
-	// Check of plant user ID and user ID in coockie
-	if uid != params.UserID {
-		log.Errorf("Handle DeleteUserPlant: check permission error")
-		return userplant.NewDeleteUserPlantDefault(http.StatusForbidden).
-			WithPayload(&models.ErrorResponse{Message: "check permission error"}).
-			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
+	existingUserPlant, err := impl.storage.GetUserPlantByID(params.HTTPRequest.Context(), params.UserplantID)
+	if err != nil {
+		log.Infof("storage.GetUserPlantByID with id=%d error, %s", params.UserplantID, err)
+		return userplant.NewDeleteUserPlantDefault(http.StatusInternalServerError).
+			WithPayload(&models.ErrorResponse{Message: "db error happen"})
 	}
+	if existingUserPlant == nil {
+		log.Infof("storage.FindGardenByID with id=%d not found", params.UserplantID)
+		return userplant.NewDeleteUserPlantDefault(http.StatusNotFound).
+			WithPayload(&models.ErrorResponse{Message: "user's plant not found"})
+	}
+
+	isAdmin := userRoleID == handlers.UserRoleAdmin
+	isOwner := existingUserPlant.UserID == uid
+	if !(isAdmin || isOwner) {
+		log.Errorf("userID=%d, not owner and not admin try delete", uid)
+		return userplant.NewDeleteUserPlantDefault(http.StatusForbidden).
+			WithPayload(&models.ErrorResponse{Message: "forbidden"})
+	}
+
 	err = impl.storage.DeleteUserPlant(params.HTTPRequest.Context(), params.UserplantID)
 	if err != nil {
 		log.Errorf("Handle DeleteUserPlant error: %s", err)
