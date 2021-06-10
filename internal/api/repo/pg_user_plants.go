@@ -116,7 +116,10 @@ WHERE id = $1`
 		&userPlant.NextWatering, &userPlant.PhotoUrls, &userPlant.Title, &userPlant.Description,
 		&userPlant.CreatedAt, &userPlant.ModifiedAt)
 	if err != nil {
-		return nil, errors.WithMessage(err, "Get user's plant error: ")
+                 if errors.Is(err, pgx.ErrNoRows) {
+			return nil, nil
+		}
+		return nil, errors.WithMessage(err, "get user's plant error")
 	}
 	userPlant.WateringInterval = interval.String()
 	return &userPlant, err
