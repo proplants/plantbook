@@ -28,7 +28,7 @@ func (pg *PG) StorePlant(ctx context.Context, plant *models.UserPlant) (*models.
 	return plant, err
 }
 
-// ListUserPlants - get all user's plants from db
+// ListUserPlants - get all user's plants from db.
 func (pg *PG) ListUserPlants(ctx context.Context,
 	userID, limit, offset int64) ([]*models.UserPlant, error) {
 	query := `SELECT id, user_id, ref_id, garden_id, planting_date, watering_interval,
@@ -62,7 +62,7 @@ func (pg *PG) ListUserPlants(ctx context.Context,
 	return userPlants, err
 }
 
-// DeleteUserPlant - delete user's plant by id
+// DeleteUserPlant - delete user's plant by id.
 func (pg *PG) DeleteUserPlant(ctx context.Context, userPlantID int64) error {
 	query := `DELETE FROM public.user_plants
 	WHERE id = $1
@@ -81,7 +81,7 @@ func (pg *PG) DeleteUserPlant(ctx context.Context, userPlantID int64) error {
 	return errors.Errorf("expected delete with id=%d, but deleted with id=%d", userPlantID, deletedUserPlantID)
 }
 
-// UpdateUserPlant - update user's plant
+// UpdateUserPlant - update user's plant.
 func (pg *PG) UpdateUserPlant(ctx context.Context, plant *models.UserPlant) (*models.UserPlant, error) {
 	query := `UPDATE public.user_plants SET (ref_id, garden_id, planting_date, watering_interval,
 		last_watering, photo_url, title, description, modified_at) = 
@@ -102,7 +102,7 @@ func (pg *PG) UpdateUserPlant(ctx context.Context, plant *models.UserPlant) (*mo
 	return plant, err
 }
 
-// GetUserPlantByID - get user's plant by id from db
+// GetUserPlantByID - get user's plant by id from db.
 func (pg *PG) GetUserPlantByID(ctx context.Context, userPlantID int64) (*models.UserPlant, error) {
 	query := `SELECT id, user_id, ref_id, garden_id, planting_date, watering_interval,
 	last_watering, next_watering, photo_url, title, description,
