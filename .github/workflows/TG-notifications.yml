@@ -18,7 +18,7 @@ jobs:
           message: |
             User: ${{ github.actor }} created new PR: [#${{ github.event.number }}](${{ github.event.pull_request.html_url }}) from branch: ${{ github.head_ref }}
       - name: send telegram notification on new issue
-        if: github.event_name == 'issues' && github.event.action != 'assigned' && github.event.action != 'unassigned'
+        if: github.event_name == 'issues' && github.event.action == 'opened'
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TG_chat }}
