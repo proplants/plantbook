@@ -74,7 +74,8 @@ func (impl *deleteUserPlantImpl) Handle(params userplant.DeleteUserPlantParams) 
 	if !(isAdmin || isOwner) {
 		log.Errorf("userID=%d, not owner and not admin try delete", uid)
 		return userplant.NewDeleteUserPlantDefault(http.StatusForbidden).
-			WithPayload(&models.ErrorResponse{Message: "forbidden"})
+			WithPayload(&models.ErrorResponse{Message: "forbidden"}).
+			    WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 
 	err = impl.storage.DeleteUserPlant(params.HTTPRequest.Context(), params.UserplantID)
