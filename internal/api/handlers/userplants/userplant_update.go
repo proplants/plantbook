@@ -66,7 +66,8 @@ func (impl *updateUserPlantImpl) Handle(params userplant.UpdateUserPlantParams) 
 	if existingUserPlant == nil {
 		log.Infof("storage.GetUserPlantByID with id=%d not found", params.Userplant.ID)
 		return userplant.NewUpdateUserPlantDefault(http.StatusNotFound).
-			WithPayload(&models.ErrorResponse{Message: "user's plant not found"})
+			WithPayload(&models.ErrorResponse{Message: "user's plant not found"}).			 
+                             WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 
 	isAdmin := userRoleID == handlers.UserRoleAdmin
