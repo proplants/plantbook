@@ -17,10 +17,12 @@ type deleteUserPlantImpl struct {
 	tm      token.Manager
 }
 
+// NewDeleteUserPlantHandler builder for userplant.DeleteUserPlantHandler interface implementation.
 func NewDeleteUserPlantHandler(storage RepoInterface, tm token.Manager) userplant.DeleteUserPlantHandler {
 	return &deleteUserPlantImpl{storage: storage, tm: tm}
 }
 
+// Handle implementation of the refplant.userplant.DeleteUserPlantHandler interface.
 func (impl *deleteUserPlantImpl) Handle(params userplant.DeleteUserPlantParams) middleware.Responder {
 	log := logging.FromContext(params.HTTPRequest.Context())
 	cookie, err := params.HTTPRequest.Cookie(apimiddleware.JWTCookieName)

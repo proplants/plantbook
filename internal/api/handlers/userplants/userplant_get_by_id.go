@@ -14,10 +14,12 @@ type GetUserPlantByIDImpl struct {
 	storage RepoInterface
 }
 
+// NewGetUserPlantByIDHandler builder for userplant.GetUserPlantByIDHandler interface implementation.
 func NewGetUserPlantByIDHandler(storage RepoInterface) userplant.GetUserPlantByIDHandler {
 	return &GetUserPlantByIDImpl{storage: storage}
 }
 
+// Handle implementation of the userplant.GetUserPlantByIDHandler interface.
 func (impl *GetUserPlantByIDImpl) Handle(params userplant.GetUserPlantByIDParams) middleware.Responder {
 	log := logging.FromContext(params.HTTPRequest.Context())
 	plant, err := impl.storage.GetUserPlantByID(params.HTTPRequest.Context(), params.UserplantID)

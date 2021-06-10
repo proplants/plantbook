@@ -17,10 +17,12 @@ type updateUserPlantImpl struct {
 	tm      token.Manager
 }
 
+// NewUpdateUserPlantHandler builder for userplant.UpdateUserPlantHandler interface implementation.
 func NewUpdateUserPlantHandler(storage RepoInterface, tm token.Manager) userplant.UpdateUserPlantHandler {
 	return &updateUserPlantImpl{storage: storage, tm: tm}
 }
 
+// Handle implementation of the userplant.UpdateUserPlantHandler interface.
 func (impl *updateUserPlantImpl) Handle(params userplant.UpdateUserPlantParams) middleware.Responder {
 	log := logging.FromContext(params.HTTPRequest.Context())
 	cookie, err := params.HTTPRequest.Cookie(apimiddleware.JWTCookieName)
