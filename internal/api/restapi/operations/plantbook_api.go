@@ -88,6 +88,9 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		GardensGetUserGardensHandler: gardens.GetUserGardensHandlerFunc(func(params gardens.GetUserGardensParams) middleware.Responder {
 			return middleware.NotImplemented("operation gardens.GetUserGardens has not yet been implemented")
 		}),
+		UserplantGetUserPlantByIDHandler: userplant.GetUserPlantByIDHandlerFunc(func(params userplant.GetUserPlantByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation userplant.GetUserPlantByID has not yet been implemented")
+		}),
 		UserplantGetUserPlantsHandler: userplant.GetUserPlantsHandlerFunc(func(params userplant.GetUserPlantsParams) middleware.Responder {
 			return middleware.NotImplemented("operation userplant.GetUserPlants has not yet been implemented")
 		}),
@@ -174,6 +177,8 @@ type PlantbookAPI struct {
 	GardensGetUserGardenByIDHandler gardens.GetUserGardenByIDHandler
 	// GardensGetUserGardensHandler sets the operation handler for the get user gardens operation
 	GardensGetUserGardensHandler gardens.GetUserGardensHandler
+	// UserplantGetUserPlantByIDHandler sets the operation handler for the get user plant by ID operation
+	UserplantGetUserPlantByIDHandler userplant.GetUserPlantByIDHandler
 	// UserplantGetUserPlantsHandler sets the operation handler for the get user plants operation
 	UserplantGetUserPlantsHandler userplant.GetUserPlantsHandler
 	// HealthHealthAliveHandler sets the operation handler for the health alive operation
@@ -306,6 +311,9 @@ func (o *PlantbookAPI) Validate() error {
 	}
 	if o.GardensGetUserGardensHandler == nil {
 		unregistered = append(unregistered, "gardens.GetUserGardensHandler")
+	}
+	if o.UserplantGetUserPlantByIDHandler == nil {
+		unregistered = append(unregistered, "userplant.GetUserPlantByIDHandler")
 	}
 	if o.UserplantGetUserPlantsHandler == nil {
 		unregistered = append(unregistered, "userplant.GetUserPlantsHandler")
@@ -449,7 +457,7 @@ func (o *PlantbookAPI) initHandlerCache() {
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/api/v1/user/plants"] = userplant.NewDeleteUserPlant(o.context, o.UserplantDeleteUserPlantHandler)
+	o.handlers["DELETE"]["/api/v1/user/plants/{userplant_id}"] = userplant.NewDeleteUserPlant(o.context, o.UserplantDeleteUserPlantHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -470,6 +478,10 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/api/v1/gardens"] = gardens.NewGetUserGardens(o.context, o.GardensGetUserGardensHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/api/v1/user/plants/{userplant_id}"] = userplant.NewGetUserPlantByID(o.context, o.UserplantGetUserPlantByIDHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

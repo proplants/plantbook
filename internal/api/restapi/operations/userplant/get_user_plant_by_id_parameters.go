@@ -14,19 +14,19 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// NewDeleteUserPlantParams creates a new DeleteUserPlantParams object
+// NewGetUserPlantByIDParams creates a new GetUserPlantByIDParams object
 //
 // There are no default values defined in the spec.
-func NewDeleteUserPlantParams() DeleteUserPlantParams {
+func NewGetUserPlantByIDParams() GetUserPlantByIDParams {
 
-	return DeleteUserPlantParams{}
+	return GetUserPlantByIDParams{}
 }
 
-// DeleteUserPlantParams contains all the bound params for the delete user plant operation
+// GetUserPlantByIDParams contains all the bound params for the get user plant by ID operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters deleteUserPlant
-type DeleteUserPlantParams struct {
+// swagger:parameters getUserPlantByID
+type GetUserPlantByIDParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -41,8 +41,8 @@ type DeleteUserPlantParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewDeleteUserPlantParams() beforehand.
-func (o *DeleteUserPlantParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewGetUserPlantByIDParams() beforehand.
+func (o *GetUserPlantByIDParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -58,7 +58,7 @@ func (o *DeleteUserPlantParams) BindRequest(r *http.Request, route *middleware.M
 }
 
 // bindUserplantID binds and validates parameter UserplantID from path.
-func (o *DeleteUserPlantParams) bindUserplantID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *GetUserPlantByIDParams) bindUserplantID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]

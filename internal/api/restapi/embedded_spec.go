@@ -693,6 +693,55 @@ func init() {
             }
           }
         }
+      }
+    },
+    "/api/v1/user/plants/{userplant_id}": {
+      "get": {
+        "description": "Get user's plant by id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Get user's plant by id",
+        "operationId": "getUserPlantByID",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID of user's plant.",
+            "name": "userplant_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Exists user's plant",
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
       },
       "delete": {
         "description": "Delete user's plant",
@@ -710,15 +759,7 @@ func init() {
             "format": "int64",
             "description": "ID of user's plant.",
             "name": "userplant_id",
-            "in": "query",
-            "required": true
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "Owner of this plant, user id",
-            "name": "user_id",
-            "in": "query",
+            "in": "path",
             "required": true
           }
         ],
@@ -2026,6 +2067,55 @@ func init() {
             }
           }
         }
+      }
+    },
+    "/api/v1/user/plants/{userplant_id}": {
+      "get": {
+        "description": "Get user's plant by id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Get user's plant by id",
+        "operationId": "getUserPlantByID",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID of user's plant.",
+            "name": "userplant_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Exists user's plant",
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
       },
       "delete": {
         "description": "Delete user's plant",
@@ -2043,15 +2133,7 @@ func init() {
             "format": "int64",
             "description": "ID of user's plant.",
             "name": "userplant_id",
-            "in": "query",
-            "required": true
-          },
-          {
-            "type": "integer",
-            "format": "int64",
-            "description": "Owner of this plant, user id",
-            "name": "user_id",
-            "in": "query",
+            "in": "path",
             "required": true
           }
         ],

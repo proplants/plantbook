@@ -62,7 +62,7 @@ func (impl *deleteUserPlantImpl) Handle(params userplant.DeleteUserPlantParams) 
 			WithPayload(&models.ErrorResponse{Message: "db error happen"})
 	}
 	if existingUserPlant == nil {
-		log.Infof("storage.FindGardenByID with id=%d not found", params.UserplantID)
+		log.Infof("storage.GetUserPlantByID with id=%d not found", params.UserplantID)
 		return userplant.NewDeleteUserPlantDefault(http.StatusNotFound).
 			WithPayload(&models.ErrorResponse{Message: "user's plant not found"})
 	}

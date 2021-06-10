@@ -104,13 +104,15 @@ func (pg *PG) GetUserPlantByID(ctx context.Context, userPlantID int64) (*models.
 	created_at, modified_at
 FROM public.user_plants
 WHERE id = $1`
-	var userPlant *models.UserPlant
+	var interval time.Duration
+	var userPlant models.UserPlant
 	err := pg.db.QueryRow(ctx, query, userPlantID).Scan(&userPlant.ID, &userPlant.UserID, &userPlant.PlantReferenceID,
-		&userPlant.GardenID, &userPlant.PlantingDate, &userPlant.WateringInterval, &userPlant.LastWatering,
+		&userPlant.GardenID, &userPlant.PlantingDate, &interval, &userPlant.LastWatering,
 		&userPlant.NextWatering, &userPlant.PhotoUrls, &userPlant.Title, &userPlant.Description,
 		&userPlant.CreatedAt, &userPlant.ModifiedAt)
 	if err != nil {
 		return nil, errors.WithMessage(err, "Get user's plant error: ")
 	}
-	return userPlant, err
+	userPlant.WateringInterval = interval.String()
+	return &userPlant, err
 }

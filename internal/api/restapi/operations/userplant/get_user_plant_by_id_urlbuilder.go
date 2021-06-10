@@ -14,8 +14,8 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// DeleteUserPlantURL generates an URL for the delete user plant operation
-type DeleteUserPlantURL struct {
+// GetUserPlantByIDURL generates an URL for the get user plant by ID operation
+type GetUserPlantByIDURL struct {
 	UserplantID int64
 
 	_basePath string
@@ -26,7 +26,7 @@ type DeleteUserPlantURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *DeleteUserPlantURL) WithBasePath(bp string) *DeleteUserPlantURL {
+func (o *GetUserPlantByIDURL) WithBasePath(bp string) *GetUserPlantByIDURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -34,12 +34,12 @@ func (o *DeleteUserPlantURL) WithBasePath(bp string) *DeleteUserPlantURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *DeleteUserPlantURL) SetBasePath(bp string) {
+func (o *GetUserPlantByIDURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *DeleteUserPlantURL) Build() (*url.URL, error) {
+func (o *GetUserPlantByIDURL) Build() (*url.URL, error) {
 	var _result url.URL
 
 	var _path = "/api/v1/user/plants/{userplant_id}"
@@ -48,7 +48,7 @@ func (o *DeleteUserPlantURL) Build() (*url.URL, error) {
 	if userplantID != "" {
 		_path = strings.Replace(_path, "{userplant_id}", userplantID, -1)
 	} else {
-		return nil, errors.New("userplantId is required on DeleteUserPlantURL")
+		return nil, errors.New("userplantId is required on GetUserPlantByIDURL")
 	}
 
 	_basePath := o._basePath
@@ -61,7 +61,7 @@ func (o *DeleteUserPlantURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *DeleteUserPlantURL) Must(u *url.URL, err error) *url.URL {
+func (o *GetUserPlantByIDURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -72,17 +72,17 @@ func (o *DeleteUserPlantURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *DeleteUserPlantURL) String() string {
+func (o *GetUserPlantByIDURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *DeleteUserPlantURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *GetUserPlantByIDURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on DeleteUserPlantURL")
+		return nil, errors.New("scheme is required for a full url on GetUserPlantByIDURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on DeleteUserPlantURL")
+		return nil, errors.New("host is required for a full url on GetUserPlantByIDURL")
 	}
 
 	base, err := o.Build()
@@ -96,6 +96,6 @@ func (o *DeleteUserPlantURL) BuildFull(scheme, host string) (*url.URL, error) {
 }
 
 // StringFull returns the string representation of a complete url
-func (o *DeleteUserPlantURL) StringFull(scheme, host string) string {
+func (o *GetUserPlantByIDURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }
