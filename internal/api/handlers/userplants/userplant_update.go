@@ -64,7 +64,7 @@ func (impl *updateUserPlantImpl) Handle(params userplant.UpdateUserPlantParams) 
 			WithPayload(&models.ErrorResponse{Message: "db error happen"})
 	}
 	if existingUserPlant == nil {
-		log.Infof("storage.GetUserPlantByID with id=%d not found", params.Userplant.ID)
+		log.Warnf("storage.GetUserPlantByID with id=%d not found", params.Userplant.ID)
 		return userplant.NewUpdateUserPlantDefault(http.StatusNotFound).
 			WithPayload(&models.ErrorResponse{Message: "user's plant not found"}).			 
                              WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
