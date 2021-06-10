@@ -1,0 +1,30 @@
+name: TG-notifications
+on:
+  pull_request:
+    branches:
+      - main
+  issues:
+jobs:
+  notif:
+    name: notif
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: send telegram notification on pull-request
+        if: github.event_name == 'pull_request'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TG_chat }}
+          token: ${{ secrets.TG_token }}
+          format: markdown
+          message: |
+            User: ${{ github.actor }} created new PR: [#${{ github.event.number }}](${{ github.event.pull_request.html_url }}) from branch: ${{ github.head_ref }}
+      - name: send telegram notification on new issue
+        if: github.event_name == 'issues' && github.event.action != 'assigned' && github.event.action != 'unassigned'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TG_chat }}
+          token: ${{ secrets.TG_token }}
+          format: markdown
+          message: |
+            User: ${{ github.actor }} created new issue: [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }})
