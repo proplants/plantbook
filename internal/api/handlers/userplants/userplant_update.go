@@ -75,7 +75,8 @@ func (impl *updateUserPlantImpl) Handle(params userplant.UpdateUserPlantParams) 
 	if !(isAdmin || isOwner) {
 		log.Errorf("userID=%d, not owner and not admin try update", uid)
 		return userplant.NewDeleteUserPlantDefault(http.StatusForbidden).
-			WithPayload(&models.ErrorResponse{Message: "forbidden"})
+			WithPayload(&models.ErrorResponse{Message: "forbidden"}).
+			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 
 	updatedUserPlant, err := impl.storage.UpdateUserPlant(params.HTTPRequest.Context(), params.Userplant)
