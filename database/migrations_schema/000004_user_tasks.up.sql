@@ -7,9 +7,9 @@ create table if not exists user_tasks(
 	description text,
     todo_at timestamp not null, -- Когда сделать
     done boolean default false, -- Сделана задача или нет
-    done_at timestamp, -- Когда сделана
-    created_at timestamp not null default current_timestamp,
-	modified_at timestamp,
+    done_at timestamptz, -- Когда сделана
+    created_at timestamptz not null default current_timestamp,
+	modified_at timestamptz,
     -- constraints:
 	constraint user_plants_id_user_fk foreign key (id_user) references users (id_user) on delete cascade
 );

@@ -12,12 +12,10 @@ import (
 
 // source: https://github.com/go-swagger/go-swagger/issues/1120#issuecomment-419577629
 
-var (
-	histogram = promauto.NewHistogramVec(prometheus.HistogramOpts{
-		Name: "http_duration_seconds",
-		Help: "Time taken to execute endpoint.",
-	}, []string{"path", "method", "status"})
-)
+var histogram = promauto.NewHistogramVec(prometheus.HistogramOpts{
+	Name: "http_duration_seconds",
+	Help: "Time taken to execute endpoint.",
+}, []string{"path", "method", "status"})
 
 type metricResponseWriter struct {
 	http.ResponseWriter
@@ -33,7 +31,7 @@ func (lrw *metricResponseWriter) WriteHeader(code int) {
 	lrw.ResponseWriter.WriteHeader(code)
 }
 
-// SetupHandler enable CORS, handler metrics
+// SetupHandler enable CORS, handler metrics.
 func SetupHandler(handler http.Handler) http.Handler {
 	handleCORS := cors.AllowAll().Handler
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

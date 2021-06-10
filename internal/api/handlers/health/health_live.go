@@ -9,11 +9,13 @@ import (
 
 type healthAliveImpl struct{}
 
-// NewLoginUserHandler builder for user.LoginUserHandler interface implementation
+// NewLoginUserHandler builder for user.LoginUserHandler interface implementation.
 func NewHealthAliveHandler() health.HealthAliveHandler {
 	return &healthAliveImpl{}
 }
 
+// Handle implementation of the health.HealthAliveHandler interface.
 func (ha *healthAliveImpl) Handle(params health.HealthAliveParams) middleware.Responder {
-	return health.NewHealthAliveOK().WithPayload("OK").WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
+	return health.NewHealthAliveOK().WithPayload("OK").
+		WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 }

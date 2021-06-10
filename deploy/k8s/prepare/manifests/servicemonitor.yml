@@ -9,7 +9,8 @@ spec:
   jobLabel: plantbook-monitor
   namespaceSelector:
     matchNames:
-    - g1-vladimir
+    - plantbook-test
+    - plantbook-prod
   selector:
     matchLabels:
       app: plantbook
@@ -17,4 +18,3 @@ spec:
   - interval: 15s
     port: metrichttp
     path: /metrics
-    

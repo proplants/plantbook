@@ -4,30 +4,35 @@ metadata:
   name: monitoring
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: "sre.plantbook.icu"
+    - host: "prom.plantbook.icu"
       http:
         paths:
-          - path: /prom
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: prometheus-prometheus
+                name: prom-kube-prometheus-stack-prometheus
                 port:
                   number: 9090
-          - path: /grafana
+    - host: "grafana.plantbook.icu"
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: prometheus-grafana # OR your service name
+                name: prom-grafana # OR your service name
                 port:
-                  number: 3000 # grafana's service tcp/http port
-          - path: /alert
+                  number: 80 # grafana's service tcp/http port
+    - host: "alert.plantbook.icu"
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: prometheus-alertmanager
+                name: prom-kube-prometheus-stack-alertmanager
                 port:
                   number: 9093
