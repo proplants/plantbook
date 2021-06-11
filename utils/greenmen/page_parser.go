@@ -16,6 +16,7 @@ import (
 )
 
 // plant page
+// [x] room plants
 
 const (
 	shortPropKind             string = "Тип  растения"
