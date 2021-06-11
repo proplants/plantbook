@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/models"
 )
 
 const (

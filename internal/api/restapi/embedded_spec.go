@@ -23,7 +23,7 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "description": "This is a Plantbook project API description. You can find out more about us at [https://github.com/kaatinga/plantbook](https://github.com/kaatinga/plantbook).",
+    "description": "This is a Plantbook project API description. You can find out more about us at [https://github.com/proplants/plantbook](https://github.com/proplants/plantbook).",
     "title": "Plantbook",
     "license": {
       "name": "MIT",
@@ -1396,7 +1396,7 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "description": "This is a Plantbook project API description. You can find out more about us at [https://github.com/kaatinga/plantbook](https://github.com/kaatinga/plantbook).",
+    "description": "This is a Plantbook project API description. You can find out more about us at [https://github.com/proplants/plantbook](https://github.com/proplants/plantbook).",
     "title": "Plantbook",
     "license": {
       "name": "MIT",

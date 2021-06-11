@@ -15,20 +15,20 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/pkg/token"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/pkg/token"
 
-	ghandlers "github.com/kaatinga/plantbook/internal/api/handlers/gardens"
-	hhandlers "github.com/kaatinga/plantbook/internal/api/handlers/health"
-	rphandlers "github.com/kaatinga/plantbook/internal/api/handlers/refplants"
-	uphandlers "github.com/kaatinga/plantbook/internal/api/handlers/userplants"
-	uhandlers "github.com/kaatinga/plantbook/internal/api/handlers/users"
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/repo"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
-	"github.com/kaatinga/plantbook/internal/config"
-	"github.com/kaatinga/plantbook/internal/metric"
+	ghandlers "github.com/proplants/plantbook/internal/api/handlers/gardens"
+	hhandlers "github.com/proplants/plantbook/internal/api/handlers/health"
+	rphandlers "github.com/proplants/plantbook/internal/api/handlers/refplants"
+	uphandlers "github.com/proplants/plantbook/internal/api/handlers/userplants"
+	uhandlers "github.com/proplants/plantbook/internal/api/handlers/users"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/repo"
+	"github.com/proplants/plantbook/internal/api/restapi/operations"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/user"
+	"github.com/proplants/plantbook/internal/config"
+	"github.com/proplants/plantbook/internal/metric"
 )
 
 //go:generate swagger generate server --target ../../api --name Plantbook --spec ../../../api/swagger/swagger.yaml --principal interface{}

@@ -3,10 +3,10 @@ package health
 import (
 	"net/http"
 
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
-	"github.com/kaatinga/plantbook/pkg/logging"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/health"
+	"github.com/proplants/plantbook/pkg/logging"
 
 	"github.com/go-openapi/runtime/middleware"
 )

@@ -19,11 +19,11 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/gardens"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/refplant"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/userplant"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/gardens"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/health"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/refplant"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/user"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/userplant"
 )
 
 // NewPlantbookAPI creates a new Plantbook instance
@@ -115,7 +115,7 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 	}
 }
 
-/*PlantbookAPI This is a Plantbook project API description. You can find out more about us at [https://github.com/kaatinga/plantbook](https://github.com/kaatinga/plantbook). */
+/*PlantbookAPI This is a Plantbook project API description. You can find out more about us at [https://github.com/proplants/plantbook](https://github.com/proplants/plantbook). */
 type PlantbookAPI struct {
 	spec            *loads.Document
 	context         *middleware.Context

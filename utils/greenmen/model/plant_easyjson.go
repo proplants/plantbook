@@ -4,7 +4,6 @@ package model
 
 import (
 	json "encoding/json"
-
 	easyjson "github.com/mailru/easyjson"
 	jlexer "github.com/mailru/easyjson/jlexer"
 	jwriter "github.com/mailru/easyjson/jwriter"
@@ -18,7 +17,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel(in *jlexer.Lexer, out *ShortInfo) {
+func easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel(in *jlexer.Lexer, out *ShortInfo) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -61,8 +60,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel(in *jlex
 		in.Consumed()
 	}
 }
-
-func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel(out *jwriter.Writer, in ShortInfo) {
+func easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel(out *jwriter.Writer, in ShortInfo) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -107,28 +105,27 @@ func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel(out *jwr
 // MarshalJSON supports json.Marshaler interface
 func (v ShortInfo) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel(&w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v ShortInfo) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel(w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *ShortInfo) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel(&r, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *ShortInfo) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel(l, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel(l, v)
 }
-
-func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel1(in *jlexer.Lexer, out *Plants) {
+func easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel1(in *jlexer.Lexer, out *Plants) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -156,8 +153,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel1(in *jle
 		in.Consumed()
 	}
 }
-
-func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel1(out *jwriter.Writer, in Plants) {
+func easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel1(out *jwriter.Writer, in Plants) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -175,28 +171,27 @@ func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel1(out *jw
 // MarshalJSON supports json.Marshaler interface
 func (v Plants) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel1(&w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v Plants) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel1(w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *Plants) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel1(&r, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Plants) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel1(l, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel1(l, v)
 }
-
-func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel2(in *jlexer.Lexer, out *Plant) {
+func easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel2(in *jlexer.Lexer, out *Plant) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -239,8 +234,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel2(in *jle
 		in.Consumed()
 	}
 }
-
-func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel2(out *jwriter.Writer, in Plant) {
+func easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel2(out *jwriter.Writer, in Plant) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -285,28 +279,27 @@ func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel2(out *jw
 // MarshalJSON supports json.Marshaler interface
 func (v Plant) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel2(&w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel2(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v Plant) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel2(w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel2(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *Plant) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel2(&r, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel2(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Plant) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel2(l, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel2(l, v)
 }
-
-func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel3(in *jlexer.Lexer, out *Metadata) {
+func easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel3(in *jlexer.Lexer, out *Metadata) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -339,8 +332,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel3(in *jle
 		in.Consumed()
 	}
 }
-
-func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel3(out *jwriter.Writer, in Metadata) {
+func easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel3(out *jwriter.Writer, in Metadata) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -360,28 +352,27 @@ func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel3(out *jw
 // MarshalJSON supports json.Marshaler interface
 func (v Metadata) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel3(&w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel3(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v Metadata) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel3(w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel3(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *Metadata) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel3(&r, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel3(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Metadata) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel3(l, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel3(l, v)
 }
-
-func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(in *jlexer.Lexer, out *Infos) {
+func easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel4(in *jlexer.Lexer, out *Infos) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -409,8 +400,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(in *jle
 		in.Consumed()
 	}
 }
-
-func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(out *jwriter.Writer, in Infos) {
+func easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel4(out *jwriter.Writer, in Infos) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -428,28 +418,27 @@ func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(out *jw
 // MarshalJSON supports json.Marshaler interface
 func (v Infos) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(&w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel4(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v Infos) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel4(w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel4(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *Infos) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(&r, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel4(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Infos) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel4(l, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel4(l, v)
 }
-
-func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel5(in *jlexer.Lexer, out *Info) {
+func easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel5(in *jlexer.Lexer, out *Info) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -482,8 +471,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel5(in *jle
 		in.Consumed()
 	}
 }
-
-func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel5(out *jwriter.Writer, in Info) {
+func easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel5(out *jwriter.Writer, in Info) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -503,28 +491,27 @@ func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel5(out *jw
 // MarshalJSON supports json.Marshaler interface
 func (v Info) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel5(&w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel5(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v Info) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel5(w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel5(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *Info) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel5(&r, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel5(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Info) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel5(l, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel5(l, v)
 }
-
-func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel6(in *jlexer.Lexer, out *Images) {
+func easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel6(in *jlexer.Lexer, out *Images) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -552,8 +539,7 @@ func easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel6(in *jle
 		in.Consumed()
 	}
 }
-
-func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel6(out *jwriter.Writer, in Images) {
+func easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel6(out *jwriter.Writer, in Images) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
@@ -571,23 +557,23 @@ func easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel6(out *jw
 // MarshalJSON supports json.Marshaler interface
 func (v Images) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel6(&w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel6(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v Images) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson30217d55EncodeGithubComKaatingaPlantbookUtilsGreenmenModel6(w, v)
+	easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel6(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *Images) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel6(&r, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel6(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Images) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson30217d55DecodeGithubComKaatingaPlantbookUtilsGreenmenModel6(l, v)
+	easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel6(l, v)
 }

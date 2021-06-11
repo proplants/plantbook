@@ -19,7 +19,7 @@ spec:
         app: plantbook
     spec:
       containers:
-        - image: ghcr.io/kaatinga/plantbook/restapi:latest
+        - image: ghcr.io/proplants/plantbook/restapi:latest
           name: plantbook
           env:
             - name: PLANTBOOK_DB_URL
@@ -102,7 +102,7 @@ spec:
                   name: db-pwd
                   key: db_pwd
           command: ['/migrate']
-          args: ['-source', 'github://kaatinga:$(REPO-PAT)@kaatinga/plantbook/database/migrations_schema', '-database', 'postgresql://$(DB_USER):$(DB_PWD)@plantbook-testdb:5432/plantbook_admin?sslmode=disable', 'up']
+          args: ['-source', 'github://proplants:$(REPO-PAT)@proplants/plantbook/database/migrations_schema', '-database', 'postgresql://$(DB_USER):$(DB_PWD)@plantbook-testdb:5432/plantbook_admin?sslmode=disable', 'up']
 ---
 apiVersion: v1
 kind: Service

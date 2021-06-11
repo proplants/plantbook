@@ -1,8 +1,8 @@
 package health
 
 import (
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/health"
 
 	"github.com/go-openapi/runtime/middleware"
 )

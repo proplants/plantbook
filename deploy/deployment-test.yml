@@ -19,7 +19,7 @@ spec:
         app: plantbook
     spec:
       containers:
-        - image: ghcr.io/kaatinga/plantbook/restapi:latest
+        - image: ghcr.io/proplants/plantbook/restapi:latest
           name: plantbook
           env:
             - name: PLANTBOOK_DB_URL
