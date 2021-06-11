@@ -1,0 +1,5 @@
+repos:
+- repo: git://github.com/proplants/pre-commit-golang
+  rev: master
+  hooks:
+    - id: golangci-lint
