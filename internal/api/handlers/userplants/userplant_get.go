@@ -16,7 +16,7 @@ type getUserPlantImpl struct {
 	tm      token.Manager
 }
 
-// NewGetRefPlantsHandler builder for userplant.GetUserPlantsHandler interface implementation.
+// NewGetUserPlantHandler builder for userplant.GetUserPlantsHandler interface implementation.
 func NewGetUserPlantHandler(storage RepoInterface, tm token.Manager) userplant.GetUserPlantsHandler {
 	return &getUserPlantImpl{storage: storage, tm: tm}
 }
