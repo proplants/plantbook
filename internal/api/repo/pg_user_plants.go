@@ -96,7 +96,6 @@ func (pg *PG) UpdateUserPlant(ctx context.Context, plant *models.UserPlant) (*mo
 		Scan(&updUserPlantID, &updNextWatering, &updModifiedAt)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-
 			return nil, errors.Errorf("no rows updated")
 		}
 		return nil, errors.WithMessage(err, "update plant failed")
