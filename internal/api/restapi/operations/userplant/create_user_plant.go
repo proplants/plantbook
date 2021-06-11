@@ -31,9 +31,9 @@ func NewCreateUserPlant(ctx *middleware.Context, handler CreateUserPlantHandler)
 
 /* CreateUserPlant swagger:route POST /api/v1/user/plants userplant createUserPlant
 
-Add a new plant for user
+Add a new user's plant
 
-Add a new plant for user
+Add a new user's plant
 
 */
 type CreateUserPlant struct {

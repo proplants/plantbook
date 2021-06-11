@@ -9,7 +9,7 @@ create table if not exists user_plants(
 	last_watering timestamp, -- Когда в последний раз поливали
 	next_watering timestamptz generated always as (last_watering + watering_interval) stored, -- Следующий полив, расчитывается из (последний полив + интервал полива)
 	photo_url jsonb not null default '{}'::jsonb, -- массив ссылок на изображения растения,
-	name varchar(255) not null, -- Свое имя для растения
+	title varchar(255) not null, -- Свое имя для растения
 	description text,
 	created_at timestamptz not null default current_timestamp,
 	modified_at timestamptz null,

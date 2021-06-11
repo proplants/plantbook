@@ -18,24 +18,24 @@ import (
 	"github.com/kaatinga/plantbook/internal/api/models"
 )
 
-// NewCreateUserPlantParams creates a new CreateUserPlantParams object
+// NewUpdateUserPlantParams creates a new UpdateUserPlantParams object
 //
 // There are no default values defined in the spec.
-func NewCreateUserPlantParams() CreateUserPlantParams {
+func NewUpdateUserPlantParams() UpdateUserPlantParams {
 
-	return CreateUserPlantParams{}
+	return UpdateUserPlantParams{}
 }
 
-// CreateUserPlantParams contains all the bound params for the create user plant operation
+// UpdateUserPlantParams contains all the bound params for the update user plant operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters createUserPlant
-type CreateUserPlantParams struct {
+// swagger:parameters updateUserPlant
+type UpdateUserPlantParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*New plant of user
+	/*New data of user's plant
 	  Required: true
 	  In: body
 	*/
@@ -45,8 +45,8 @@ type CreateUserPlantParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewCreateUserPlantParams() beforehand.
-func (o *CreateUserPlantParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewUpdateUserPlantParams() beforehand.
+func (o *UpdateUserPlantParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
