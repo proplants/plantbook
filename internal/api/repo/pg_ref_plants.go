@@ -9,7 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-//  Получение растений из справочника по параметрам или просто все, обязательные поля limit and offset
+// GetRefPlants получение растений из справочника по параметрам или просто все, обязательные поля limit and offset.
 func (pg *PG) GetRefPlants(ctx context.Context, params refplant.GetRefPlantsParams) ([]*models.RefPlant, error) {
 	query := `select id, title, category_id, short_info::jsonb, notes::jsonb,
 			img_links::jsonb, creator, created_at, modifier, modified_at
@@ -76,6 +76,7 @@ func (pg *PG) GetRefPlants(ctx context.Context, params refplant.GetRefPlantsPara
 	return refPlants, err
 }
 
+// GetRefPlantByID extracts reference.plant by specified id.
 func (pg *PG) GetRefPlantByID(ctx context.Context, id int64) (*models.RefPlant, error) {
 	query := `select id, title, category_id, short_info::jsonb, notes::jsonb,
 			img_links::jsonb, creator, created_at, modifier, modified_at

@@ -14,7 +14,7 @@ type logoutUserImpl struct {
 	expDelay time.Duration
 }
 
-// NewLoginUserHandler builder for user.LogoutUserHandler interface implementation.
+// NewLogoutUserHandler builder for user.LogoutUserHandler interface implementation.
 func NewLogoutUserHandler(expDelay time.Duration) user.LogoutUserHandler {
 	return &logoutUserImpl{expDelay: expDelay}
 }

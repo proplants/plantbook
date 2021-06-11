@@ -24,6 +24,7 @@ const (
 	pgConnConfigConnectTimeout time.Duration = 1 * time.Second
 )
 
+// ErrNotFound user not found.
 var ErrNotFound error = errors.New("user not found")
 
 // PG ...

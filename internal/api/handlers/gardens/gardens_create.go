@@ -19,7 +19,7 @@ type createGardenImpl struct {
 	tm      token.Manager
 }
 
-// NewCreateUserHandler builder for gardens.CreateUserGardenHandler interface implementation.
+// NewCreateUserGardenHandler builder for gardens.CreateUserGardenHandler interface implementation.
 func NewCreateUserGardenHandler(storage RepoInterface, tm token.Manager) gardens.CreateUserGardenHandler {
 	return &createGardenImpl{storage: storage, tm: tm}
 }

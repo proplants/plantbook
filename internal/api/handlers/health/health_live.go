@@ -9,7 +9,7 @@ import (
 
 type healthAliveImpl struct{}
 
-// NewLoginUserHandler builder for user.LoginUserHandler interface implementation.
+// NewHealthAliveHandler builder for user.LoginUserHandler interface implementation.
 func NewHealthAliveHandler() health.HealthAliveHandler {
 	return &healthAliveImpl{}
 }

@@ -42,6 +42,7 @@ func CheckPass(passHash []byte, plainPassword string) bool {
 
 // helpers
 
+// MakeSalt ...
 // nolint:errcheck
 func MakeSalt(n int) []byte {
 	salt := make([]byte, n)

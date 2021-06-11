@@ -22,6 +22,7 @@ const (
 	rndLengthLim       int    = 10
 )
 
+// RandomString ...
 // nolint:gosec
 func RandomString() string {
 	b := make([]byte, rand.Intn(rndLengthLim)+rndLengthLim)
