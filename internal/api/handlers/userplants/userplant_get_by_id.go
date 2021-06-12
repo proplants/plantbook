@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/userplant"
-	"github.com/kaatinga/plantbook/pkg/logging"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/userplant"
+	"github.com/proplants/plantbook/pkg/logging"
 )
 
 type getUserPlantByIDImpl struct {

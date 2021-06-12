@@ -6,8 +6,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/pkg/logging"
 
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/log/zapadapter"

@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/kaatinga/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/pkg/logging"
 
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus/promhttp"

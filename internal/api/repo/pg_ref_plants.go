@@ -4,9 +4,9 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/refplant"
 	"github.com/pkg/errors"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/refplant"
 )
 
 //  Получение растений из справочника по параметрам или просто все, обязательные поля limit and offset

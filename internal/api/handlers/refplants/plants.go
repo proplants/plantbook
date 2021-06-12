@@ -3,8 +3,8 @@ package refplants
 import (
 	"context"
 
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/refplant"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/refplant"
 )
 
 type RepoInterface interface {

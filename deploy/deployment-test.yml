@@ -1,0 +1,85 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plantbook
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: plantbook
+  template:
+    metadata:
+      labels:
+        app: plantbook
+    spec:
+      containers:
+        - image: ghcr.io/proplants/plantbook/restapi:latest
+          name: plantbook
+          env:
+            - name: PLANTBOOK_DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: db-url
+                  key: db_url
+            - name: PLANTBOOK_HTTPD_PORT
+              value: "8081"
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plantbook
+  labels:
+    app: plantbook
+spec:
+  type: NodePort
+  ports:
+    - port: 8081
+      targetPort: 8081
+      protocol: TCP
+      name: tcp
+    - port: 8082
+      targetPort: 8082
+      protocol: TCP
+      name: metrichttp
+  selector:
+    app: plantbook
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-test-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: "test.plantbook.icu"
+      http:
+        paths:
+          - path: /api/v1
+            pathType: Prefix
+            backend:
+              service:
+                name: plantbook
+                port:
+                  number: 8081
+          - path: /health
+            pathType: Prefix
+            backend:
+              service:
+                name: plantbook
+                port:
+                  number: 8081
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: plantbook-front
+                port:
+                  number: 80

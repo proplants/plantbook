@@ -75,7 +75,7 @@ jobs:
           push: true
           context: .
           file: ./build/restapi/Dockerfile
-          tags: ghcr.io/kaatinga/plantbook/restapi:latest
+          tags: ghcr.io/proplants/plantbook/restapi:latest
           build-args: |
             BUILD_NUMBER=${{ github.run_number  }}
             GITSHA=${{ github.sha }}
@@ -105,7 +105,7 @@ jobs:
           manifests: |
             ./deploy/deployment.yml
           images: |
-              ghcr.io/kaatinga/plantbook/restapi:latest
+              ghcr.io/proplants/plantbook/restapi:latest
       - name: re-roll
         if: steps.status.outputs.OUTPUT == 'deployment "plantbook" successfully rolled out'
         run: |

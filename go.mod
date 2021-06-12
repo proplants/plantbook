@@ -1,4 +1,4 @@
-module github.com/kaatinga/plantbook
+module github.com/proplants/plantbook
 
 go 1.16
 

@@ -4,12 +4,12 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/kaatinga/plantbook/internal/api/handlers"
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/userplant"
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/pkg/token"
+	"github.com/proplants/plantbook/internal/api/handlers"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/userplant"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/pkg/token"
 )
 
 type deleteUserPlantImpl struct {
@@ -75,7 +75,7 @@ func (impl *deleteUserPlantImpl) Handle(params userplant.DeleteUserPlantParams) 
 		log.Errorf("userID=%d, not owner and not admin try delete", uid)
 		return userplant.NewDeleteUserPlantDefault(http.StatusForbidden).
 			WithPayload(&models.ErrorResponse{Message: "forbidden"}).
-			    WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
+			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 
 	err = impl.storage.DeleteUserPlant(params.HTTPRequest.Context(), params.UserplantID)

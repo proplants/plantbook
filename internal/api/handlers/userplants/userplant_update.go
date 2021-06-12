@@ -4,12 +4,12 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/kaatinga/plantbook/internal/api/handlers"
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/userplant"
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/pkg/token"
+	"github.com/proplants/plantbook/internal/api/handlers"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/userplant"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/pkg/token"
 )
 
 type updateUserPlantImpl struct {
@@ -67,8 +67,8 @@ func (impl *updateUserPlantImpl) Handle(params userplant.UpdateUserPlantParams) 
 	if existingUserPlant == nil {
 		log.Warnf("storage.GetUserPlantByID with id=%d not found", params.Userplant.ID)
 		return userplant.NewUpdateUserPlantDefault(http.StatusNotFound).
-			WithPayload(&models.ErrorResponse{Message: "user's plant not found"}).			 
-                             WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
+			WithPayload(&models.ErrorResponse{Message: "user's plant not found"}).
+			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 
 	isAdmin := userRoleID == handlers.UserRoleAdmin

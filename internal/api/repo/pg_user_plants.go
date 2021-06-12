@@ -6,8 +6,8 @@ import (
 
 	"github.com/go-openapi/strfmt"
 	"github.com/jackc/pgx/v4"
-	"github.com/kaatinga/plantbook/internal/api/models"
 	"github.com/pkg/errors"
+	"github.com/proplants/plantbook/internal/api/models"
 )
 
 // StorePlant create new user's plant.
