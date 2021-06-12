@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/user"
 
 	"github.com/go-openapi/runtime/middleware"
 )

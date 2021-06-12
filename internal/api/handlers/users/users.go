@@ -6,7 +6,7 @@ import (
 	"context"
 	"crypto/rand"
 
-	"github.com/kaatinga/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/models"
 
 	"golang.org/x/crypto/argon2"
 )
