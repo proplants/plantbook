@@ -1,15 +1,16 @@
 name: TG-notifications
 on:
-  pull_request:
+  pull_request_target:
+    types: [assigned, opened, reopened]
   issues:
 jobs:
   notif:
-    name: notif
+    name: send notifications
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: send telegram notification on pull-request
-        if: github.event_name == 'pull_request'
+      - name: send telegram notifications on pull-request
+        if: github.event_name == 'pull_request_target'
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TG_chat }}
