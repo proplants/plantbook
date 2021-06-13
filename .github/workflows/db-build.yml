@@ -24,6 +24,10 @@ jobs:
             return serviceChanged
       - name: Check out code
         uses: actions/checkout@v2
+      - name: Set env
+        run: echo "TAG_VERSION=$(ls ./database/migrations_schema/*.sql | tail -1 | cut -d'_' -f2 | sed 's/schema\//v/g' | sed 's/0//g')" >> $GITHUB_ENV
+      - name: Test
+        run: echo $TAG_VERSION
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
@@ -36,4 +40,4 @@ jobs:
           push: true
           context: .
           file: ./build/db/Dockerfile
-          tags: ghcr.io/proplants/plantbook/database:latest
+          tags: ghcr.io/proplants/plantbook/database:$TAG_VERSION
