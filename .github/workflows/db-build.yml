@@ -1,10 +1,7 @@
 name: Database build docker image
 on:
-  push:
-      branches:
-        - 108-database-image
-  # pull_request:
-  #   types: [closed]
+  pull_request:
+    types: [closed]
 jobs:
   build_and_push:
     name: Push Docker image to GitHub Container Registry
