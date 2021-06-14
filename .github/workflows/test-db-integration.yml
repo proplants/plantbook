@@ -14,15 +14,15 @@ jobs:
         image: ghcr.io/proplants/plantbook/database:latest
         # Set health checks to wait until postgres has started
         # Provide the password for postgres
-        env:
-          POSTGRES_USER: plantbook_admin
-          POSTGRES_PASSWORD: mypassword
-          POSTGRES_DB: plantbook_admin
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
+        # env:
+        #   POSTGRES_USER: plantbook_admin
+        #   POSTGRES_PASSWORD: mypassword
+        #   POSTGRES_DB: plantbook_admin
+        # options: >-
+        #   --health-cmd pg_isready
+        #   --health-interval 10s
+        #   --health-timeout 5s
+        #   --health-retries 10
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
@@ -34,10 +34,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set env
-        run: echo "DB_HOST_PORT=plantbookdb:5432" >> $GITHUB_ENV
-
       - name: Restore Cache
         uses: actions/cache@v2
         with:
@@ -47,3 +43,5 @@ jobs:
             ${{ runner.os }}-v1-go-
       - name: Test
         run: go test --tags=integration  ./...
+        env:
+          DB_HOST_PORT: localhost:5432
