@@ -9,15 +9,22 @@ jobs:
     # Service containers to run with `container-job`
     services:
       # Label used to access the service container
-      database:
+      plantbookdb:
         # Docker Hub image
         image: ghcr.io/proplants/plantbook/database:latest
         # Set health checks to wait until postgres has started
-        # options: >-
-        #   --health-cmd pg_isready
-        #   --health-interval 10s
-        #   --health-timeout 5s
-        #   --health-retries 5
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: plantbook_admin
+          POSTGRES_PASSWORD: mypassword
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
     steps:
       - name: Install Go
         uses: actions/setup-go@v2
@@ -26,8 +33,10 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Set env
-        run: echo "DB_HOST_PORT=database:5432" >> $GITHUB_ENV
+        run: echo "DB_HOST_PORT=plantbookdb:5432" >> $GITHUB_ENV
+
       - name: Restore Cache
         uses: actions/cache@v2
         with:
@@ -36,4 +45,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-v1-go-
       - name: Test
-        run: go test --tags=integration  ./... -race -cover
+        run: go test --tags=integration  ./...
