@@ -40,4 +40,4 @@ jobs:
           push: true
           context: .
           file: ./build/db/Dockerfile
-          tags: ghcr.io/proplants/plantbook/database:${{ env.TAG_VERSION }}
+          tags: ghcr.io/proplants/plantbook/database:${{ env.TAG_VERSION }},ghcr.io/proplants/plantbook/database:latest
