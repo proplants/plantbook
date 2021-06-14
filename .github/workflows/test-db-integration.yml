@@ -1,8 +1,6 @@
 name: integration tests
 on:
-  push:
-    branches-ignore:
-      - main
+  workflow_dispatch:
 jobs:
   integration-tests:
     runs-on: ubuntu-latest
@@ -12,17 +10,6 @@ jobs:
       plantbookdb:
         # Docker Hub image
         image: ghcr.io/proplants/plantbook/database:latest
-        # Set health checks to wait until postgres has started
-        # Provide the password for postgres
-        # env:
-        #   POSTGRES_USER: plantbook_admin
-        #   POSTGRES_PASSWORD: mypassword
-        #   POSTGRES_DB: plantbook_admin
-        # options: >-
-        #   --health-cmd pg_isready
-        #   --health-interval 10s
-        #   --health-timeout 5s
-        #   --health-retries 10
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
