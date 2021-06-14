@@ -80,6 +80,8 @@ func NewPG(ctx context.Context, url string, debug bool) (*PG, error) {
 	return &PG{db: pool}, nil
 }
 
+// StoreUser inserts new user to db,
+// with passhash.
 func (pg *PG) StoreUser(ctx context.Context, user *models.User, passwordHash []byte) (*models.User, error) {
 	const query string = `insert into public.users 
 		(name_user, email_addr, pwd_hash,
@@ -106,6 +108,7 @@ func (pg *PG) StoreUser(ctx context.Context, user *models.User, passwordHash []b
 	return user, nil
 }
 
+// FindUserByLogin extracts user from db by specified username.
 func (pg *PG) FindUserByLogin(ctx context.Context, login string) (*models.User, []byte, error) {
 	const query string = `SELECT 
 			id_user, name_user, email_addr, 
@@ -124,6 +127,9 @@ func (pg *PG) FindUserByLogin(ctx context.Context, login string) (*models.User, 
 		}
 		return nil, nil, errors.WithMessage(err, "fetch user failed")
 	}
+	// TODO: сделайте что-то с этим статусом наконец!
+	u.UserStatus = 1
+	//
 	return &u, hash, nil
 }
 
