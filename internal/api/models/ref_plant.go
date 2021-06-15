@@ -8,7 +8,6 @@ package models
 import (
 	"context"
 	"strconv"
-	timeext "time"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
@@ -25,7 +24,8 @@ type RefPlant struct {
 	Category int32 `json:"category,omitempty"`
 
 	// created at
-	CreatedAt timeext.Time `json:"createdAt,omitempty"`
+	// Format: date-time
+	CreatedAt strfmt.DateTime `json:"createdAt,omitempty"`
 
 	// creater
 	Creater string `json:"creater,omitempty"`
@@ -41,7 +41,9 @@ type RefPlant struct {
 	Infos []*Info `json:"infos"`
 
 	// modified at
-	ModifiedAt *timeext.Time `json:"modifiedAt,omitempty"`
+	// Min Length: 0
+	// Format: date-time
+	ModifiedAt strfmt.DateTime `json:"modifiedAt,omitempty"`
 
 	// modifier
 	// Min Length: 0
@@ -59,11 +61,19 @@ type RefPlant struct {
 func (m *RefPlant) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCreatedAt(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateImages(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateInfos(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateModifiedAt(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -82,6 +92,18 @@ func (m *RefPlant) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *RefPlant) validateCreatedAt(formats strfmt.Registry) error {
+	if swag.IsZero(m.CreatedAt) { // not required
+		return nil
+	}
+
+	if err := validate.FormatOf("createdAt", "body", "date-time", m.CreatedAt.String(), formats); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -113,6 +135,22 @@ func (m *RefPlant) validateInfos(formats strfmt.Registry) error {
 			}
 		}
 
+	}
+
+	return nil
+}
+
+func (m *RefPlant) validateModifiedAt(formats strfmt.Registry) error {
+	if swag.IsZero(m.ModifiedAt) { // not required
+		return nil
+	}
+
+	if err := validate.MinLength("modifiedAt", "body", m.ModifiedAt.String(), 0); err != nil {
+		return err
+	}
+
+	if err := validate.FormatOf("modifiedAt", "body", "date-time", m.ModifiedAt.String(), formats); err != nil {
+		return err
 	}
 
 	return nil

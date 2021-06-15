@@ -69,7 +69,7 @@ paths:
               type: string
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /api/v1/refplants:
+  /api/v1/reference/plants:
     get:
       tags:
         - "refplant"
@@ -87,34 +87,42 @@ paths:
           required: false
           type: "integer"
           format: "int32"
+          allowEmptyValue: true
         - name: kind
           in: query
           type: string
           required: false
+          allowEmptyValue: true
         - name: recommendPosition
           in: query
           type: string
           required: false
+          allowEmptyValue: true
         - name: regardToLight
           in: query
           type: string
           required: false
+          allowEmptyValue: true
         - name: regardToMoisture
           in: query
           type: string
           required: false
+          allowEmptyValue: true
         - name: floweringTime
           in: query
           type: string
           required: false
+          allowEmptyValue: true
         - name: hight
           in: query
           type: string
           required: false
+          allowEmptyValue: true
         - name: classifiers
           in: query
           type: string
           required: false
+          allowEmptyValue: true
         - name: limit
           in: query
           type: integer
@@ -146,7 +154,7 @@ paths:
               type: string
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /api/v1/refplant/{id}:
+  /api/v1/reference/plants/{id}:
     get:
       tags:
         - "refplant"
@@ -896,23 +904,15 @@ definitions:
       creater:
         type: "string"
       createdAt:
-        x-go-type:
-          type: "Time"
-          import:
-            package: "time"
-          hints:
-            noValidation: true
+        type: "string"
+        format: "date-time"
       modifier:
         type: string
         minLength: 0
       modifiedAt:
-        x-go-type:
-          type: "Time"
-          import:
-            package: "time"
-          hints:
-            noValidation: true
-        x-nullable: true
+        type: "string"
+        format: "date-time"
+        minLength: 0
   Response:
     type: "object"
     properties:

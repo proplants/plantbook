@@ -35,23 +35,23 @@ type GetRefPlantsParams struct {
 	/*plant category
 	  In: query
 	*/
-	Category *int32
+	Category int32
 	/*
 	  In: query
 	*/
-	Classifiers *string
+	Classifiers string
 	/*
 	  In: query
 	*/
-	FloweringTime *string
+	FloweringTime string
 	/*
 	  In: query
 	*/
-	Hight *string
+	Hight string
 	/*
 	  In: query
 	*/
-	Kind *string
+	Kind string
 	/*
 	  Required: true
 	  In: query
@@ -65,15 +65,15 @@ type GetRefPlantsParams struct {
 	/*
 	  In: query
 	*/
-	RecommendPosition *string
+	RecommendPosition string
 	/*
 	  In: query
 	*/
-	RegardToLight *string
+	RegardToLight string
 	/*
 	  In: query
 	*/
-	RegardToMoisture *string
+	RegardToMoisture string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -150,7 +150,7 @@ func (o *GetRefPlantsParams) bindCategory(rawData []string, hasKey bool, formats
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
@@ -160,7 +160,7 @@ func (o *GetRefPlantsParams) bindCategory(rawData []string, hasKey bool, formats
 	if err != nil {
 		return errors.InvalidType("category", "query", "int32", raw)
 	}
-	o.Category = &value
+	o.Category = value
 
 	return nil
 }
@@ -173,12 +173,12 @@ func (o *GetRefPlantsParams) bindClassifiers(rawData []string, hasKey bool, form
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.Classifiers = &raw
+	o.Classifiers = raw
 
 	return nil
 }
@@ -191,12 +191,12 @@ func (o *GetRefPlantsParams) bindFloweringTime(rawData []string, hasKey bool, fo
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.FloweringTime = &raw
+	o.FloweringTime = raw
 
 	return nil
 }
@@ -209,12 +209,12 @@ func (o *GetRefPlantsParams) bindHight(rawData []string, hasKey bool, formats st
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.Hight = &raw
+	o.Hight = raw
 
 	return nil
 }
@@ -227,12 +227,12 @@ func (o *GetRefPlantsParams) bindKind(rawData []string, hasKey bool, formats str
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.Kind = &raw
+	o.Kind = raw
 
 	return nil
 }
@@ -297,12 +297,12 @@ func (o *GetRefPlantsParams) bindRecommendPosition(rawData []string, hasKey bool
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.RecommendPosition = &raw
+	o.RecommendPosition = raw
 
 	return nil
 }
@@ -315,12 +315,12 @@ func (o *GetRefPlantsParams) bindRegardToLight(rawData []string, hasKey bool, fo
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.RegardToLight = &raw
+	o.RegardToLight = raw
 
 	return nil
 }
@@ -333,12 +333,12 @@ func (o *GetRefPlantsParams) bindRegardToMoisture(rawData []string, hasKey bool,
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.RegardToMoisture = &raw
+	o.RegardToMoisture = raw
 
 	return nil
 }

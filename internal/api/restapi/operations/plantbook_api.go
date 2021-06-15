@@ -461,11 +461,11 @@ func (o *PlantbookAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/api/v1/refplant/{id}"] = refplant.NewGetRefPlantByID(o.context, o.RefplantGetRefPlantByIDHandler)
+	o.handlers["GET"]["/api/v1/reference/plants/{id}"] = refplant.NewGetRefPlantByID(o.context, o.RefplantGetRefPlantByIDHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/api/v1/refplants"] = refplant.NewGetRefPlants(o.context, o.RefplantGetRefPlantsHandler)
+	o.handlers["GET"]["/api/v1/reference/plants"] = refplant.NewGetRefPlants(o.context, o.RefplantGetRefPlantsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

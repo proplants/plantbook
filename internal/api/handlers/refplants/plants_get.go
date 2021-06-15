@@ -19,7 +19,9 @@ func NewGetRefPlantsHandler(repo RepoInterface) refplant.GetRefPlantsHandler {
 
 // Handle implementation of the refplant.GetRefPlantsHandler interface.
 func (impl *getRefPlantsImpl) Handle(params refplant.GetRefPlantsParams) middleware.Responder {
-	someRefPlants, err := impl.storage.GetRefPlants(params.HTTPRequest.Context(), params)
+	someRefPlants, err := impl.storage.GetRefPlants(params.HTTPRequest.Context(), params.Category,
+		params.Limit, params.Offset, params.Classifiers, params.FloweringTime, params.Hight, params.Kind,
+		params.RecommendPosition, params.RegardToLight, params.RegardToMoisture)
 	if err != nil {
 		return refplant.NewGetRefPlantsDefault(http.StatusInternalServerError).
 			WithPayload(&models.ErrorResponse{Message: err.Error()})

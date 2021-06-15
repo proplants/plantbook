@@ -29,7 +29,7 @@ func NewGetRefPlants(ctx *middleware.Context, handler GetRefPlantsHandler) *GetR
 	return &GetRefPlants{Context: ctx, Handler: handler}
 }
 
-/* GetRefPlants swagger:route GET /api/v1/refplants refplant getRefPlants
+/* GetRefPlants swagger:route GET /api/v1/reference/plants refplant getRefPlants
 
 find reference plants
 
