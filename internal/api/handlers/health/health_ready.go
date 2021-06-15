@@ -15,7 +15,7 @@ type healthReadyImpl struct {
 	storage RepoInterface
 }
 
-// NewLoginUserHandler builder for user.LoginUserHandler interface implementation.
+// NewHealthReadyHandler builder for user.LoginUserHandler interface implementation.
 func NewHealthReadyHandler(repo RepoInterface) health.HealthReadyHandler {
 	return &healthReadyImpl{storage: repo}
 }
