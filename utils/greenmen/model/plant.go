@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// Plant ...
 //easyjson:json
 type Plant struct {
 	Source    string    `json:"source"`
@@ -16,6 +17,7 @@ type Plant struct {
 	Metadata  Metadata  `json:"metadata"`
 }
 
+// String implement stringer interface.
 func (p *Plant) String() string {
 	bts, err := json.MarshalIndent(p, "", "\t")
 	if err != nil {
@@ -25,26 +27,32 @@ func (p *Plant) String() string {
 }
 
 //easyjson:json
+// Images ...
 type Images []string
 
 //easyjson:json
+// Plants ...
 type Plants []Plant
 
 //easyjson:json
+// Info ...
 type Info struct {
 	Title   string `json:"title"`
 	Content string `json:"content"`
 }
 
 //easyjson:json
+// Infos ...
 type Infos []Info
 
 //easyjson:json
+// Metadata ...
 type Metadata struct {
 	DateCollect string `json:"date_collect"`
 	Target      string `json:"target"`
 }
 
+// ShortInfo ...
 type ShortInfo struct {
 	Kind              string `json:"kind"`
 	RecommendPosition string `json:"recommend_position"`

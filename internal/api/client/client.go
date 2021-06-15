@@ -12,6 +12,7 @@ import (
 )
 
 const (
+	// APIV1URL prefix for path to api.
 	APIV1URL     string = "/api/v1"
 	maxIdleConns int    = 10
 )
