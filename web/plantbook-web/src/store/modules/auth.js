@@ -1,18 +1,37 @@
 const appUrl = "http://localhost:8085";
+
+import Vue from "vue";
+import Vuex from "vuex";
+import axios from "axios";
+import VueAxios from "vue-axios";
+Vue.use(VueAxios, axios);
+
+Vue.use(Vuex);
+
 export default {
+  namespaced: true,
   state: {
     token: null,
   },
-  mutations: {},
+  mutations: {
+    POST_LOGIN(state, result) {
+      state.token = result;
+    },
+  },
+
   actions: {
-    login(context, { login, password }) {
-      let response = await fetch(appUrl + "/api/v1/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
-        body: JSON.stringify({ login, password }),
-      });
+    async LOGIN({ commit }, user) {
+      try {
+        const data = JSON.stringify(user);
+        let res = await axios.post(appUrl + "/api/v1/user/login", data, {
+          headers: { "Content-Type": "application/json" },
+        });
+        let result = res;
+        console.log(result);
+        commit("POST_LOGIN", result);
+      } catch (e) {
+        console.log("Ошибка", e);
+      }
     },
     logOut() {},
     register() {},

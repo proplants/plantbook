@@ -1,40 +1,55 @@
 <template>
-  <div class="main" align="center">
-    <div class="block">
-      <h2>Войти</h2>
-      <form class="login" @submit.prevent="login">
-        <v-text-field v-model="name" label="Name" required></v-text-field>
-        <v-text-field
-          v-model="password"
-          label="Password"
-          required
-        ></v-text-field>
+  <div class="container">
+    <div class="main" align-self="center" align="center">
+      <div class="block">
+        <h2>Войти</h2>
+        <v-alert v-if="showError" color="red" elevation="5" dense type="error">
+          Неверный пароль или логин</v-alert
+        >
+        <form class="login" @submit.prevent="login">
+          <v-text-field
+            v-model="form.login"
+            label="Name"
+            required
+          ></v-text-field>
+          <v-text-field
+            type="password"
+            v-model="form.password"
+            label="Password"
+            required
+          ></v-text-field>
 
-        <v-btn block class="mr-4 greenyellow" @click="submit"> Войти </v-btn>
-      </form>
+          <v-btn block class="mr-4" @click="submit"> Войти </v-btn>
+        </form>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data: () => ({
-    name: "",
-    password: "",
+    form: {
+      login: "",
+      password: "",
+    },
+    showError: false,
   }),
-
-  computed: {},
-
+  computed: {
+    ...mapGetters(["IS_LOGGED_IN"]),
+  },
   methods: {
     ...mapActions(["LOGIN"]),
-    submit() {
-      let login = this.name;
-      let password = this.password;
-      this.LOGIN({ login, password })
-        .then(() => this.$router.push("/UserGallery"))
-        .catch((err) => console.log(err));
+    async submit() {
+      await this.LOGIN(this.form);
+      this.checkUser();
+    },
+    checkUser() {
+      return this.IS_LOGGED_IN
+        ? this.$router.push("/UserGallery")
+        : (this.showError = true);
     },
   },
 };
