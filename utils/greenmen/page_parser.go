@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/utils/greenmen/model"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/utils/greenmen/model"
 
 	"github.com/gocolly/colly/v2"
 	"github.com/pkg/errors"

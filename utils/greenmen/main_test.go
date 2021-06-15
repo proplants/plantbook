@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/kaatinga/plantbook/utils/greenmen/model"
+	"github.com/proplants/plantbook/utils/greenmen/model"
 )
 
 var roomPlant model.Plant = model.Plant{

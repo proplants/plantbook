@@ -5,8 +5,8 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/utils/randutil"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/utils/randutil"
 	"go.uber.org/zap"
 )
 

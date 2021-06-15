@@ -14,7 +14,7 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/validate"
 
-	"github.com/kaatinga/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/models"
 )
 
 // NewLoginUserParams creates a new LoginUserParams object

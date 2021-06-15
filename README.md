@@ -1,6 +1,6 @@
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/kaatinga/plantbook/blob/main/LICENSE)
-[![codecov](https://codecov.io/gh/kaatinga/plantbook/branch/main/graph/badge.svg)](https://codecov.io/gh/kaatinga/plantbook)
-[![lint workflow](https://github.com/kaatinga/plantbook/actions/workflows/lint.yml/badge.svg)](https://github.com/kaatinga/plantbook/actions?query=workflow%3Agolangci-lint)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/proplants/plantbook/blob/main/LICENSE)
+[![codecov](https://codecov.io/gh/proplants/plantbook/branch/main/graph/badge.svg)](https://codecov.io/gh/proplants/plantbook)
+[![lint workflow](https://github.com/proplants/plantbook/actions/workflows/lint.yml/badge.svg)](https://github.com/proplants/plantbook/actions?query=workflow%3Agolangci-lint)
 
 # Plantbook, plants social network.
 
