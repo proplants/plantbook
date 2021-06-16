@@ -7,7 +7,7 @@ import (
 )
 
 type RepoInterface interface {
-	GetRefPlants(ctx context.Context, category, limit, offset int32, classifier, floweringTime,
+	GetRefPlants(ctx context.Context, category int32, limit, offset int64, classifier, floweringTime,
 		hight, kind, recommendPosition, regardToLight, regardToMoisture string) ([]*models.RefPlant, error)
 	GetRefPlantByID(ctx context.Context, id int64) (*models.RefPlant, error)
 }

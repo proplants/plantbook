@@ -4,8 +4,10 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
 	"github.com/proplants/plantbook/internal/api/models"
 	"github.com/proplants/plantbook/internal/api/restapi/operations/refplant"
+	"github.com/proplants/plantbook/pkg/logging"
 )
 
 type getRefPlantsImpl struct {
@@ -19,12 +21,20 @@ func NewGetRefPlantsHandler(repo RepoInterface) refplant.GetRefPlantsHandler {
 
 // Handle implementation of the refplant.GetRefPlantsHandler interface.
 func (impl *getRefPlantsImpl) Handle(params refplant.GetRefPlantsParams) middleware.Responder {
-	someRefPlants, err := impl.storage.GetRefPlants(params.HTTPRequest.Context(), params.Category,
+	log := logging.FromContext(params.HTTPRequest.Context())
+	RefPlants, err := impl.storage.GetRefPlants(params.HTTPRequest.Context(), params.Category,
 		params.Limit, params.Offset, params.Classifiers, params.FloweringTime, params.Hight, params.Kind,
 		params.RecommendPosition, params.RegardToLight, params.RegardToMoisture)
 	if err != nil {
+		log.Errorf("Handle GetRefPlants error, %s", err)
 		return refplant.NewGetRefPlantsDefault(http.StatusInternalServerError).
-			WithPayload(&models.ErrorResponse{Message: err.Error()})
+			WithPayload(&models.ErrorResponse{Message: "db error"}).
+			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
-	return refplant.NewGetRefPlantsOK().WithPayload(someRefPlants)
+	resultSet := models.ResultSet{
+		Limit:  params.Limit,
+		Offset: params.Offset,
+	}
+	return refplant.NewGetRefPlantsOK().WithPayload(&models.RefPlantsResponse{Data: RefPlants, ResultSet: &resultSet}).
+		WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 }

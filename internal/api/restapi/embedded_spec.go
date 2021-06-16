@@ -300,28 +300,33 @@ func init() {
           },
           {
             "type": "integer",
-            "format": "int32",
-            "name": "limit",
+            "default": 0,
+            "description": "The number of items to skip before starting to collect the result set.",
+            "name": "offset",
             "in": "query",
-            "required": true,
             "allowEmptyValue": true
           },
           {
+            "maximum": 100,
+            "minimum": 1,
             "type": "integer",
-            "format": "int32",
-            "name": "offset",
+            "default": 20,
+            "description": "The numbers of items to return.",
+            "name": "limit",
             "in": "query",
-            "required": true,
             "allowEmptyValue": true
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "List of the user's plants",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/RefPlant"
+              "$ref": "#/definitions/RefPlantsResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
               }
             }
           },
@@ -1170,6 +1175,23 @@ func init() {
         }
       }
     },
+    "RefPlants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RefPlant"
+      }
+    },
+    "RefPlantsResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/RefPlants"
+        },
+        "result_set": {
+          "$ref": "#/definitions/ResultSet"
+        }
+      }
+    },
     "Response": {
       "type": "object",
       "properties": {
@@ -1665,29 +1687,35 @@ func init() {
             "allowEmptyValue": true
           },
           {
+            "minimum": 0,
             "type": "integer",
-            "format": "int32",
-            "name": "limit",
+            "default": 0,
+            "description": "The number of items to skip before starting to collect the result set.",
+            "name": "offset",
             "in": "query",
-            "required": true,
             "allowEmptyValue": true
           },
           {
+            "maximum": 100,
+            "minimum": 1,
             "type": "integer",
-            "format": "int32",
-            "name": "offset",
+            "default": 20,
+            "description": "The numbers of items to return.",
+            "name": "limit",
             "in": "query",
-            "required": true,
             "allowEmptyValue": true
           }
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "List of the user's plants",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/RefPlant"
+              "$ref": "#/definitions/RefPlantsResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
               }
             }
           },
@@ -2536,6 +2564,23 @@ func init() {
         },
         "title": {
           "type": "string"
+        }
+      }
+    },
+    "RefPlants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RefPlant"
+      }
+    },
+    "RefPlantsResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/RefPlants"
+        },
+        "result_set": {
+          "$ref": "#/definitions/ResultSet"
         }
       }
     },

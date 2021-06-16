@@ -69,124 +69,6 @@ paths:
               type: string
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /api/v1/reference/plants:
-    get:
-      tags:
-        - "refplant"
-      operationId: "getRefPlants"
-      description: "find reference plants by parameters or all"
-      summary: "find reference plants"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "category"
-          in: "query"
-          description: "plant category"
-          required: false
-          type: "integer"
-          format: "int32"
-          allowEmptyValue: true
-        - name: kind
-          in: query
-          type: string
-          required: false
-          allowEmptyValue: true
-        - name: recommendPosition
-          in: query
-          type: string
-          required: false
-          allowEmptyValue: true
-        - name: regardToLight
-          in: query
-          type: string
-          required: false
-          allowEmptyValue: true
-        - name: regardToMoisture
-          in: query
-          type: string
-          required: false
-          allowEmptyValue: true
-        - name: floweringTime
-          in: query
-          type: string
-          required: false
-          allowEmptyValue: true
-        - name: hight
-          in: query
-          type: string
-          required: false
-          allowEmptyValue: true
-        - name: classifiers
-          in: query
-          type: string
-          required: false
-          allowEmptyValue: true
-        - name: limit
-          in: query
-          type: integer
-          format: int32
-          required: true
-          allowEmptyValue: true
-        - name: offset
-          in: query
-          type: integer
-          format: int32
-          required: true
-          allowEmptyValue: true
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/RefPlant"
-        "400":
-          description: "Invalid input"
-        "404":
-          description: "Plants not found"
-        default:
-          description: "unexpected error"
-          headers:
-            X-Request-Id:
-              description: The request id this is a response to
-              type: string
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /api/v1/reference/plants/{id}:
-    get:
-      tags:
-        - "refplant"
-      summary: "Find reference plant by ID"
-      description: "Returns a single reference plant"
-      operationId: "getRefPlantById"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "id"
-          in: "path"
-          description: "ID of reference plant to return"
-          required: true
-          type: "integer"
-          format: "int64"
-      responses:
-        "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/RefPlant"
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Plant not found"
-        default:
-          description: "unexpected error"
-          headers:
-            X-Request-Id:
-              description: The request id this is a response to
-              type: string
-          schema:
-            $ref: "#/definitions/ErrorResponse"
   /api/v1/user:
     post:
       tags:
@@ -350,6 +232,131 @@ paths:
           description: "Invalid username supplied"
         "404":
           description: "User not found"
+  /api/v1/reference/plants:
+    get:
+      tags:
+        - "refplant"
+      operationId: "getRefPlants"
+      description: "find reference plants by parameters or all"
+      summary: "find reference plants"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "category"
+          in: "query"
+          description: "plant category"
+          required: false
+          type: "integer"
+          format: "int32"
+          allowEmptyValue: true
+        - name: kind
+          in: query
+          type: string
+          required: false
+          allowEmptyValue: true
+        - name: recommendPosition
+          in: query
+          type: string
+          required: false
+          allowEmptyValue: true
+        - name: regardToLight
+          in: query
+          type: string
+          required: false
+          allowEmptyValue: true
+        - name: regardToMoisture
+          in: query
+          type: string
+          required: false
+          allowEmptyValue: true
+        - name: floweringTime
+          in: query
+          type: string
+          required: false
+          allowEmptyValue: true
+        - name: hight
+          in: query
+          type: string
+          required: false
+          allowEmptyValue: true
+        - name: classifiers
+          in: query
+          type: string
+          required: false
+          allowEmptyValue: true
+        - in: query
+          name: offset
+          type: integer
+          required: false
+          default: 0
+          minimum: 0
+          description: The number of items to skip before starting to collect the result set.
+          allowEmptyValue: true
+        - in: query
+          name: limit
+          type: integer
+          required: false
+          default: 20
+          minimum: 1
+          maximum: 100
+          description: The numbers of items to return.
+          allowEmptyValue: true
+      responses:
+        "200":
+          description: "List of the user's plants"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/RefPlantsResponse"
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Plants not found"
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/v1/reference/plants/{id}:
+    get:
+      tags:
+        - "refplant"
+      summary: "Find reference plant by ID"
+      description: "Returns a single reference plant"
+      operationId: "getRefPlantById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of reference plant to return"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/RefPlant"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Plant not found"
+        default:
+          description: "unexpected error"
+          headers:
+            X-Request-Id:
+              description: The request id this is a response to
+              type: string
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /api/v1/gardens:
     get:
       tags:
@@ -789,6 +796,10 @@ definitions:
         type: "string"
         format: "date-time"
         minLength: 0
+  RefPlants:
+    type: "array"
+    items:
+      $ref: "#/definitions/RefPlant"
   UserPlants:
     type: "array"
     items:
@@ -798,6 +809,13 @@ definitions:
     properties:
       data:
         $ref: "#/definitions/UserPlants"
+      result_set:
+        $ref: "#/definitions/ResultSet"
+  RefPlantsResponse:
+    type: "object"
+    properties:
+      data:
+        $ref: "#/definitions/RefPlants"
       result_set:
         $ref: "#/definitions/ResultSet"
   Garden:

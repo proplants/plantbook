@@ -20,8 +20,8 @@ type GetRefPlantsURL struct {
 	FloweringTime     string
 	Hight             string
 	Kind              string
-	Limit             int32
-	Offset            int32
+	Limit             int64
+	Offset            int64
 	RecommendPosition string
 	RegardToLight     string
 	RegardToMoisture  string
@@ -85,12 +85,12 @@ func (o *GetRefPlantsURL) Build() (*url.URL, error) {
 		qs.Set("kind", kindQ)
 	}
 
-	limitQ := swag.FormatInt32(o.Limit)
+	limitQ := swag.FormatInt64(o.Limit)
 	if limitQ != "" {
 		qs.Set("limit", limitQ)
 	}
 
-	offsetQ := swag.FormatInt32(o.Offset)
+	offsetQ := swag.FormatInt64(o.Offset)
 	if offsetQ != "" {
 		qs.Set("offset", offsetQ)
 	}

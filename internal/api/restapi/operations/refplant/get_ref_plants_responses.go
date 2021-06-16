@@ -16,16 +16,20 @@ import (
 // GetRefPlantsOKCode is the HTTP code returned for type GetRefPlantsOK
 const GetRefPlantsOKCode int = 200
 
-/*GetRefPlantsOK successful operation
+/*GetRefPlantsOK List of the user's plants
 
 swagger:response getRefPlantsOK
 */
 type GetRefPlantsOK struct {
+	/*The request id this is a response to
+
+	 */
+	XRequestID string `json:"X-Request-Id"`
 
 	/*
 	  In: Body
 	*/
-	Payload []*models.RefPlant `json:"body,omitempty"`
+	Payload *models.RefPlantsResponse `json:"body,omitempty"`
 }
 
 // NewGetRefPlantsOK creates GetRefPlantsOK with default headers values
@@ -34,29 +38,44 @@ func NewGetRefPlantsOK() *GetRefPlantsOK {
 	return &GetRefPlantsOK{}
 }
 
+// WithXRequestID adds the xRequestId to the get ref plants o k response
+func (o *GetRefPlantsOK) WithXRequestID(xRequestID string) *GetRefPlantsOK {
+	o.XRequestID = xRequestID
+	return o
+}
+
+// SetXRequestID sets the xRequestId to the get ref plants o k response
+func (o *GetRefPlantsOK) SetXRequestID(xRequestID string) {
+	o.XRequestID = xRequestID
+}
+
 // WithPayload adds the payload to the get ref plants o k response
-func (o *GetRefPlantsOK) WithPayload(payload []*models.RefPlant) *GetRefPlantsOK {
+func (o *GetRefPlantsOK) WithPayload(payload *models.RefPlantsResponse) *GetRefPlantsOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get ref plants o k response
-func (o *GetRefPlantsOK) SetPayload(payload []*models.RefPlant) {
+func (o *GetRefPlantsOK) SetPayload(payload *models.RefPlantsResponse) {
 	o.Payload = payload
 }
 
 // WriteResponse to the client
 func (o *GetRefPlantsOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
 
-	rw.WriteHeader(200)
-	payload := o.Payload
-	if payload == nil {
-		// return empty array
-		payload = make([]*models.RefPlant, 0, 50)
+	// response header X-Request-Id
+
+	xRequestID := o.XRequestID
+	if xRequestID != "" {
+		rw.Header().Set("X-Request-Id", xRequestID)
 	}
 
-	if err := producer.Produce(rw, payload); err != nil {
-		panic(err) // let the recovery middleware deal with this
+	rw.WriteHeader(200)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
 	}
 }
 
