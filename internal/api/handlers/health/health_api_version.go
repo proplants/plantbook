@@ -3,9 +3,9 @@ package health
 import (
 	"time"
 
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/health"
 
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"

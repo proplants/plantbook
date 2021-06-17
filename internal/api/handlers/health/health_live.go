@@ -1,15 +1,15 @@
 package health
 
 import (
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/health"
 
 	"github.com/go-openapi/runtime/middleware"
 )
 
 type healthAliveImpl struct{}
 
-// NewLoginUserHandler builder for user.LoginUserHandler interface implementation.
+// NewHealthAliveHandler builder for user.LoginUserHandler interface implementation.
 func NewHealthAliveHandler() health.HealthAliveHandler {
 	return &healthAliveImpl{}
 }

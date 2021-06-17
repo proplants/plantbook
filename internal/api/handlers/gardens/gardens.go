@@ -4,7 +4,7 @@ package gardens
 import (
 	"context"
 
-	"github.com/kaatinga/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/models"
 )
 
 // RepoInterface gardens repository behavior.

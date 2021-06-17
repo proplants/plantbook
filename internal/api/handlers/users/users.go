@@ -6,7 +6,7 @@ import (
 	"context"
 	"crypto/rand"
 
-	"github.com/kaatinga/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/models"
 
 	"golang.org/x/crypto/argon2"
 )
@@ -42,6 +42,7 @@ func CheckPass(passHash []byte, plainPassword string) bool {
 
 // helpers
 
+// MakeSalt ...
 // nolint:errcheck
 func MakeSalt(n int) []byte {
 	salt := make([]byte, n)

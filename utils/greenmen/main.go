@@ -7,8 +7,8 @@ import (
 	"math/rand"
 	"os"
 
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/utils/greenmen/model"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/utils/greenmen/model"
 
 	"github.com/gocolly/colly/v2"
 )
@@ -22,6 +22,7 @@ const (
 	rndLengthLim       int    = 10
 )
 
+// RandomString ...
 // nolint:gosec
 func RandomString() string {
 	b := make([]byte, rand.Intn(rndLengthLim)+rndLengthLim)

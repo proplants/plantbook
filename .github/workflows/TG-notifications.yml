@@ -1,0 +1,47 @@
+name: TG-notifications
+on:
+  pull_request_target:
+    types: [assigned, opened, reopened]
+  issues:
+jobs:
+  notif:
+    name: send notifications
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: send telegram notifications on pull-request
+        if: github.event_name == 'pull_request_target'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TG_chat }}
+          token: ${{ secrets.TG_token }}
+          format: markdown
+          message: |
+            User: ${{ github.actor }} created new PR: [#${{ github.event.number }}](${{ github.event.pull_request.html_url }}) from branch: ${{ github.head_ref }}
+      - name: send telegram notification on new issue
+        if: github.event_name == 'issues' && github.event.action == 'opened'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TG_chat }}
+          token: ${{ secrets.TG_token }}
+          format: markdown
+          message: |
+            User: ${{ github.actor }} created new issue: [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }})
+      - name: send telegram notify on issue assigning
+        if: github.event_name == 'issues' && github.event.action == 'assigned'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TG_chat }}
+          token: ${{ secrets.TG_token }}
+          format: markdown
+          message: |
+            Assigned issue: [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) to User: ${{ github.event.assignee.login }}
+      - name: send telegram notify on issue close
+        if: github.event_name == 'issues' && github.event.action == 'closed'
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TG_chat }}
+          token: ${{ secrets.TG_token }}
+          format: markdown
+          message: |
+            Issue: [#${{ github.event.issue.number }}](${{ github.event.issue.html_url }}) was closed

@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"time"
 
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/pkg/token"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/user"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/pkg/token"
 
 	"github.com/go-openapi/runtime/middleware"
 )

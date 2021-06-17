@@ -4,12 +4,12 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/kaatinga/plantbook/internal/api/handlers"
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/userplant"
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/pkg/token"
+	"github.com/proplants/plantbook/internal/api/handlers"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/userplant"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/pkg/token"
 )
 
 type createUserPlantImpl struct {
@@ -17,7 +17,7 @@ type createUserPlantImpl struct {
 	tm      token.Manager
 }
 
-// NewGetRefPlantsHandler builder for userplant.CreateUserPlantHandler interface implementation.
+// NewCreateUserPlantHandler builder for userplant.CreateUserPlantHandler interface implementation.
 func NewCreateUserPlantHandler(storage RepoInterface, tm token.Manager) userplant.CreateUserPlantHandler {
 	return &createUserPlantImpl{storage: storage, tm: tm}
 }
@@ -58,8 +58,6 @@ func (impl *createUserPlantImpl) Handle(params userplant.CreateUserPlantParams) 
 			WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
 	}
 
-	// fill owner_id for garden if userRole = gardener
-	// if userRole = admin, miss because admin must to set OwnerID
 	if roleID == handlers.UserRoleGardener || params.Userplant.UserID == 0 {
 		params.Userplant.UserID = uid
 	}

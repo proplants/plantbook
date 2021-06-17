@@ -19,11 +19,11 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/gardens"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/health"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/refplant"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/user"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/userplant"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/gardens"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/health"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/refplant"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/user"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/userplant"
 )
 
 // NewPlantbookAPI creates a new Plantbook instance
@@ -70,6 +70,9 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		GardensDeleteUserGardenHandler: gardens.DeleteUserGardenHandlerFunc(func(params gardens.DeleteUserGardenParams) middleware.Responder {
 			return middleware.NotImplemented("operation gardens.DeleteUserGarden has not yet been implemented")
 		}),
+		UserplantDeleteUserPlantHandler: userplant.DeleteUserPlantHandlerFunc(func(params userplant.DeleteUserPlantParams) middleware.Responder {
+			return middleware.NotImplemented("operation userplant.DeleteUserPlant has not yet been implemented")
+		}),
 		RefplantGetRefPlantByIDHandler: refplant.GetRefPlantByIDHandlerFunc(func(params refplant.GetRefPlantByIDParams) middleware.Responder {
 			return middleware.NotImplemented("operation refplant.GetRefPlantByID has not yet been implemented")
 		}),
@@ -84,6 +87,9 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		}),
 		GardensGetUserGardensHandler: gardens.GetUserGardensHandlerFunc(func(params gardens.GetUserGardensParams) middleware.Responder {
 			return middleware.NotImplemented("operation gardens.GetUserGardens has not yet been implemented")
+		}),
+		UserplantGetUserPlantByIDHandler: userplant.GetUserPlantByIDHandlerFunc(func(params userplant.GetUserPlantByIDParams) middleware.Responder {
+			return middleware.NotImplemented("operation userplant.GetUserPlantByID has not yet been implemented")
 		}),
 		UserplantGetUserPlantsHandler: userplant.GetUserPlantsHandlerFunc(func(params userplant.GetUserPlantsParams) middleware.Responder {
 			return middleware.NotImplemented("operation userplant.GetUserPlants has not yet been implemented")
@@ -103,10 +109,13 @@ func NewPlantbookAPI(spec *loads.Document) *PlantbookAPI {
 		UserUpdateUserHandler: user.UpdateUserHandlerFunc(func(params user.UpdateUserParams) middleware.Responder {
 			return middleware.NotImplemented("operation user.UpdateUser has not yet been implemented")
 		}),
+		UserplantUpdateUserPlantHandler: userplant.UpdateUserPlantHandlerFunc(func(params userplant.UpdateUserPlantParams) middleware.Responder {
+			return middleware.NotImplemented("operation userplant.UpdateUserPlant has not yet been implemented")
+		}),
 	}
 }
 
-/*PlantbookAPI This is a Plantbook project API description. You can find out more about us at [https://github.com/kaatinga/plantbook](https://github.com/kaatinga/plantbook). */
+/*PlantbookAPI This is a Plantbook project API description. You can find out more about us at [https://github.com/proplants/plantbook](https://github.com/proplants/plantbook). */
 type PlantbookAPI struct {
 	spec            *loads.Document
 	context         *middleware.Context
@@ -156,6 +165,8 @@ type PlantbookAPI struct {
 	UserDeleteUserHandler user.DeleteUserHandler
 	// GardensDeleteUserGardenHandler sets the operation handler for the delete user garden operation
 	GardensDeleteUserGardenHandler gardens.DeleteUserGardenHandler
+	// UserplantDeleteUserPlantHandler sets the operation handler for the delete user plant operation
+	UserplantDeleteUserPlantHandler userplant.DeleteUserPlantHandler
 	// RefplantGetRefPlantByIDHandler sets the operation handler for the get ref plant by Id operation
 	RefplantGetRefPlantByIDHandler refplant.GetRefPlantByIDHandler
 	// RefplantGetRefPlantsHandler sets the operation handler for the get ref plants operation
@@ -166,6 +177,8 @@ type PlantbookAPI struct {
 	GardensGetUserGardenByIDHandler gardens.GetUserGardenByIDHandler
 	// GardensGetUserGardensHandler sets the operation handler for the get user gardens operation
 	GardensGetUserGardensHandler gardens.GetUserGardensHandler
+	// UserplantGetUserPlantByIDHandler sets the operation handler for the get user plant by ID operation
+	UserplantGetUserPlantByIDHandler userplant.GetUserPlantByIDHandler
 	// UserplantGetUserPlantsHandler sets the operation handler for the get user plants operation
 	UserplantGetUserPlantsHandler userplant.GetUserPlantsHandler
 	// HealthHealthAliveHandler sets the operation handler for the health alive operation
@@ -178,6 +191,8 @@ type PlantbookAPI struct {
 	UserLogoutUserHandler user.LogoutUserHandler
 	// UserUpdateUserHandler sets the operation handler for the update user operation
 	UserUpdateUserHandler user.UpdateUserHandler
+	// UserplantUpdateUserPlantHandler sets the operation handler for the update user plant operation
+	UserplantUpdateUserPlantHandler userplant.UpdateUserPlantHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -279,6 +294,9 @@ func (o *PlantbookAPI) Validate() error {
 	if o.GardensDeleteUserGardenHandler == nil {
 		unregistered = append(unregistered, "gardens.DeleteUserGardenHandler")
 	}
+	if o.UserplantDeleteUserPlantHandler == nil {
+		unregistered = append(unregistered, "userplant.DeleteUserPlantHandler")
+	}
 	if o.RefplantGetRefPlantByIDHandler == nil {
 		unregistered = append(unregistered, "refplant.GetRefPlantByIDHandler")
 	}
@@ -293,6 +311,9 @@ func (o *PlantbookAPI) Validate() error {
 	}
 	if o.GardensGetUserGardensHandler == nil {
 		unregistered = append(unregistered, "gardens.GetUserGardensHandler")
+	}
+	if o.UserplantGetUserPlantByIDHandler == nil {
+		unregistered = append(unregistered, "userplant.GetUserPlantByIDHandler")
 	}
 	if o.UserplantGetUserPlantsHandler == nil {
 		unregistered = append(unregistered, "userplant.GetUserPlantsHandler")
@@ -311,6 +332,9 @@ func (o *PlantbookAPI) Validate() error {
 	}
 	if o.UserUpdateUserHandler == nil {
 		unregistered = append(unregistered, "user.UpdateUserHandler")
+	}
+	if o.UserplantUpdateUserPlantHandler == nil {
+		unregistered = append(unregistered, "userplant.UpdateUserPlantHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -430,6 +454,10 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
 	o.handlers["DELETE"]["/api/v1/gardens/{garden_id}"] = gardens.NewDeleteUserGarden(o.context, o.GardensDeleteUserGardenHandler)
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/api/v1/user/plants/{userplant_id}"] = userplant.NewDeleteUserPlant(o.context, o.UserplantDeleteUserPlantHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -450,6 +478,10 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/api/v1/gardens"] = gardens.NewGetUserGardens(o.context, o.GardensGetUserGardensHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/api/v1/user/plants/{userplant_id}"] = userplant.NewGetUserPlantByID(o.context, o.UserplantGetUserPlantByIDHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -474,6 +506,10 @@ func (o *PlantbookAPI) initHandlerCache() {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
 	o.handlers["PUT"]["/api/v1/user/{username}"] = user.NewUpdateUser(o.context, o.UserUpdateUserHandler)
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/api/v1/user/plants"] = userplant.NewUpdateUserPlant(o.context, o.UserplantUpdateUserPlantHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

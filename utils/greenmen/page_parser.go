@@ -8,14 +8,15 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/utils/greenmen/model"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/utils/greenmen/model"
 
 	"github.com/gocolly/colly/v2"
 	"github.com/pkg/errors"
 )
 
 // plant page
+// [x] room plants
 
 const (
 	shortPropKind             string = "Тип  растения"
@@ -27,6 +28,7 @@ const (
 	shortPropClassifiers      string = "Ценность в культуре"
 )
 
+// Collector html grabber
 type Collector struct {
 	c *colly.Collector
 }

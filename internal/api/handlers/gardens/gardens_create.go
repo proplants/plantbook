@@ -3,13 +3,13 @@ package gardens
 import (
 	"net/http"
 
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/pkg/token"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/pkg/token"
 
-	"github.com/kaatinga/plantbook/internal/api/handlers"
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/gardens"
+	"github.com/proplants/plantbook/internal/api/handlers"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/gardens"
 
 	"github.com/go-openapi/runtime/middleware"
 )
@@ -19,7 +19,7 @@ type createGardenImpl struct {
 	tm      token.Manager
 }
 
-// NewCreateUserHandler builder for gardens.CreateUserGardenHandler interface implementation.
+// NewCreateUserGardenHandler builder for gardens.CreateUserGardenHandler interface implementation.
 func NewCreateUserGardenHandler(storage RepoInterface, tm token.Manager) gardens.CreateUserGardenHandler {
 	return &createGardenImpl{storage: storage, tm: tm}
 }

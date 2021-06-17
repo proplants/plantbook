@@ -15,7 +15,7 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/validate"
 
-	"github.com/kaatinga/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/models"
 )
 
 // NewCreateUserPlantParams creates a new CreateUserPlantParams object
@@ -35,7 +35,7 @@ type CreateUserPlantParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*New plant parameters of user
+	/*New plant of user
 	  Required: true
 	  In: body
 	*/
