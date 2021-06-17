@@ -8,6 +8,7 @@
         >
         <form class="login" @submit.prevent="login">
           <v-text-field
+            type="name"
             v-model="form.login"
             label="Name"
             required
@@ -38,10 +39,14 @@ export default {
     showError: false,
   }),
   computed: {
-    ...mapGetters(["IS_LOGGED_IN"]),
+    ...mapGetters({
+      IS_LOGGED_IN: "auth/IS_LOGGED_IN",
+    }),
   },
   methods: {
-    ...mapActions(["LOGIN"]),
+    ...mapActions({
+      LOGIN: "auth/LOGIN",
+    }),
     async submit() {
       await this.LOGIN(this.form);
       this.checkUser();

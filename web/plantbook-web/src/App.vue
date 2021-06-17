@@ -52,13 +52,17 @@ export default {
     //
   }),
   computed: {
-    ...mapGetters(["IS_LOGGED_IN"]),
+    ...mapGetters({
+      IS_LOGGED_IN: "auth/IS_LOGGED_IN",
+    }),
     isLoggedIn() {
       return this.IS_LOGGED_IN;
     },
   },
   methods: {
-    ...mapActions(["LOG_OUT"]),
+    ...mapActions({
+      LOG_OUT: "auth/LOG_OUT",
+    }),
 
     async logout() {
       await this.LOG_OUT();
