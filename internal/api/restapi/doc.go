@@ -2,7 +2,7 @@
 
 // Package restapi Plantbook
 //
-//  This is a Plantbook project API description. You can find out more about us at [https://github.com/kaatinga/plantbook](https://github.com/kaatinga/plantbook).
+//  This is a Plantbook project API description. You can find out more about us at [https://github.com/proplants/plantbook](https://github.com/proplants/plantbook).
 //  Schemes:
 //    http
 //  Host: localhost

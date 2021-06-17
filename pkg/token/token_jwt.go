@@ -50,7 +50,7 @@ func (tk *JwtToken) Check(ctx context.Context, inputToken string) (bool, error) 
 		return tk.Secret, nil
 	})
 	if err != nil {
-		return false, fmt.Errorf("can't parse jwt token: %v", err)
+		return false, fmt.Errorf("can't parse jwt token: %w", err)
 	}
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		// If token is valid

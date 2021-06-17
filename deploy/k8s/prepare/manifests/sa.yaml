@@ -1,0 +1,80 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: plantbook-test
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: plantbook-prod
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: plantbook-test
+  namespace: plantbook-test
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: plantbook-prod
+  namespace: plantbook-prod
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: plantbook-test-full-access
+  namespace: plantbook-test
+rules:
+- apiGroups: ["", "extensions", "apps", "networking.k8s.io"]
+  resources: ["*"]
+  verbs: ["*"]
+- apiGroups: ["batch"]
+  resources:
+  - jobs
+  - cronjobs
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: plantbook-test-user-view
+  namespace: plantbook-test
+subjects:
+- kind: ServiceAccount
+  name: plantbook-test
+  namespace: plantbook-test
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: plantbook-test-full-access
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: plantbook-prod-full-access
+  namespace: plantbook-prod
+rules:
+- apiGroups: ["", "extensions", "apps", "networking.k8s.io"]
+  resources: ["*"]
+  verbs: ["*"]
+- apiGroups: ["batch"]
+  resources:
+  - jobs
+  - cronjobs
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: plantbook-prod-user-view
+  namespace: plantbook-prod
+subjects:
+- kind: ServiceAccount
+  name: plantbook-prod
+  namespace: plantbook-prod
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: plantbook-prod-full-access

@@ -5,16 +5,17 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/utils/randutil"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/utils/randutil"
 	"go.uber.org/zap"
 )
 
 const (
 	requestIDLength int = 32
-	// XRequestIDHeader header name
+	// XRequestIDHeader header name.
 	XRequestIDHeader string = "X-Request-Id"
-	JWTCookieName    string = "plantbook_token"
+	// JWTCookieName session cookie name.
+	JWTCookieName string = "plantbook_token"
 )
 
 // RequestID middlware which adds random X-Request-Id header if it not exists.

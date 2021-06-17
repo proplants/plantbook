@@ -4,11 +4,11 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
-	apimiddleware "github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/userplant"
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/pkg/token"
+	apimiddleware "github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/userplant"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/pkg/token"
 )
 
 type getUserPlantImpl struct {
@@ -16,10 +16,12 @@ type getUserPlantImpl struct {
 	tm      token.Manager
 }
 
+// NewGetUserPlantHandler builder for userplant.GetUserPlantsHandler interface implementation.
 func NewGetUserPlantHandler(storage RepoInterface, tm token.Manager) userplant.GetUserPlantsHandler {
 	return &getUserPlantImpl{storage: storage, tm: tm}
 }
 
+// Handle implementation of the userplant.GetUserPlantsHandler interface.
 func (impl *getUserPlantImpl) Handle(params userplant.GetUserPlantsParams) middleware.Responder {
 	log := logging.FromContext(params.HTTPRequest.Context())
 	cookie, err := params.HTTPRequest.Cookie(apimiddleware.JWTCookieName)

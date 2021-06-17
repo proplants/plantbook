@@ -2,6 +2,8 @@
 package handlers
 
 const (
-	UserRoleAdmin    int32 = 1
+	// UserRoleAdmin ... 1.
+	UserRoleAdmin int32 = 1
+	// UserRoleGardener ... 2.
 	UserRoleGardener int32 = 2
 )

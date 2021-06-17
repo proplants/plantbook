@@ -17,6 +17,10 @@
 								"exec": [
 									"pm.test(\"Ready OK\", function () {",
 									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -31,7 +35,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"login\": \"root2\",\n  \"password\": \"love\"\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -66,7 +70,12 @@
 									"pm.test(\"message no token check\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.message).to.eql(\"not token cookie\");",
-									"});"
+									"});",
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
+									"});",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -113,6 +122,10 @@
 									"pm.test(\"message no token check\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.message).to.eql(\"not token cookie\");",
+									"});",
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -159,6 +172,10 @@
 									"",
 									"pm.test(\"Set-cookie is present\", function () {",
 									"    pm.response.to.have.header(\"Set-cookie\");",
+									"});",
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -224,7 +241,10 @@
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.userRole).to.eql(2);",
 									"});",
-									"",
+									"//",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
+									"});",
 									""
 								],
 								"type": "text/javascript"
@@ -290,7 +310,9 @@
 									"    pm.expect(jsonData.userRole).to.eql(2);",
 									"});",
 									"",
-									""
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -338,7 +360,9 @@
 									"    pm.response.to.have.header(\"Set-cookie\");",
 									"});",
 									"",
-									"console.log(\"gardener2Login:\", pm.variables.get(\"gardener2Login\"));"
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -389,6 +413,10 @@
 									"pm.test(\"message no token check\", function () {",
 									"    var jsonData = pm.response.json();",
 									"    pm.expect(jsonData.message).to.eql(\"not token cookie\");",
+									"});",
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -435,6 +463,10 @@
 									"",
 									"pm.test(\"Set-cookie is present\", function () {",
 									"    pm.response.to.have.header(\"Set-cookie\");",
+									"});",
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -488,7 +520,10 @@
 									"//",
 									"var jsonData = JSON.parse(responseBody);",
 									"pm.collectionVariables.set(\"gardenID\", jsonData.id);",
-									""
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -544,7 +579,10 @@
 									"pm.test(\"Set-cookie is present\", function () {",
 									"    pm.response.to.have.header(\"Set-cookie\");",
 									"});",
-									""
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -594,6 +632,10 @@
 									"",
 									"pm.test(\"Set-cookie is present\", function () {",
 									"    pm.response.to.have.header(\"Set-cookie\");",
+									"});",
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -638,7 +680,10 @@
 									"pm.test(\"delete alien garden forbidden 403\", function () {",
 									"    pm.response.to.have.status(403);",
 									"});",
-									""
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -686,7 +731,10 @@
 									"pm.test(\"Set-cookie is present\", function () {",
 									"    pm.response.to.have.header(\"Set-cookie\");",
 									"});",
-									""
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -736,6 +784,10 @@
 									"",
 									"pm.test(\"Set-cookie is present\", function () {",
 									"    pm.response.to.have.header(\"Set-cookie\");",
+									"});",
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
 									"});"
 								],
 								"type": "text/javascript"
@@ -780,7 +832,10 @@
 									"pm.test(\"success delete garden200 OK\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});",
-									""
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -828,7 +883,10 @@
 									"pm.test(\"Set-cookie is present\", function () {",
 									"    pm.response.to.have.header(\"Set-cookie\");",
 									"});",
-									""
+									"",
+									"pm.test(\"X-Request-Id is present\", function () {",
+									"    pm.response.to.have.header(\"X-Request-Id\");",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -869,6 +927,19 @@
 		},
 		{
 			"name": "HealthVersion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"X-Request-Id is present\", function () {",
+							"    pm.response.to.have.header(\"X-Request-Id\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -908,6 +979,10 @@
 						"exec": [
 							"pm.test(\"Alive OK\", function () {",
 							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"X-Request-Id is present\", function () {",
+							"    pm.response.to.have.header(\"X-Request-Id\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -967,7 +1042,7 @@
 	"variable": [
 		{
 			"key": "baseURL",
-			"value": "127.0.0.1:65123"
+			"value": "127.0.0.1:8081"
 		},
 		{
 			"key": "gardenID",

@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kaatinga/plantbook/internal/api/middleware"
-	"github.com/kaatinga/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/middleware"
+	"github.com/proplants/plantbook/internal/api/models"
 )
 
 const (
@@ -67,7 +67,6 @@ func TestAPI_Auth(t *testing.T) {
 			if tt.want != nil && (got.Name != tt.want.Name) {
 				t.Errorf("API.Auth() got = %v, want %v", got, tt.want)
 			}
-
 		})
 	}
 }

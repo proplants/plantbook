@@ -8,14 +8,15 @@ import (
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/kaatinga/plantbook/pkg/logging"
-	"github.com/kaatinga/plantbook/utils/greenmen/model"
+	"github.com/proplants/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/utils/greenmen/model"
 
 	"github.com/gocolly/colly/v2"
 	"github.com/pkg/errors"
 )
 
 // plant page
+// [x] room plants
 
 const (
 	shortPropKind             string = "Тип  растения"
@@ -27,6 +28,7 @@ const (
 	shortPropClassifiers      string = "Ценность в культуре"
 )
 
+// Collector html grabber
 type Collector struct {
 	c *colly.Collector
 }
@@ -110,12 +112,13 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 		log.Debugf("set category %s, and title %s", p.Category, p.Title)
 	})
 
+	const minPartsCountOfTheDivPlashka int = 2
 	// set short_info
 	cc.OnHTML(".plashka", func(e *colly.HTMLElement) {
 		e.ForEach("div", func(i int, ee *colly.HTMLElement) {
 			keyValue := strings.Split(ee.Text, "\n")
 			log.Debugf("keyValue: %+v", keyValue)
-			if len(keyValue) >= 2 {
+			if len(keyValue) >= minPartsCountOfTheDivPlashka {
 				prop := strings.TrimRight(strings.TrimSpace(keyValue[0]), ":")
 				value := strings.TrimSpace(keyValue[1])
 				log.Debugf("prop: %s - value: %s", prop, value)
@@ -148,15 +151,16 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 		log.Debugf("set images: %v", p.Images)
 	})
 
+	const minLengthDivInfo int = 2
 	// info
 	cc.OnHTML(".encyclopaedia-zag", func(e *colly.HTMLElement) {
 		e.ForEach("h3", func(i int, ee *colly.HTMLElement) {
 			title := strings.TrimSpace(ee.Text)
 			content := strings.TrimSpace(ee.DOM.Next().Text())
 			log.Debugf("info title: %s, content: %s", title, content)
-			if len(content) < 2 {
+			if len(content) < minLengthDivInfo {
 				content = strings.TrimSpace(ee.DOM.Next().Next().Text())
-				if len(content) < 2 {
+				if len(content) < minLengthDivInfo {
 					return
 				}
 			}

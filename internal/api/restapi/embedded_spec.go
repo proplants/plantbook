@@ -23,7 +23,7 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "description": "This is a Plantbook project API description. You can find out more about us at [https://github.com/kaatinga/plantbook](https://github.com/kaatinga/plantbook).",
+    "description": "This is a Plantbook project API description. You can find out more about us at [https://github.com/proplants/plantbook](https://github.com/proplants/plantbook).",
     "title": "Plantbook",
     "license": {
       "name": "MIT",
@@ -531,9 +531,6 @@ func init() {
     "/api/v1/user/plants": {
       "get": {
         "description": "Find all of the user’s plants",
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
@@ -595,8 +592,8 @@ func init() {
           }
         }
       },
-      "post": {
-        "description": "Add a new plant for user",
+      "put": {
+        "description": "Update user's plant",
         "consumes": [
           "application/json"
         ],
@@ -606,11 +603,62 @@ func init() {
         "tags": [
           "userplant"
         ],
-        "summary": "Add a new plant for user",
+        "summary": "Update user's plant",
+        "operationId": "updateUserPlant",
+        "parameters": [
+          {
+            "description": "New data of user's plant",
+            "name": "userplant",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plant updated",
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Add a new user's plant",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Add a new user's plant",
         "operationId": "createUserPlant",
         "parameters": [
           {
-            "description": "New plant parameters of user",
+            "description": "New plant of user",
             "name": "userplant",
             "in": "body",
             "required": true,
@@ -624,6 +672,102 @@ func init() {
             "description": "Plant added",
             "schema": {
               "$ref": "#/definitions/UserPlant"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/plants/{userplant_id}": {
+      "get": {
+        "description": "Get user's plant by id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Get user's plant by id",
+        "operationId": "getUserPlantByID",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID of user's plant.",
+            "name": "userplant_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Exists user's plant",
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete user's plant",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Delete user's plant",
+        "operationId": "deleteUserPlant",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID of user's plant.",
+            "name": "userplant_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User's plant deleted",
+            "schema": {
+              "$ref": "#/definitions/Response"
             },
             "headers": {
               "X-Request-Id": {
@@ -1168,7 +1312,8 @@ func init() {
           "format": "date-time"
         },
         "modifiedAt": {
-          "type": "string"
+          "type": "string",
+          "format": "date-time"
         },
         "nextWatering": {
           "type": "string",
@@ -1251,7 +1396,7 @@ func init() {
   ],
   "swagger": "2.0",
   "info": {
-    "description": "This is a Plantbook project API description. You can find out more about us at [https://github.com/kaatinga/plantbook](https://github.com/kaatinga/plantbook).",
+    "description": "This is a Plantbook project API description. You can find out more about us at [https://github.com/proplants/plantbook](https://github.com/proplants/plantbook).",
     "title": "Plantbook",
     "license": {
       "name": "MIT",
@@ -1759,9 +1904,6 @@ func init() {
     "/api/v1/user/plants": {
       "get": {
         "description": "Find all of the user’s plants",
-        "consumes": [
-          "application/json"
-        ],
         "produces": [
           "application/json"
         ],
@@ -1824,8 +1966,8 @@ func init() {
           }
         }
       },
-      "post": {
-        "description": "Add a new plant for user",
+      "put": {
+        "description": "Update user's plant",
         "consumes": [
           "application/json"
         ],
@@ -1835,11 +1977,62 @@ func init() {
         "tags": [
           "userplant"
         ],
-        "summary": "Add a new plant for user",
+        "summary": "Update user's plant",
+        "operationId": "updateUserPlant",
+        "parameters": [
+          {
+            "description": "New data of user's plant",
+            "name": "userplant",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Plant updated",
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Add a new user's plant",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Add a new user's plant",
         "operationId": "createUserPlant",
         "parameters": [
           {
-            "description": "New plant parameters of user",
+            "description": "New plant of user",
             "name": "userplant",
             "in": "body",
             "required": true,
@@ -1853,6 +2046,102 @@ func init() {
             "description": "Plant added",
             "schema": {
               "$ref": "#/definitions/UserPlant"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/plants/{userplant_id}": {
+      "get": {
+        "description": "Get user's plant by id",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Get user's plant by id",
+        "operationId": "getUserPlantByID",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID of user's plant.",
+            "name": "userplant_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Exists user's plant",
+            "schema": {
+              "$ref": "#/definitions/UserPlant"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete user's plant",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "userplant"
+        ],
+        "summary": "Delete user's plant",
+        "operationId": "deleteUserPlant",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "description": "ID of user's plant.",
+            "name": "userplant_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User's plant deleted",
+            "schema": {
+              "$ref": "#/definitions/Response"
             },
             "headers": {
               "X-Request-Id": {
@@ -2400,6 +2689,7 @@ func init() {
         },
         "modifiedAt": {
           "type": "string",
+          "format": "date-time",
           "minLength": 0
         },
         "nextWatering": {

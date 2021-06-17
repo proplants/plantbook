@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/jackc/pgx/v4"
-	"github.com/kaatinga/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/models"
 
 	"github.com/pkg/errors"
 )
@@ -28,12 +28,11 @@ func (pg *PG) StoreGarden(ctx context.Context, garden *models.Garden) (*models.G
 	return garden, nil
 }
 
-
-// ListGarden shows a list of user's gardens
+// ListGarden shows a list of user's gardens.
 func (pg *PG) ListGarden(ctx context.Context, garden *models.Garden) ([]models.Garden, error) {
 	const query string = `SELECT (id, userId, title, description) FROM public.gardens
 		WHERE user_id=$1;`
-	
+
 	gardensList, err := pg.db.Query(ctx, query, garden.UserID)
 	if err != nil {
 		return nil, errors.WithMessage(err, "the list of the user's gardens could not be displayed")
@@ -47,7 +46,6 @@ func (pg *PG) ListGarden(ctx context.Context, garden *models.Garden) ([]models.G
 		if err != nil {
 			return nil, errors.WithMessage(err, "can not extract the row")
 		}
-
 	}
 	return gardenArr, nil
 }
@@ -60,7 +58,7 @@ func (pg *PG) FindGardenByID(ctx context.Context, gardenID int64) (*models.Garde
 	garden := &models.Garden{}
 	err := pg.db.QueryRow(ctx, query, gardenID).Scan(&garden.ID, &garden.UserID, &garden.Title, &garden.Description)
 	if err != nil {
-		if err == pgx.ErrNoRows {
+		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil
 		}
 		return nil, errors.WithMessage(err, "fetch garden failed")
@@ -74,7 +72,7 @@ func (pg *PG) DeleteGarden(ctx context.Context, gardenID int64) error {
 	var deletedGardenID int64
 	err := pg.db.QueryRow(ctx, query, gardenID).Scan(&deletedGardenID)
 	if err != nil {
-		if err == pgx.ErrNoRows {
+		if errors.Is(err, pgx.ErrNoRows) {
 			return errors.Errorf("no rows deleted")
 		}
 		return errors.WithMessage(err, "delete garden failed")

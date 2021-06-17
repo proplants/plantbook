@@ -39,7 +39,8 @@ type UserPlant struct {
 
 	// modified at
 	// Min Length: 0
-	ModifiedAt *string `json:"modifiedAt,omitempty"`
+	// Format: date-time
+	ModifiedAt strfmt.DateTime `json:"modifiedAt,omitempty"`
 
 	// next watering
 	// Format: date-time
@@ -156,7 +157,11 @@ func (m *UserPlant) validateModifiedAt(formats strfmt.Registry) error {
 		return nil
 	}
 
-	if err := validate.MinLength("modifiedAt", "body", *m.ModifiedAt, 0); err != nil {
+	if err := validate.MinLength("modifiedAt", "body", m.ModifiedAt.String(), 0); err != nil {
+		return err
+	}
+
+	if err := validate.FormatOf("modifiedAt", "body", "date-time", m.ModifiedAt.String(), formats); err != nil {
 		return err
 	}
 

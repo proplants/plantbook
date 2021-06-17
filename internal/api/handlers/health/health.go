@@ -5,7 +5,7 @@ import (
 	"context"
 )
 
-// RepoInterface health repository behavior
+// RepoInterface health repository behavior.
 type RepoInterface interface {
 	Health(ctx context.Context) error
 }

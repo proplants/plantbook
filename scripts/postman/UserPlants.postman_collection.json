@@ -12,13 +12,13 @@
 				"header": [
 					{
 						"key": "Cookie",
-						"value": "plantbook_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MjM1MTcwMjYsInVpZCI6MSwidXNlciI6InJvb3QiLCJ1c2VyX3JvbGUiOjF9.ltnbhOQ81XHodmmflnGmmVbp5X2jZQpf7i1T91tWxJU; Path=/; Expires=Sat, 12 Jun 2021 16:57:06 GMT;",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MjM5NDU5MzcsInVpZCI6NCwidXNlciI6ImdhcmRlbmVyMiIsInVzZXJfcm9sZSI6Mn0.bVAqH6CULSLiXPd2guBiViaGXgnqaHKSip3zVqJSMTs",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"Name\": \"Мой кактус\",\r\n  \"description\": \"Просто мой кактус\",\r\n  \"PhotoUrls\":[],\r\n  \"PlantingDate\": \"2025-10-01\",\r\n  \"WateringInterval\": \"1 day 26:00:25\",\r\n  \"LastWatering\":\"2006-01-02T15:04:05Z\"\r\n}",
+					"raw": "{\r\n  \"Title\": \"Мой кактус\",\r\n  \"description\": \"Просто мой кактус\",\r\n  \"PhotoUrls\":[],\r\n  \"PlantingDate\": \"2025-10-01\",\r\n  \"WateringInterval\": \"1 day 26:00:25\",\r\n  \"LastWatering\":\"2006-01-02T15:04:05Z\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -53,7 +53,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://{{baseURL}}/api/v1/user/plants?limit=10&offset=0",
+					"raw": "http://{{baseURL}}/api/v1/user/plants?limit=10&offset=1",
 					"protocol": "http",
 					"host": [
 						"{{baseURL}}"
@@ -71,8 +71,97 @@
 						},
 						{
 							"key": "offset",
-							"value": "0"
+							"value": "1"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUserPlant",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2MjM4NjgzMjEsInVpZCI6MiwidXNlciI6ImdhcmRlbmVyIiwidXNlcl9yb2xlIjoyfQ.K0lCip3J8r81MCA43YWJIkTJcgParY1uNWLJHJviyjw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{baseURL}}/api/v1/user/plants?userplant_id=3&user_id=1",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"plants"
+					],
+					"query": [
+						{
+							"key": "userplant_id",
+							"value": "3"
+						},
+						{
+							"key": "user_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateUserPlant",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 24,\r\n    \"Title\": \"Мой кактус\",\r\n    \"description\": \"Просто мой кактус\",\r\n    \"PhotoUrls\":[],\r\n    \"PlantingDate\": \"2045-10-01\",\r\n    \"WateringInterval\": \"35 day 26:00:25\",\r\n    \"LastWatering\":\"2025-01-02T15:04:05Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseURL}}/api/v1/user/plants",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"plants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserPlantByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseURL}}/api/v1/user/plants/24",
+					"protocol": "http",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"plants",
+						"24"
 					]
 				}
 			},
@@ -97,12 +186,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "baseURL",
-			"value": "localhost:8085"
 		}
 	]
 }

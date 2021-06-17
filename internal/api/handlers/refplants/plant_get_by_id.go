@@ -4,20 +4,22 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/internal/api/restapi/operations/refplant"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/refplant"
 )
 
-type GetRefPlantByIDImpl struct {
-	repo RepoInterface
+type getRefPlantByIDImpl struct {
+	storage RepoInterface
 }
 
+// NewGetRefPlantByIDHandler builder for refplant.GetRefPlantByIDHandler interface implementation.
 func NewGetRefPlantByIDHandler(repo RepoInterface) refplant.GetRefPlantByIDHandler {
-	return &GetRefPlantByIDImpl{repo: repo}
+	return &getRefPlantByIDImpl{storage: repo}
 }
 
-func (impl *GetRefPlantByIDImpl) Handle(params refplant.GetRefPlantByIDParams) middleware.Responder {
-	oneRefPlant, err := impl.repo.GetRefPlantByID(params.HTTPRequest.Context(), params.ID)
+// Handle implementation of the refplant.GetRefPlantByIDHandler interface.
+func (impl *getRefPlantByIDImpl) Handle(params refplant.GetRefPlantByIDParams) middleware.Responder {
+	oneRefPlant, err := impl.storage.GetRefPlantByID(params.HTTPRequest.Context(), params.ID)
 	if err != nil {
 		return refplant.NewGetRefPlantByIDDefault(http.StatusInternalServerError).
 			WithPayload(&models.ErrorResponse{Message: err.Error()})

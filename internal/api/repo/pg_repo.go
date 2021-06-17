@@ -6,8 +6,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/kaatinga/plantbook/internal/api/models"
-	"github.com/kaatinga/plantbook/pkg/logging"
+	"github.com/proplants/plantbook/internal/api/models"
+	"github.com/proplants/plantbook/pkg/logging"
 
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/log/zapadapter"
@@ -24,16 +24,15 @@ const (
 	pgConnConfigConnectTimeout time.Duration = 1 * time.Second
 )
 
-var (
-	ErrNotFound error = errors.New("user not found")
-)
+// ErrNotFound user not found.
+var ErrNotFound error = errors.New("user not found")
 
 // PG ...
 type PG struct {
 	db *pgxpool.Pool
 }
 
-// NewPG builder fog postgres implementation of the repo interface
+// NewPG builder fog postgres implementation of the repo interface.
 func NewPG(ctx context.Context, url string, debug bool) (*PG, error) {
 	logger := logging.FromContext(ctx)
 	cfg, err := pgxpool.ParseConfig(url)
@@ -82,6 +81,8 @@ func NewPG(ctx context.Context, url string, debug bool) (*PG, error) {
 	return &PG{db: pool}, nil
 }
 
+// StoreUser inserts new user to db,
+// with passhash.
 func (pg *PG) StoreUser(ctx context.Context, user *models.User, passwordHash []byte) (*models.User, error) {
 	const query string = `insert into public.users 
 		(name_user, email_addr, pwd_hash,
@@ -101,13 +102,14 @@ func (pg *PG) StoreUser(ctx context.Context, user *models.User, passwordHash []b
 		return nil, errors.Errorf("insert user failed, empty id")
 	}
 	user.ID = uid
-	// TODO: привести в соответсвие с моделью и спекой
+	// TODO: привести в соответствие с моделью и спекой
 	// что за статус, что он означает?
 	user.UserStatus = 1
 
 	return user, nil
 }
 
+// FindUserByLogin extracts user from db by specified username.
 func (pg *PG) FindUserByLogin(ctx context.Context, login string) (*models.User, []byte, error) {
 	const query string = `SELECT 
 			id_user, name_user, email_addr, 
@@ -121,11 +123,14 @@ func (pg *PG) FindUserByLogin(ctx context.Context, login string) (*models.User, 
 		&hash, &u.FirstName, &u.LastName,
 		&u.Phone, &u.UserRole)
 	if err != nil {
-		if err == pgx.ErrNoRows {
+		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil, ErrNotFound
 		}
 		return nil, nil, errors.WithMessage(err, "fetch user failed")
 	}
+	// TODO: сделайте что-то с этим статусом наконец!
+	u.UserStatus = 1
+	//
 	return &u, hash, nil
 }
 
