@@ -16,6 +16,7 @@ import (
 )
 
 // plant page
+// [x] room plants
 
 const (
 	shortPropKind             string = "Тип  растения"
@@ -27,6 +28,7 @@ const (
 	shortPropClassifiers      string = "Ценность в культуре"
 )
 
+// Collector html grabber
 type Collector struct {
 	c *colly.Collector
 }
