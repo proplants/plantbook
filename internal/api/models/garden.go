@@ -49,7 +49,6 @@ func (m *Garden) Validate(formats strfmt.Registry) error {
 }
 
 func (m *Garden) validateTitle(formats strfmt.Registry) error {
-
 	if err := validate.Required("title", "body", m.Title); err != nil {
 		return err
 	}

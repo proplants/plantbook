@@ -76,7 +76,7 @@ func (pg *PG) GetRefPlants(ctx context.Context, category int32, limit, offset in
 	return refPlants, count, total, err
 }
 
-// GetRefPlantByID - get reference plant by ID.
+// GetRefPlantByID extracts reference.plant by specified id.
 func (pg *PG) GetRefPlantByID(ctx context.Context, id int64) (*models.RefPlant, error) {
 	query := `select id, title, category_id, short_info::jsonb, notes::jsonb,
 			img_links::jsonb, creator, created_at, modifier, modified_at
