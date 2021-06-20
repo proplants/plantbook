@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 
-	env "github.com/kaatinga/env_loader"
+	"github.com/kaatinga/settings"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
@@ -54,7 +54,7 @@ func configureAPI(api *operations.PlantbookAPI) http.Handler {
 	api.ServeError = errors.ServeError
 
 	// read config
-	err := env.LoadSettings(&cfg)
+	err := settings.LoadSettings(&cfg)
 	if err != nil {
 		log.Fatalf("read config fatal error, %s", err)
 	}
