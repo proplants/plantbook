@@ -22,7 +22,7 @@ func NewGetRefPlantsHandler(repo RepoInterface) refplant.GetRefPlantsHandler {
 // Handle implementation of the refplant.GetRefPlantsHandler interface.
 func (impl *getRefPlantsImpl) Handle(params refplant.GetRefPlantsParams) middleware.Responder {
 	log := logging.FromContext(params.HTTPRequest.Context())
-	RefPlants, err := impl.storage.GetRefPlants(params.HTTPRequest.Context(), params.Category,
+	RefPlants, count, total, err := impl.storage.GetRefPlants(params.HTTPRequest.Context(), params.Category,
 		params.Limit, params.Offset, params.Classifiers, params.FloweringTime, params.Hight, params.Kind,
 		params.RecommendPosition, params.RegardToLight, params.RegardToMoisture)
 	if err != nil {
@@ -34,6 +34,8 @@ func (impl *getRefPlantsImpl) Handle(params refplant.GetRefPlantsParams) middlew
 	resultSet := models.ResultSet{
 		Limit:  params.Limit,
 		Offset: params.Offset,
+		Count:  count,
+		Total:  total,
 	}
 	return refplant.NewGetRefPlantsOK().WithPayload(&models.RefPlantsResponse{Data: RefPlants, ResultSet: &resultSet}).
 		WithXRequestID(apimiddleware.GetRequestID(params.HTTPRequest))
