@@ -28,7 +28,7 @@ const (
 	shortPropClassifiers      string = "Ценность в культуре"
 )
 
-// Collector html grabber
+// Collector html grabber.
 type Collector struct {
 	c *colly.Collector
 }

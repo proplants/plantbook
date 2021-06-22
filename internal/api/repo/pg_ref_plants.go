@@ -45,14 +45,12 @@ func (pg *PG) GetRefPlants(ctx context.Context, category int32, limit, offset in
 			query = query + " AND category_id = " + strconv.Itoa(int(category))
 			totalquery = totalquery + " AND category_id = " + strconv.Itoa(int(category))
 		}
-	} else {
-		if category != 0 {
-			query = query + " WHERE category_id = " + strconv.Itoa(int(category))
-			totalquery = totalquery + " WHERE category_id = " + strconv.Itoa(int(category))
-		}
+	} else if category != 0 {
+		query = query + " WHERE category_id = " + strconv.Itoa(int(category))
+		totalquery = totalquery + " WHERE category_id = " + strconv.Itoa(int(category))
 	}
-	totalquery = totalquery + ";"
-	query = query + " ORDER BY title LIMIT $1 OFFSET $2;"
+	totalquery += ";"
+	query += " ORDER BY title LIMIT $1 OFFSET $2;"
 	rows, err := pg.db.Query(ctx, query, limit, offset)
 	if err != nil {
 		return nil, 0, 0, errors.WithMessage(err, "Select rows error: ")
