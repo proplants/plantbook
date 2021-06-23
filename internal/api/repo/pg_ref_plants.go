@@ -18,26 +18,12 @@ func (pg *PG) GetRefPlants(ctx context.Context, category int32, limit, offset in
 	totalquery := `select count(1) as cnt from reference.plants`
 	var refPlants []*models.RefPlant
 	var tsquery string
-	if hight != "" {
-		tsquery = tsquery + " " + hight
-	}
-	if kind != "" {
-		tsquery = tsquery + " " + kind
-	}
-	if recommendPosition != "" {
-		tsquery = tsquery + " " + recommendPosition
-	}
-	if regardToLight != "" {
-		tsquery = tsquery + " " + regardToLight
-	}
-	if regardToMoisture != "" {
-		tsquery = tsquery + " " + regardToMoisture
-	}
-	if floweringTime != "" {
-		tsquery = tsquery + " " + floweringTime
-	}
-	if classifier != "" {
-		tsquery = tsquery + " " + classifier
+	arr := []string{classifier, hight, kind, recommendPosition,
+		regardToLight, regardToMoisture, floweringTime}
+	for _, param := range arr {
+		if param != "" {
+			tsquery += param + " "
+		}
 	}
 	if tsquery != "" {
 		query = query + " WHERE to_tsvector('russian', short_info) @@ plainto_tsquery('russian', '" + tsquery + "')"
@@ -54,6 +40,9 @@ func (pg *PG) GetRefPlants(ctx context.Context, category int32, limit, offset in
 	query += " ORDER BY title LIMIT $1 OFFSET $2;"
 	rows, err := pg.db.Query(ctx, query, limit, offset)
 	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, 0, 0, errors.Errorf("Not found rows")
+		}
 		return nil, 0, 0, errors.WithMessage(err, "Select rows error: ")
 	}
 	defer rows.Close()
@@ -62,9 +51,6 @@ func (pg *PG) GetRefPlants(ctx context.Context, category int32, limit, offset in
 		err = rows.Scan(&refPlant.ID, &refPlant.Title, &refPlant.Category, &refPlant.ShortInfo, &refPlant.Infos,
 			&refPlant.Images, &refPlant.Creater, &refPlant.CreatedAt, &refPlant.Modifier, &refPlant.ModifiedAt)
 		if err != nil {
-			if errors.Is(err, pgx.ErrNoRows) {
-				return nil, 0, 0, errors.Errorf("Not found rows")
-			}
 			return nil, 0, 0, errors.WithMessage(err, "Scan rows error: ")
 		}
 		refPlants = append(refPlants, &refPlant)
