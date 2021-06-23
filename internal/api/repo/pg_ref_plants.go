@@ -4,6 +4,7 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/jackc/pgx/v4"
 	"github.com/pkg/errors"
 	"github.com/proplants/plantbook/internal/api/models"
 )
@@ -61,6 +62,9 @@ func (pg *PG) GetRefPlants(ctx context.Context, category int32, limit, offset in
 		err = rows.Scan(&refPlant.ID, &refPlant.Title, &refPlant.Category, &refPlant.ShortInfo, &refPlant.Infos,
 			&refPlant.Images, &refPlant.Creater, &refPlant.CreatedAt, &refPlant.Modifier, &refPlant.ModifiedAt)
 		if err != nil {
+			if errors.Is(err, pgx.ErrNoRows) {
+				return nil, 0, 0, errors.Errorf("Not found rows")
+			}
 			return nil, 0, 0, errors.WithMessage(err, "Scan rows error: ")
 		}
 		refPlants = append(refPlants, &refPlant)
@@ -85,6 +89,9 @@ func (pg *PG) GetRefPlantByID(ctx context.Context, id int64) (*models.RefPlant, 
 		&refPlant.ShortInfo, &refPlant.Infos, &refPlant.Images, &refPlant.Creater, &refPlant.CreatedAt,
 		&refPlant.Modifier, &refPlant.ModifiedAt)
 	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, errors.Errorf("Not found rows")
+		}
 		return nil, errors.WithMessage(err, "QueryRow.Scan error")
 	}
 
