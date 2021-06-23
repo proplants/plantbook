@@ -18,8 +18,10 @@ func (pg *PG) GetRefPlants(ctx context.Context, category int32, limit, offset in
 	totalquery := `select count(1) as cnt from reference.plants`
 	var refPlants []*models.RefPlant
 	var tsquery string
-	arr := []string{classifier, hight, kind, recommendPosition,
-		regardToLight, regardToMoisture, floweringTime}
+	arr := []string{
+		classifier, hight, kind, recommendPosition,
+		regardToLight, regardToMoisture, floweringTime,
+	}
 	for _, param := range arr {
 		if param != "" {
 			tsquery += param + " "
