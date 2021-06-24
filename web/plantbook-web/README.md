@@ -12,6 +12,16 @@ npm install
 npm run serve
 ```
 
+```
+npm run json
+```
+
+### Contact the server
+
+```
+docker-compose up -d
+```
+
 ### Compiles and hot-reloads for development
 
 ```
@@ -29,6 +39,12 @@ npm run build
 ```
 npm run lint
 ```
+
+## Content
+
+- Vue
+- CSS,SCSS
+- HTML
 
 ### Connected the vuetify plugin
 
