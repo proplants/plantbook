@@ -5,7 +5,7 @@
       height="200px"
     ></v-img>
 
-    <v-card-title> Агава </v-card-title>
+    <v-card-title> {{ card_item.title }} </v-card-title>
 
     <v-card-actions>
       <v-btn color="orange lighten-2" text> Explore </v-btn>
@@ -22,11 +22,7 @@
         <v-divider></v-divider>
 
         <v-card-text>
-          I'm a thing. But, like most politicians, he promised more than he
-          could deliver. You won't have time for sleeping, soldier, not with all
-          the bed making you'll be doing. Then we'll go with that data file!
-          Hey, you add a one and two zeros to that or we walk! You're going to
-          do his laundry? I've got to find a way to escape.
+          {{ card_item.description }}
         </v-card-text>
       </div>
     </v-expand-transition>
@@ -35,6 +31,9 @@
 
 <script>
 export default {
+  props: {
+    card_item: Object,
+  },
   data: () => ({
     show: false,
   }),
