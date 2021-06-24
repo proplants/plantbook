@@ -1,7 +1,18 @@
 <template>
   <div class="main">
+    <div class="search">
+      <v-text-field
+        v-model="searchLine"
+        label="Введите имя"
+        hide-details="auto"
+      ></v-text-field>
+      <p v-if="!filterCards.length" class="mt-5">
+        По заданному имени <strong>{{ searchLine }}</strong> ничего не найдено
+      </p>
+    </div>
+
     <section class="garden">
-      <div v-for="item in this.gardens.slice(0, page)" :key="item.id">
+      <div v-for="item in filterCards.slice(0, page)" :key="item.id">
         <PlantCard :card_item="item" />
       </div>
     </section>
@@ -21,12 +32,17 @@ export default {
     return {
       page: 3,
       gardens: [],
+      searchLine: "",
     };
   },
   computed: {
     ...mapGetters({ GET_GARDENS: "gardens/GET_GARDENS" }),
     numPages() {
       return Math.ceil(this.gardens.length);
+    },
+    filterCards() {
+      let regExp = new RegExp(this.searchLine, "i");
+      return this.gardens.filter((el) => regExp.test(el.title));
     },
   },
   methods: {
@@ -56,5 +72,9 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(344px, 1fr));
   gap: 2em 20px;
+}
+.search {
+  padding-bottom: 40px;
+  margin: auto;
 }
 </style>
