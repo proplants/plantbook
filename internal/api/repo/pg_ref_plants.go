@@ -9,7 +9,7 @@ import (
 	"github.com/proplants/plantbook/internal/api/models"
 )
 
-// GetRefPlans - get all reference plants by parametrs.
+// GetRefPlans extracts all plants from the reference by parameters.
 func (pg *PG) GetRefPlants(ctx context.Context, category int32, limit, offset int64, classifier, floweringTime,
 	hight, kind, recommendPosition, regardToLight, regardToMoisture string) ([]*models.RefPlant, int64, int64, error) {
 	query := `SELECT id, title, category_id, short_info::jsonb, notes::jsonb,
