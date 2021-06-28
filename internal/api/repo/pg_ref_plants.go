@@ -29,17 +29,17 @@ func (pg *PG) GetRefPlants(params refplant.GetRefPlantsParams) ([]*models.RefPla
 	}
 	var argsQuery []interface{}
 	if tsquery != "" {
-		query = query + " WHERE to_tsvector('russian', short_info) @@ plainto_tsquery('russian', $3)"
-		totalquery = totalquery + " WHERE to_tsvector('russian', short_info) @@ plainto_tsquery('russian', $1)"
+		query += " WHERE to_tsvector('russian', short_info) @@ plainto_tsquery('russian', $3)"
+		totalquery += " WHERE to_tsvector('russian', short_info) @@ plainto_tsquery('russian', $1)"
 		argsQuery = append(argsQuery, tsquery)
 		if params.Category != 0 {
-			query = query + " AND category_id = $4"
-			totalquery = totalquery + " AND category_id = $2"
+			query += " AND category_id = $4"
+			totalquery += " AND category_id = $2"
 			argsQuery = append(argsQuery, strconv.Itoa(int(params.Category)))
 		}
 	} else if params.Category != 0 {
-		query = query + " WHERE category_id = $3"
-		totalquery = totalquery + " WHERE category_id = $1"
+		query += " WHERE category_id = $3"
+		totalquery += " WHERE category_id = $1"
 		argsQuery = append(argsQuery, strconv.Itoa(int(params.Category)))
 	}
 	totalquery += ";"
