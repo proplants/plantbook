@@ -67,6 +67,7 @@ export default {
   border: none;
   border-top: 1px solid #333;
   box-shadow: 0 10px 10px -10px #8c8b8b inset;
+  margin-bottom: 40px;
 }
 .myGarden {
   display: grid;
@@ -84,8 +85,19 @@ button {
 }
 .btn {
   border-left: 3px solid;
-  padding: 0 10p0 10px;
   margin-left: 11px;
   padding-left: 11px;
+  margin-bottom: 3px;
+}
+.blockUser {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.basket {
+  display: flex;
+  justify-content: center;
 }
 </style>

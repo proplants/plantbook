@@ -4,6 +4,7 @@ import Main from "../views/Main.vue";
 import Login from "../views/Login.vue";
 import UserGallery from "../views/UserGallery.vue";
 import UserPage from "../views/UserPage.vue";
+import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,12 @@ const routes = [
     name: "UserPage",
     component: UserPage,
   },
+  {
+    path: "/404",
+    name: "NotFound",
+    component: NotFound,
+  },
+  { path: "*", redirect: "/404" },
 ];
 const router = new VueRouter({
   mode: "history",

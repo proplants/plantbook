@@ -29,7 +29,8 @@
       <v-container>
         <v-card
           v-click-outside="onClickOutside"
-          v-show="active"
+          @mouseleave="mouseleave"
+          v-if="active"
           elevation="8"
           shaped
           class="window"
@@ -75,6 +76,9 @@ export default {
     },
   },
   methods: {
+    mouseleave() {
+      this.active = false;
+    },
     pageUser() {
       this.active = false;
       this.$router.push("/UserPage").catch(() => {});
@@ -95,8 +99,12 @@ export default {
 };
 </script>
  
+<style lang="scss">
+.v-application {
+  font-family: "Material Design Icons" !important;
+  font-size: 18px;
+}
 
- <style lang="scss" scoped>
 a {
   text-decoration: none;
   color: black !important;
@@ -110,13 +118,15 @@ strong:hover {
   height: 255px;
   border: 1px solid black;
   border-radius: 30px;
-  position: fixed;
-  right: 85px;
+  position: fixed !important;
+  // right: 85px;
+  right: 55px;
+  top: 35px;
   background-color: white;
   z-index: 9;
   padding: 15px;
   flex-direction: column;
-  display: flex;
+  display: flex !important;
   justify-content: space-between;
 
   strong:hover {
