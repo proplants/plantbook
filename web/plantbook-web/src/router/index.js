@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Main from "../views/Main.vue";
 import Login from "../views/Login.vue";
 import UserGallery from "../views/UserGallery.vue";
+import UserPage from "../views/UserPage.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/UserGallery",
     name: "UserGallery",
     component: UserGallery,
+  },
+  {
+    path: "/UserPage",
+    name: "UserPage",
+    component: UserPage,
   },
 ];
 const router = new VueRouter({

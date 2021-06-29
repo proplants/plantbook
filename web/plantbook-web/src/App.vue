@@ -10,6 +10,10 @@
 
       <v-spacer></v-spacer>
 
+      <strong @click="pageUser" @mouseover="active = true">
+        {{ LOGIN }}
+      </strong>
+
       <v-btn
         v-if="!isLoggedIn"
         :to="{ name: 'Login' }"
@@ -19,21 +23,31 @@
       >
         <strong> Войти </strong>
       </v-btn>
-      <v-btn v-else :to="{ name: 'Login' }" @click="logout">
-        <strong>Выйти</strong>
-      </v-btn>
     </v-app-bar>
 
     <v-main>
       <v-container>
+        <v-card
+          v-click-outside="onClickOutside"
+          v-show="active"
+          elevation="8"
+          shaped
+          class="window"
+        >
+          <div>
+            <p>Мой сад</p>
+            <p>В вазе</p>
+          </div>
+          <strong v-if="isLoggedIn" @click="logout">Выйти</strong>
+        </v-card>
         <router-view />
       </v-container>
     </v-main>
 
     <v-footer padless>
       <v-col class="text-center" cols="12">
+        {{ new Date().getFullYear() }}
         <v-icon color="grey" large>mdi-square-rounded</v-icon>
-        <!-- {{ new Date().getFullYear() }} — -->
         <a href="https://github.com/proplants/plantbook" target="_blank">
           <strong>Github</strong></a
         >
@@ -49,25 +63,64 @@ export default {
   name: "App",
 
   data: () => ({
-    //
+    active: false,
   }),
   computed: {
     ...mapGetters({
       IS_LOGGED_IN: "auth/IS_LOGGED_IN",
+      LOGIN: "auth/LOGIN",
     }),
     isLoggedIn() {
       return this.IS_LOGGED_IN;
     },
   },
   methods: {
+    pageUser() {
+      this.active = false;
+      this.$router.push("/UserPage").catch(() => {});
+    },
+    onClickOutside() {
+      this.active = false;
+    },
     ...mapActions({
       LOG_OUT: "auth/LOG_OUT",
     }),
 
     async logout() {
       await this.LOG_OUT();
-      // this.$router.push("/login");
+      this.active = false;
+      this.$router.push("/login");
     },
   },
 };
 </script>
+ 
+
+ <style lang="scss" scoped>
+a {
+  text-decoration: none;
+  color: black !important;
+}
+a,
+strong:hover {
+  cursor: pointer;
+}
+.window {
+  width: 231px;
+  height: 255px;
+  border: 1px solid black;
+  border-radius: 30px;
+  position: fixed;
+  right: 85px;
+  background-color: white;
+  z-index: 9;
+  padding: 15px;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+
+  strong:hover {
+    cursor: pointer;
+  }
+}
+</style>

@@ -5,12 +5,14 @@ export default {
   state: {
     token: null,
     status: null,
+    login: "",
   },
 
   mutations: {
     POST_LOGIN(state, result) {
-      state.token = result;
+      state.token = result.status;
       state.status = "success";
+      state.login = result.login.login;
     },
     AUTH_ERROR(state) {
       state.status = "error";
@@ -18,6 +20,7 @@ export default {
     USER_OUT(state) {
       state.status = null;
       state.token = null;
+      state.login = "";
     },
   },
 
@@ -35,7 +38,8 @@ export default {
             },
           }
         );
-        let result = res.statusText;
+        let login = JSON.parse(res.config.data);
+        let result = { status: res.statusText, login };
         console.log(res);
         commit("POST_LOGIN", result);
       } catch (e) {
@@ -52,5 +56,6 @@ export default {
 
   getters: {
     IS_LOGGED_IN: (state) => !!state.token,
+    LOGIN: (state) => state.login,
   },
 };
