@@ -6,6 +6,11 @@
         <router-link :to="{ name: 'Main' }">
           <strong> Plantbook </strong>
         </router-link>
+        <button>
+          <v-icon @click="$router.go(-1)" color="back" v-if="isLoggedIn"
+            >mdi-keyboard-backspace
+          </v-icon>
+        </button>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>

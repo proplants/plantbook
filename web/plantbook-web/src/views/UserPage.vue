@@ -3,7 +3,6 @@
     <div class="blockUser">
       <div class="avatar"></div>
       <h1>{{ LOGIN }}</h1>
-      <router-link :to="{ name: 'UserGallery' }"> back </router-link>
     </div>
     <button :class="{ active: garden }" @click="garden = true">Мой сад</button>
     <button class="btn" :class="{ active: !garden }" @click="garden = false">
@@ -12,7 +11,12 @@
     <hr class="line" />
 
     <div class="myGarden" v-show="garden">
-      <PlantCard :card_item="plantCard" />
+      <router-link
+        :to="{ name: 'Plant', params: { title: plantCard.title } }"
+        class="more-info"
+      >
+        <PlantCard :card_item="plantCard" />
+      </router-link>
       <AddPlant class="size" />
     </div>
     <div class="basket" v-show="!garden">
@@ -20,7 +24,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 import { mapGetters } from "vuex";

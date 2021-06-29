@@ -5,6 +5,7 @@ import Login from "../views/Login.vue";
 import UserGallery from "../views/UserGallery.vue";
 import UserPage from "../views/UserPage.vue";
 import NotFound from "../views/NotFound.vue";
+import Plant from "../views/Plant.vue";
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ const routes = [
     path: "/UserPage",
     name: "UserPage",
     component: UserPage,
+  },
+  {
+    path: "/Plant/:title",
+    name: "Plant",
+    component: Plant,
   },
   {
     path: "/404",
