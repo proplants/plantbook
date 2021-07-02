@@ -42,12 +42,12 @@ func TestPG_GetRefPlantByID(t *testing.T) {
 	titleTestRefPlant := "Абутилон, комнатный клен, канатник (Abutilon)"
 	shortInfoTestRefPlant := models.ShortInfo{
 		Kind:              "кустарник",
-		RecommendPosition: "южные окна,  западные и/или восточные окна",
+		RecommendPosition: "южные окна, западные и/или восточные окна",
 		RegardToLight:     "светолюбивое",
-		RegardToMoisture:  "влаголюбивое,  предпочитает умеренное увлажнение",
-		Hight:             "высокое (выше 100 см),  среднее (50-100 см),  низкое (10-50 см)",
-		FloweringTime:     "весна,  лето,  осень",
-		Classifiers:       "красивоцветущее,  декоративнолиственное"}
+		RegardToMoisture:  "влаголюбивое, предпочитает умеренное увлажнение",
+		Hight:             "высокое (выше 100 см), среднее (50-100 см), низкое (10-50 см)",
+		FloweringTime:     "весна, лето, осень",
+		Classifiers:       "красивоцветущее, декоративнолиственное"}
 	tests := []struct {
 		name    string
 		id      int64
@@ -61,7 +61,7 @@ func TestPG_GetRefPlantByID(t *testing.T) {
 			false,
 		},
 		{
-			"Getting plant by id from reference table.",
+			"Getting plant by wrong id from reference table.",
 			23,
 			&models.RefPlant{ID: 1, Category: 1, Title: &titleTestRefPlant, ShortInfo: &shortInfoTestRefPlant},
 			true,

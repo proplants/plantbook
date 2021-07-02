@@ -164,6 +164,7 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 					return
 				}
 			}
+			content = strings.ReplaceAll(content, "'", "")
 			p.Info = append(p.Info, model.Info{Title: title, Content: content})
 		})
 		log.Debugf("set info length: %d", len(p.Info))

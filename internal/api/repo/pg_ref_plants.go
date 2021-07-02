@@ -11,7 +11,8 @@ import (
 )
 
 // GetRefPlans extracts all plants from the reference by parameters.
-func (pg *PG) GetRefPlants(ctx context.Context, params refplant.GetRefPlantsParams) ([]*models.RefPlant, int64, int64, error) {
+func (pg *PG) GetRefPlants(ctx context.Context,
+	params refplant.GetRefPlantsParams) ([]*models.RefPlant, int64, int64, error) {
 	query := `SELECT id, title, category_id, short_info::jsonb, notes::jsonb,
 			img_links::jsonb, creator, created_at, modifier, modified_at
 			FROM reference.plants`
