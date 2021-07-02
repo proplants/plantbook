@@ -120,7 +120,7 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 			log.Debugf("keyValue: %+v", keyValue)
 			if len(keyValue) >= minPartsCountOfTheDivPlashka {
 				prop := strings.TrimRight(strings.TrimSpace(keyValue[0]), ":")
-				value := strings.TrimSpace(keyValue[1])
+				value := strings.Join(strings.Fields(strings.TrimSpace(keyValue[1])), " ")
 				log.Debugf("prop: %s - value: %s", prop, value)
 				switch prop {
 				case shortPropKind:
@@ -155,11 +155,11 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 	// info
 	cc.OnHTML(".encyclopaedia-zag", func(e *colly.HTMLElement) {
 		e.ForEach("h3", func(i int, ee *colly.HTMLElement) {
-			title := strings.TrimSpace(ee.Text)
-			content := strings.TrimSpace(ee.DOM.Next().Text())
+			title := strings.Join(strings.Fields(strings.TrimSpace(ee.Text)), " ")
+			content := strings.Join(strings.Fields(strings.TrimSpace(ee.DOM.Next().Text())), " ")
 			log.Debugf("info title: %s, content: %s", title, content)
 			if len(content) < minLengthDivInfo {
-				content = strings.TrimSpace(ee.DOM.Next().Next().Text())
+				content = strings.Join(strings.Fields(strings.TrimSpace(ee.DOM.Next().Next().Text())), " ")
 				if len(content) < minLengthDivInfo {
 					return
 				}
