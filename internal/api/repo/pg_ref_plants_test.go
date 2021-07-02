@@ -45,8 +45,8 @@ func TestPG_GetRefPlantByID(t *testing.T) {
 		RecommendPosition: "южные окна, западные и/или восточные окна",
 		RegardToLight:     "светолюбивое",
 		RegardToMoisture:  "влаголюбивое, предпочитает умеренное увлажнение",
-		Hight:             "высокое (выше 100 см), среднее (50-100 см), низкое (10-50 см)",
-		FloweringTime:     "весна, лето, осень",
+		Hight:             "высокое (выше 100 см), среднее (50-100 см), низкое (10-50 см)",
+		FloweringTime:     "весна, лето, осень",
 		Classifiers:       "красивоцветущее, декоративнолиственное"}
 	tests := []struct {
 		name    string
@@ -57,7 +57,8 @@ func TestPG_GetRefPlantByID(t *testing.T) {
 		{
 			"Getting plant by id from reference table.",
 			1,
-			&models.RefPlant{ID: 1, Category: 1, Title: &titleTestRefPlant, ShortInfo: &shortInfoTestRefPlant},
+			&models.RefPlant{ID: 1, Category: 1, Title: &titleTestRefPlant, ShortInfo: &shortInfoTestRefPlant,
+				ModifiedAt: strfmt.NewDateTime(), CreatedAt: strfmt.NewDateTime()},
 			false,
 		},
 		{
@@ -82,7 +83,7 @@ func TestPG_GetRefPlantByID(t *testing.T) {
 				got.CreatedAt = strfmt.NewDateTime()
 				got.ModifiedAt = strfmt.NewDateTime()
 			}
-			if reflect.DeepEqual(got, tt.wantGet) && tt.wantErr {
+			if !reflect.DeepEqual(got, tt.wantGet) != tt.wantErr {
 				t.Errorf("TestPG_GetRefPlantByID DeepEqual error: \ngot = %v, \nwant = %v", got, tt.wantGet)
 			}
 		})
