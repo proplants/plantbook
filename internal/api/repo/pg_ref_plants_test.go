@@ -5,6 +5,7 @@ package repo_test
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"os"
 	"reflect"
 	"testing"
@@ -13,6 +14,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/proplants/plantbook/internal/api/models"
 	"github.com/proplants/plantbook/internal/api/repo"
+	"github.com/proplants/plantbook/internal/api/restapi/operations/refplant"
 )
 
 const (
@@ -86,6 +88,63 @@ func TestPG_GetRefPlantByID(t *testing.T) {
 			if !reflect.DeepEqual(got, tt.wantGet) != tt.wantErr {
 				t.Errorf("TestPG_GetRefPlantByID DeepEqual error: \ngot = %v, \nwant = %v", got, tt.wantGet)
 			}
+		})
+	}
+}
+
+func TestPG_GetRefPlants(t *testing.T) {
+	ctx, cancel := context.WithTimeout(context.Background(), defaultTestTimeout)
+	defer cancel()
+	pg, err := initRepo(ctx)
+	if err != nil {
+		t.Fatalf("initRepo failed, %s", err)
+	}
+
+	tests := []struct {
+		name    string
+		params  refplant.GetRefPlantsParams
+		wantErr bool
+	}{
+		{
+			"Getting all plants from reference table.",
+			refplant.GetRefPlantsParams{HTTPRequest: &http.Request{}, Limit: 20},
+			false,
+		},
+		{
+			"Getting plants by category_id from reference table.",
+			refplant.GetRefPlantsParams{HTTPRequest: &http.Request{}, Category: 1, Limit: 20},
+			false,
+		},
+		{
+			"Getting plants by category_id and some parameters from reference table.",
+			refplant.GetRefPlantsParams{HTTPRequest: &http.Request{}, Category: 1,
+				Kind: "кустарник", Hight: "высокое", Limit: 20},
+			false,
+		},
+		{
+			"Getting plants by some parameters from reference table.",
+			refplant.GetRefPlantsParams{HTTPRequest: &http.Request{},
+				Kind: "кустарник", Hight: "высокое", Limit: 20},
+			false,
+		},
+		{
+			"Getting plants by non-existent category_id from reference table.",
+			refplant.GetRefPlantsParams{HTTPRequest: &http.Request{}, Category: 99, Limit: 20},
+			true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, gotCount, _, err := pg.GetRefPlants(ctx, tt.params)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("TestPG_GetRefPlants got error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if (gotCount <= 0) != tt.wantErr {
+				t.Errorf("TestPG_GetRefPlants, gotCount = %v, wantErr %v", gotCount, tt.wantErr)
+				return
+			}
+
 		})
 	}
 }

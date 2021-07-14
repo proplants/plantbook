@@ -52,9 +52,6 @@ func (pg *PG) GetRefPlants(ctx context.Context,
 
 	rows, err := pg.db.Query(params.HTTPRequest.Context(), query, argsQueryAll...)
 	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, 0, 0, errors.Errorf("Not found rows")
-		}
 		return nil, 0, 0, errors.WithMessage(err, "Select rows error: ")
 	}
 	defer rows.Close()
@@ -69,6 +66,9 @@ func (pg *PG) GetRefPlants(ctx context.Context,
 	}
 	var total, count int64
 	count = rows.CommandTag().RowsAffected()
+	if count == 0 {
+		return nil, 0, 0, errors.Errorf("Not found rows")
+	}
 	err = pg.db.QueryRow(ctx, totalquery, argsQuery...).Scan(&total)
 	if err != nil {
 		return nil, 0, 0, errors.WithMessage(err, "Scan total rows error: ")
