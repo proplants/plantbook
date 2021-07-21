@@ -120,7 +120,7 @@ WHERE id = $1`
 		&userPlant.CreatedAt, &userPlant.ModifiedAt)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, nil
+			return nil, errors.Errorf("Not found rows")
 		}
 		return nil, errors.WithMessage(err, "get user's plant error")
 	}

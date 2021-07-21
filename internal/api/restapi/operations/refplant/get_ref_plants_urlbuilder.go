@@ -15,16 +15,16 @@ import (
 
 // GetRefPlantsURL generates an URL for the get ref plants operation
 type GetRefPlantsURL struct {
-	Category          *int32
-	Classifiers       *string
-	FloweringTime     *string
-	Hight             *string
-	Kind              *string
-	Limit             int32
-	Offset            int32
-	RecommendPosition *string
-	RegardToLight     *string
-	RegardToMoisture  *string
+	Category          int32
+	Classifiers       string
+	FloweringTime     string
+	Hight             string
+	Kind              string
+	Limit             int64
+	Offset            int64
+	RecommendPosition string
+	RegardToLight     string
+	RegardToMoisture  string
 
 	_basePath string
 	// avoid unkeyed usage
@@ -50,7 +50,7 @@ func (o *GetRefPlantsURL) SetBasePath(bp string) {
 func (o *GetRefPlantsURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/api/v1/refplants"
+	var _path = "/api/v1/reference/plants"
 
 	_basePath := o._basePath
 	if _basePath == "" {
@@ -60,76 +60,52 @@ func (o *GetRefPlantsURL) Build() (*url.URL, error) {
 
 	qs := make(url.Values)
 
-	var categoryQ string
-	if o.Category != nil {
-		categoryQ = swag.FormatInt32(*o.Category)
-	}
+	categoryQ := swag.FormatInt32(o.Category)
 	if categoryQ != "" {
 		qs.Set("category", categoryQ)
 	}
 
-	var classifiersQ string
-	if o.Classifiers != nil {
-		classifiersQ = *o.Classifiers
-	}
+	classifiersQ := o.Classifiers
 	if classifiersQ != "" {
 		qs.Set("classifiers", classifiersQ)
 	}
 
-	var floweringTimeQ string
-	if o.FloweringTime != nil {
-		floweringTimeQ = *o.FloweringTime
-	}
+	floweringTimeQ := o.FloweringTime
 	if floweringTimeQ != "" {
 		qs.Set("floweringTime", floweringTimeQ)
 	}
 
-	var hightQ string
-	if o.Hight != nil {
-		hightQ = *o.Hight
-	}
+	hightQ := o.Hight
 	if hightQ != "" {
 		qs.Set("hight", hightQ)
 	}
 
-	var kindQ string
-	if o.Kind != nil {
-		kindQ = *o.Kind
-	}
+	kindQ := o.Kind
 	if kindQ != "" {
 		qs.Set("kind", kindQ)
 	}
 
-	limitQ := swag.FormatInt32(o.Limit)
+	limitQ := swag.FormatInt64(o.Limit)
 	if limitQ != "" {
 		qs.Set("limit", limitQ)
 	}
 
-	offsetQ := swag.FormatInt32(o.Offset)
+	offsetQ := swag.FormatInt64(o.Offset)
 	if offsetQ != "" {
 		qs.Set("offset", offsetQ)
 	}
 
-	var recommendPositionQ string
-	if o.RecommendPosition != nil {
-		recommendPositionQ = *o.RecommendPosition
-	}
+	recommendPositionQ := o.RecommendPosition
 	if recommendPositionQ != "" {
 		qs.Set("recommendPosition", recommendPositionQ)
 	}
 
-	var regardToLightQ string
-	if o.RegardToLight != nil {
-		regardToLightQ = *o.RegardToLight
-	}
+	regardToLightQ := o.RegardToLight
 	if regardToLightQ != "" {
 		qs.Set("regardToLight", regardToLightQ)
 	}
 
-	var regardToMoistureQ string
-	if o.RegardToMoisture != nil {
-		regardToMoistureQ = *o.RegardToMoisture
-	}
+	regardToMoistureQ := o.RegardToMoisture
 	if regardToMoistureQ != "" {
 		qs.Set("regardToMoisture", regardToMoistureQ)
 	}

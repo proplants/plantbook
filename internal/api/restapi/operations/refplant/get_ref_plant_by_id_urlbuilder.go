@@ -42,7 +42,7 @@ func (o *GetRefPlantByIDURL) SetBasePath(bp string) {
 func (o *GetRefPlantByIDURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/api/v1/refplant/{id}"
+	var _path = "/api/v1/reference/plants/{id}"
 
 	id := swag.FormatInt64(o.ID)
 	if id != "" {

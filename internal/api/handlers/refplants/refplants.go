@@ -8,6 +8,6 @@ import (
 )
 
 type RepoInterface interface {
-	GetRefPlants(ctx context.Context, params refplant.GetRefPlantsParams) ([]*models.RefPlant, error)
+	GetRefPlants(ctx context.Context, params refplant.GetRefPlantsParams) ([]*models.RefPlant, int64, int64, error)
 	GetRefPlantByID(ctx context.Context, id int64) (*models.RefPlant, error)
 }

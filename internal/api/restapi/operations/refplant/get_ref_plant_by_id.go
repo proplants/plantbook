@@ -29,7 +29,7 @@ func NewGetRefPlantByID(ctx *middleware.Context, handler GetRefPlantByIDHandler)
 	return &GetRefPlantByID{Context: ctx, Handler: handler}
 }
 
-/* GetRefPlantByID swagger:route GET /api/v1/refplant/{id} refplant getRefPlantById
+/* GetRefPlantByID swagger:route GET /api/v1/reference/plants/{id} refplant getRefPlantById
 
 Find reference plant by ID
 

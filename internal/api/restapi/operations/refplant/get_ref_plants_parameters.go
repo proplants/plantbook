@@ -13,14 +13,25 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 )
 
 // NewGetRefPlantsParams creates a new GetRefPlantsParams object
-//
-// There are no default values defined in the spec.
+// with the default values initialized.
 func NewGetRefPlantsParams() GetRefPlantsParams {
 
-	return GetRefPlantsParams{}
+	var (
+		// initialize parameters with default values
+
+		limitDefault  = int64(20)
+		offsetDefault = int64(0)
+	)
+
+	return GetRefPlantsParams{
+		Limit: limitDefault,
+
+		Offset: offsetDefault,
+	}
 }
 
 // GetRefPlantsParams contains all the bound params for the get ref plants operation
@@ -35,45 +46,48 @@ type GetRefPlantsParams struct {
 	/*plant category
 	  In: query
 	*/
-	Category *int32
+	Category int32
 	/*
 	  In: query
 	*/
-	Classifiers *string
+	Classifiers string
 	/*
 	  In: query
 	*/
-	FloweringTime *string
+	FloweringTime string
 	/*
 	  In: query
 	*/
-	Hight *string
+	Hight string
 	/*
 	  In: query
 	*/
-	Kind *string
-	/*
-	  Required: true
+	Kind string
+	/*The numbers of items to return.
+	  Maximum: 100
+	  Minimum: 1
 	  In: query
+	  Default: 20
 	*/
-	Limit int32
-	/*
-	  Required: true
+	Limit int64
+	/*The number of items to skip before starting to collect the result set.
+	  Minimum: 0
 	  In: query
+	  Default: 0
 	*/
-	Offset int32
-	/*
-	  In: query
-	*/
-	RecommendPosition *string
-	/*
-	  In: query
-	*/
-	RegardToLight *string
+	Offset int64
 	/*
 	  In: query
 	*/
-	RegardToMoisture *string
+	RecommendPosition string
+	/*
+	  In: query
+	*/
+	RegardToLight string
+	/*
+	  In: query
+	*/
+	RegardToMoisture string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -150,7 +164,7 @@ func (o *GetRefPlantsParams) bindCategory(rawData []string, hasKey bool, formats
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
@@ -160,7 +174,7 @@ func (o *GetRefPlantsParams) bindCategory(rawData []string, hasKey bool, formats
 	if err != nil {
 		return errors.InvalidType("category", "query", "int32", raw)
 	}
-	o.Category = &value
+	o.Category = value
 
 	return nil
 }
@@ -173,12 +187,12 @@ func (o *GetRefPlantsParams) bindClassifiers(rawData []string, hasKey bool, form
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.Classifiers = &raw
+	o.Classifiers = raw
 
 	return nil
 }
@@ -191,12 +205,12 @@ func (o *GetRefPlantsParams) bindFloweringTime(rawData []string, hasKey bool, fo
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.FloweringTime = &raw
+	o.FloweringTime = raw
 
 	return nil
 }
@@ -209,12 +223,12 @@ func (o *GetRefPlantsParams) bindHight(rawData []string, hasKey bool, formats st
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.Hight = &raw
+	o.Hight = raw
 
 	return nil
 }
@@ -227,64 +241,92 @@ func (o *GetRefPlantsParams) bindKind(rawData []string, hasKey bool, formats str
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.Kind = &raw
+	o.Kind = raw
 
 	return nil
 }
 
 // bindLimit binds and validates parameter Limit from query.
 func (o *GetRefPlantsParams) bindLimit(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	if !hasKey {
-		return errors.Required("limit", "query", rawData)
-	}
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
 	}
 
-	// Required: true
+	// Required: false
 	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
+		// Default values have been previously initialized by NewGetRefPlantsParams()
 		return nil
 	}
 
-	value, err := swag.ConvertInt32(raw)
+	value, err := swag.ConvertInt64(raw)
 	if err != nil {
-		return errors.InvalidType("limit", "query", "int32", raw)
+		return errors.InvalidType("limit", "query", "int64", raw)
 	}
 	o.Limit = value
+
+	if err := o.validateLimit(formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// validateLimit carries on validations for parameter Limit
+func (o *GetRefPlantsParams) validateLimit(formats strfmt.Registry) error {
+
+	if err := validate.MinimumInt("limit", "query", o.Limit, 1, false); err != nil {
+		return err
+	}
+
+	if err := validate.MaximumInt("limit", "query", o.Limit, 100, false); err != nil {
+		return err
+	}
 
 	return nil
 }
 
 // bindOffset binds and validates parameter Offset from query.
 func (o *GetRefPlantsParams) bindOffset(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	if !hasKey {
-		return errors.Required("offset", "query", rawData)
-	}
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
 	}
 
-	// Required: true
+	// Required: false
 	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
+		// Default values have been previously initialized by NewGetRefPlantsParams()
 		return nil
 	}
 
-	value, err := swag.ConvertInt32(raw)
+	value, err := swag.ConvertInt64(raw)
 	if err != nil {
-		return errors.InvalidType("offset", "query", "int32", raw)
+		return errors.InvalidType("offset", "query", "int64", raw)
 	}
 	o.Offset = value
+
+	if err := o.validateOffset(formats); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// validateOffset carries on validations for parameter Offset
+func (o *GetRefPlantsParams) validateOffset(formats strfmt.Registry) error {
+
+	if err := validate.MinimumInt("offset", "query", o.Offset, 0, false); err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -297,12 +339,12 @@ func (o *GetRefPlantsParams) bindRecommendPosition(rawData []string, hasKey bool
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.RecommendPosition = &raw
+	o.RecommendPosition = raw
 
 	return nil
 }
@@ -315,12 +357,12 @@ func (o *GetRefPlantsParams) bindRegardToLight(rawData []string, hasKey bool, fo
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.RegardToLight = &raw
+	o.RegardToLight = raw
 
 	return nil
 }
@@ -333,12 +375,12 @@ func (o *GetRefPlantsParams) bindRegardToMoisture(rawData []string, hasKey bool,
 	}
 
 	// Required: false
-	// AllowEmptyValue: false
+	// AllowEmptyValue: true
 
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-	o.RegardToMoisture = &raw
+	o.RegardToMoisture = raw
 
 	return nil
 }

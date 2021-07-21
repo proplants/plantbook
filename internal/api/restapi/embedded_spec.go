@@ -233,7 +233,125 @@ func init() {
         }
       }
     },
-    "/api/v1/refplant/{id}": {
+    "/api/v1/reference/plants": {
+      "get": {
+        "description": "find reference plants by parameters or all",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "refplant"
+        ],
+        "summary": "find reference plants",
+        "operationId": "getRefPlants",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "plant category",
+            "name": "category",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "kind",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "recommendPosition",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "regardToLight",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "regardToMoisture",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "floweringTime",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "hight",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "classifiers",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "integer",
+            "default": 0,
+            "description": "The number of items to skip before starting to collect the result set.",
+            "name": "offset",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer",
+            "default": 20,
+            "description": "The numbers of items to return.",
+            "name": "limit",
+            "in": "query",
+            "allowEmptyValue": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of the user's plants",
+            "schema": {
+              "$ref": "#/definitions/RefPlantsResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Plants not found"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reference/plants/{id}": {
       "get": {
         "description": "Returns a single reference plant",
         "produces": [
@@ -266,111 +384,6 @@ func init() {
           },
           "404": {
             "description": "Plant not found"
-          },
-          "default": {
-            "description": "unexpected error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            },
-            "headers": {
-              "X-Request-Id": {
-                "type": "string",
-                "description": "The request id this is a response to"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/refplants": {
-      "get": {
-        "description": "find reference plants by parameters or all",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "refplant"
-        ],
-        "summary": "find reference plants",
-        "operationId": "getRefPlants",
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "plant category",
-            "name": "category",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "kind",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "recommendPosition",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "regardToLight",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "regardToMoisture",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "floweringTime",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "hight",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "classifiers",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "name": "limit",
-            "in": "query",
-            "required": true,
-            "allowEmptyValue": true
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "name": "offset",
-            "in": "query",
-            "required": true,
-            "allowEmptyValue": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/RefPlant"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid input"
-          },
-          "404": {
-            "description": "Plants not found"
           },
           "default": {
             "description": "unexpected error",
@@ -1125,15 +1138,8 @@ func init() {
           "format": "int32"
         },
         "createdAt": {
-          "x-go-type": {
-            "hints": {
-              "noValidation": true
-            },
-            "import": {
-              "package": "time"
-            },
-            "type": "Time"
-          }
+          "type": "string",
+          "format": "date-time"
         },
         "creater": {
           "type": "string"
@@ -1155,16 +1161,8 @@ func init() {
           }
         },
         "modifiedAt": {
-          "x-go-type": {
-            "hints": {
-              "noValidation": true
-            },
-            "import": {
-              "package": "time"
-            },
-            "type": "Time"
-          },
-          "x-nullable": true
+          "type": "string",
+          "format": "date-time"
         },
         "modifier": {
           "type": "string"
@@ -1174,6 +1172,23 @@ func init() {
         },
         "title": {
           "type": "string"
+        }
+      }
+    },
+    "RefPlants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RefPlant"
+      }
+    },
+    "RefPlantsResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/RefPlants"
+        },
+        "result_set": {
+          "$ref": "#/definitions/ResultSet"
         }
       }
     },
@@ -1606,7 +1621,126 @@ func init() {
         }
       }
     },
-    "/api/v1/refplant/{id}": {
+    "/api/v1/reference/plants": {
+      "get": {
+        "description": "find reference plants by parameters or all",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "refplant"
+        ],
+        "summary": "find reference plants",
+        "operationId": "getRefPlants",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "plant category",
+            "name": "category",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "kind",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "recommendPosition",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "regardToLight",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "regardToMoisture",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "floweringTime",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "hight",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "type": "string",
+            "name": "classifiers",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "minimum": 0,
+            "type": "integer",
+            "default": 0,
+            "description": "The number of items to skip before starting to collect the result set.",
+            "name": "offset",
+            "in": "query",
+            "allowEmptyValue": true
+          },
+          {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer",
+            "default": 20,
+            "description": "The numbers of items to return.",
+            "name": "limit",
+            "in": "query",
+            "allowEmptyValue": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of the user's plants",
+            "schema": {
+              "$ref": "#/definitions/RefPlantsResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Plants not found"
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            },
+            "headers": {
+              "X-Request-Id": {
+                "type": "string",
+                "description": "The request id this is a response to"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reference/plants/{id}": {
       "get": {
         "description": "Returns a single reference plant",
         "produces": [
@@ -1639,111 +1773,6 @@ func init() {
           },
           "404": {
             "description": "Plant not found"
-          },
-          "default": {
-            "description": "unexpected error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            },
-            "headers": {
-              "X-Request-Id": {
-                "type": "string",
-                "description": "The request id this is a response to"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/refplants": {
-      "get": {
-        "description": "find reference plants by parameters or all",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "tags": [
-          "refplant"
-        ],
-        "summary": "find reference plants",
-        "operationId": "getRefPlants",
-        "parameters": [
-          {
-            "type": "integer",
-            "format": "int32",
-            "description": "plant category",
-            "name": "category",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "kind",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "recommendPosition",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "regardToLight",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "regardToMoisture",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "floweringTime",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "hight",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "name": "classifiers",
-            "in": "query"
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "name": "limit",
-            "in": "query",
-            "required": true,
-            "allowEmptyValue": true
-          },
-          {
-            "type": "integer",
-            "format": "int32",
-            "name": "offset",
-            "in": "query",
-            "required": true,
-            "allowEmptyValue": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/RefPlant"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid input"
-          },
-          "404": {
-            "description": "Plants not found"
           },
           "default": {
             "description": "unexpected error",
@@ -2499,15 +2528,8 @@ func init() {
           "format": "int32"
         },
         "createdAt": {
-          "x-go-type": {
-            "hints": {
-              "noValidation": true
-            },
-            "import": {
-              "package": "time"
-            },
-            "type": "Time"
-          }
+          "type": "string",
+          "format": "date-time"
         },
         "creater": {
           "type": "string"
@@ -2529,16 +2551,9 @@ func init() {
           }
         },
         "modifiedAt": {
-          "x-go-type": {
-            "hints": {
-              "noValidation": true
-            },
-            "import": {
-              "package": "time"
-            },
-            "type": "Time"
-          },
-          "x-nullable": true
+          "type": "string",
+          "format": "date-time",
+          "minLength": 0
         },
         "modifier": {
           "type": "string",
@@ -2549,6 +2564,23 @@ func init() {
         },
         "title": {
           "type": "string"
+        }
+      }
+    },
+    "RefPlants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RefPlant"
+      }
+    },
+    "RefPlantsResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/RefPlants"
+        },
+        "result_set": {
+          "$ref": "#/definitions/ResultSet"
         }
       }
     },

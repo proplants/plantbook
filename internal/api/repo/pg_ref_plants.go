@@ -4,63 +4,55 @@ import (
 	"context"
 	"strconv"
 
+	"github.com/jackc/pgx/v4"
 	"github.com/pkg/errors"
 	"github.com/proplants/plantbook/internal/api/models"
 	"github.com/proplants/plantbook/internal/api/restapi/operations/refplant"
 )
 
-// GetRefPlants получение растений из справочника по параметрам или просто все, обязательные поля limit and offset.
-func (pg *PG) GetRefPlants(ctx context.Context, params refplant.GetRefPlantsParams) ([]*models.RefPlant, error) {
-	query := `select id, title, category_id, short_info::jsonb, notes::jsonb,
+// GetRefPlans extracts all plants from the reference by parameters.
+func (pg *PG) GetRefPlants(ctx context.Context,
+	params refplant.GetRefPlantsParams) ([]*models.RefPlant, int64, int64, error) {
+	query := `SELECT id, title, category_id, short_info::jsonb, notes::jsonb,
 			img_links::jsonb, creator, created_at, modifier, modified_at
-			from reference.plants`
+			FROM reference.plants`
+	totalquery := `select count(1) as cnt from reference.plants`
 	var refPlants []*models.RefPlant
-	// log := logging.FromContext(params.HTTPRequest.Context())
-	limitoffset := " limit " + strconv.Itoa(int(params.Limit)) + " offset " + strconv.Itoa(int(params.Offset)) + ";"
-
-	//  Проверяем, есть ли параметры поиска и заполняем переменную tsquery
 	var tsquery string
-	if params.Hight != nil {
-		tsquery = tsquery + " " + *params.Hight
+	paramsArr := [7]string{
+		params.Classifiers, params.Hight, params.Kind, params.RecommendPosition,
+		params.RegardToLight, params.RegardToMoisture, params.FloweringTime,
 	}
-	if params.Kind != nil {
-		tsquery = tsquery + " " + *params.Kind
+	for _, param := range paramsArr {
+		if param != "" {
+			tsquery += param + " "
+		}
 	}
-	if params.RecommendPosition != nil {
-		tsquery = tsquery + " " + *params.RecommendPosition
-	}
-	if params.RegardToLight != nil {
-		tsquery = tsquery + " " + *params.RegardToLight
-	}
-	if params.RegardToMoisture != nil {
-		tsquery = tsquery + " " + *params.RegardToMoisture
-	}
-	if params.FloweringTime != nil {
-		tsquery = tsquery + " " + *params.FloweringTime
-	}
-	if params.Classifiers != nil {
-		tsquery = tsquery + " " + *params.Classifiers
-	}
-	// Проверяем заполнена ли переменная tsquery
+	var argsQuery []interface{}
 	if tsquery != "" {
-		// Проверяем заполнена ли категория
-		if params.Category != nil {
-			query = query + " where to_tsvector('russian', short_info) @@ plainto_tsquery('russian','" +
-				tsquery + "') and category_id = " + strconv.Itoa(int(*params.Category))
+		query += " WHERE to_tsvector('russian', short_info) @@ plainto_tsquery('russian', $3)"
+		totalquery += " WHERE to_tsvector('russian', short_info) @@ plainto_tsquery('russian', $1)"
+		argsQuery = append(argsQuery, tsquery)
+		if params.Category != 0 {
+			query += " AND category_id = $4"
+			totalquery += " AND category_id = $2"
+			argsQuery = append(argsQuery, strconv.Itoa(int(params.Category)))
 		}
-	} else {
-		if params.Category != nil {
-			query = query + " where category_id = " + strconv.Itoa(int(*params.Category))
-		}
+	} else if params.Category != 0 {
+		query += " WHERE category_id = $3"
+		totalquery += " WHERE category_id = $1"
+		argsQuery = append(argsQuery, strconv.Itoa(int(params.Category)))
 	}
+	totalquery += ";"
+	query += " ORDER BY title LIMIT $1 OFFSET $2;"
 
-	// Добавляем лимит и оффсет
-	query += limitoffset
+	var argsQueryAll []interface{}
+	argsQueryAll = append(argsQueryAll, params.Limit, params.Offset)
+	argsQueryAll = append(argsQueryAll, argsQuery...)
 
-	// Получение строк с базы
-	rows, err := pg.db.Query(ctx, query)
+	rows, err := pg.db.Query(params.HTTPRequest.Context(), query, argsQueryAll...)
 	if err != nil {
-		return nil, errors.WithMessage(err, "Select rows error: ")
+		return nil, 0, 0, errors.WithMessage(err, "Select rows error: ")
 	}
 	defer rows.Close()
 	for rows.Next() {
@@ -68,25 +60,36 @@ func (pg *PG) GetRefPlants(ctx context.Context, params refplant.GetRefPlantsPara
 		err = rows.Scan(&refPlant.ID, &refPlant.Title, &refPlant.Category, &refPlant.ShortInfo, &refPlant.Infos,
 			&refPlant.Images, &refPlant.Creater, &refPlant.CreatedAt, &refPlant.Modifier, &refPlant.ModifiedAt)
 		if err != nil {
-			return nil, errors.WithMessage(err, "Scan rows error: ")
+			return nil, 0, 0, errors.WithMessage(err, "Scan rows error: ")
 		}
 		refPlants = append(refPlants, &refPlant)
 	}
-
-	return refPlants, err
+	var total, count int64
+	count = rows.CommandTag().RowsAffected()
+	if count == 0 {
+		return nil, 0, 0, errors.Errorf("Not found rows")
+	}
+	err = pg.db.QueryRow(ctx, totalquery, argsQuery...).Scan(&total)
+	if err != nil {
+		return nil, 0, 0, errors.WithMessage(err, "Scan total rows error: ")
+	}
+	return refPlants, count, total, err
 }
 
 // GetRefPlantByID extracts reference.plant by specified id.
 func (pg *PG) GetRefPlantByID(ctx context.Context, id int64) (*models.RefPlant, error) {
 	query := `select id, title, category_id, short_info::jsonb, notes::jsonb,
 			img_links::jsonb, creator, created_at, modifier, modified_at
-			from reference.plants where id= `
-	query = query + strconv.Itoa(int(id)) + ";"
+			from reference.plants where id = $1`
+
 	var refPlant models.RefPlant
-	err := pg.db.QueryRow(ctx, query).Scan(&refPlant.ID, &refPlant.Title, &refPlant.Category,
+	err := pg.db.QueryRow(ctx, query, id).Scan(&refPlant.ID, &refPlant.Title, &refPlant.Category,
 		&refPlant.ShortInfo, &refPlant.Infos, &refPlant.Images, &refPlant.Creater, &refPlant.CreatedAt,
 		&refPlant.Modifier, &refPlant.ModifiedAt)
 	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, errors.Errorf("Not found rows")
+		}
 		return nil, errors.WithMessage(err, "QueryRow.Scan error")
 	}
 
