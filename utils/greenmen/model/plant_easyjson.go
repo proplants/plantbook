@@ -50,6 +50,20 @@ func easyjson30217d55DecodeGithubComProplantsPlantbookUtilsGreenmenModel(in *jle
 			out.Hight = string(in.String())
 		case "classifiers":
 			out.Classifiers = string(in.String())
+		case "ground":
+			out.Ground = string(in.String())
+		case "wintering":
+			out.Wintering = string(in.String())
+		case "decorativeness":
+			out.Decorativeness = string(in.String())
+		case "composition":
+			out.Composition = string(in.String())
+		case "shearing":
+			out.Shearing = string(in.String())
+		case "growing":
+			out.Growing = string(in.String())
+		case "eating":
+			out.Eating = string(in.String())
 		default:
 			in.SkipRecursive()
 		}
@@ -98,6 +112,41 @@ func easyjson30217d55EncodeGithubComProplantsPlantbookUtilsGreenmenModel(out *jw
 		const prefix string = ",\"classifiers\":"
 		out.RawString(prefix)
 		out.String(string(in.Classifiers))
+	}
+	{
+		const prefix string = ",\"ground\":"
+		out.RawString(prefix)
+		out.String(string(in.Ground))
+	}
+	{
+		const prefix string = ",\"wintering\":"
+		out.RawString(prefix)
+		out.String(string(in.Wintering))
+	}
+	{
+		const prefix string = ",\"decorativeness\":"
+		out.RawString(prefix)
+		out.String(string(in.Decorativeness))
+	}
+	{
+		const prefix string = ",\"composition\":"
+		out.RawString(prefix)
+		out.String(string(in.Composition))
+	}
+	{
+		const prefix string = ",\"shearing\":"
+		out.RawString(prefix)
+		out.String(string(in.Shearing))
+	}
+	{
+		const prefix string = ",\"growing\":"
+		out.RawString(prefix)
+		out.String(string(in.Growing))
+	}
+	{
+		const prefix string = ",\"eating\":"
+		out.RawString(prefix)
+		out.String(string(in.Eating))
 	}
 	out.RawByte('}')
 }

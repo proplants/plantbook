@@ -61,4 +61,11 @@ type ShortInfo struct {
 	FloweringTime     string `json:"flowering_time"`
 	Hight             string `json:"hight"`
 	Classifiers       string `json:"classifiers"`
+	Ground            string `json:"ground"`
+	Wintering         string `json:"wintering"`
+	Decorativeness    string `json:"decorativeness"`
+	Composition       string `json:"composition"`
+	Shearing          string `json:"shearing"`
+	Growing           string `json:"growing"`
+	Eating            string `json:"eating"`
 }

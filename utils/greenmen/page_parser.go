@@ -26,6 +26,13 @@ const (
 	shortPropFloweringTime    string = "Сроки цветения"
 	shortPropHight            string = "Высота"
 	shortPropClassifiers      string = "Ценность в культуре"
+	shortPropGround           string = "Почва"
+	shortPropWintering        string = "Зимовка"
+	shortPropDecorativeness   string = "Форма декоративности"
+	shortPropComposition      string = "Значимость в композиции"
+	shortPropShearing         string = "Устойчивость в срезке"
+	shortPropGrowing          string = "Условия выращивания"
+	shortPropEating           string = "Употребление в пищу"
 )
 
 // Collector html grabber.
@@ -48,7 +55,8 @@ func (c *Collector) parseRefPage(ctx context.Context, pageURL string, out chan s
 	log.Debugf("got baseURL %s", baseURL)
 	cc.OnHTML(".kolon", func(e *colly.HTMLElement) {
 		e.DOM.Children().Children().Children().Children().Each(func(i int, ee *goquery.Selection) {
-			href, _ := ee.ChildrenFiltered("p").Children().Attr("href")
+			// href, _ := ee.ChildrenFiltered("p").Children().Attr("href") // for pot_plants
+			href, _ := ee.ChildrenFiltered("a").Attr("href") // for garden_plants, cutting_plants
 			if len(href) == 0 {
 				return
 			}
@@ -93,6 +101,13 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 			FloweringTime:     "",
 			Hight:             "",
 			Classifiers:       "",
+			Ground:            "",
+			Wintering:         "",
+			Decorativeness:    "",
+			Composition:       "",
+			Shearing:          "",
+			Growing:           "",
+			Eating:            "",
 		},
 		Images: make([]string, 0, 4),
 		Info:   make([]model.Info, 0, 4),
@@ -137,6 +152,20 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 					p.ShortInfo.Hight = value
 				case shortPropClassifiers:
 					p.ShortInfo.Classifiers = value
+				case shortPropGround:
+					p.ShortInfo.Ground = value
+				case shortPropWintering:
+					p.ShortInfo.Wintering = value
+				case shortPropDecorativeness:
+					p.ShortInfo.Decorativeness = value
+				case shortPropComposition:
+					p.ShortInfo.Composition = value
+				case shortPropShearing:
+					p.ShortInfo.Shearing = value
+				case shortPropGrowing:
+					p.ShortInfo.Growing = value
+				case shortPropEating:
+					p.ShortInfo.Eating = value
 				}
 			}
 		})

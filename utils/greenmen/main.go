@@ -18,7 +18,7 @@ const (
 	version     string = "0.0.1"
 
 	// nolint:lll
-	templateRoomPlants string = `INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator) VALUES('%s', 1, '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);`
+	templateRoomPlants string = `INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator) VALUES('%s', 3, '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);`
 	rndLengthLim       int    = 10
 )
 
@@ -63,7 +63,7 @@ func main() {
 	}
 	const (
 		expectedPlantsLength int = 310
-		chURLLength          int = 5
+		chURLLength          int = 0
 	)
 	plants := make(model.Plants, 0, expectedPlantsLength)
 	chURLs := make(chan string, chURLLength)
@@ -72,10 +72,10 @@ func main() {
 			select {
 			case <-ctx.Done():
 				return
-			case url, more := <-chURLs:
-				if !more {
-					return
-				}
+			case url := <-chURLs:
+				// if !more {
+				// 	return
+				// }
 				logger.Debugf("got url=%s", url)
 				plant, err := cc.parsePlantPage(ctx, url)
 				if err != nil {
@@ -87,14 +87,17 @@ func main() {
 		}
 	}()
 
-	const refPageRoomPlants string = "http://www.plantopedia.ru/encyclopaedia/pot-plant/sections.php"
+	// const refPageRoomPlants string = "http://www.plantopedia.ru/encyclopaedia/pot-plant/sections.php"
+	// const refPageGardenPlants string = "http://www.plantopedia.ru/encyclopaedia/garden-plants/sections.php"
+	// const refPageCuttingPlants string = "http://www.plantopedia.ru/encyclopaedia/cutting-plants/sections.php"
+	const refPageOgorodPlants string = "http://www.plantopedia.ru/encyclopaedia/ogorod/sections.php"
 
-	err := cc.parseRefPage(ctx, refPageRoomPlants, chURLs)
+	err := cc.parseRefPage(ctx, refPageOgorodPlants, chURLs)
 	if err != nil {
-		logger.Errorf("cc.parseRefPage error, %s", err)
+		logger.Infof("cc.parseRefPage error, %s", err)
 	}
 	logger.Infof("parsed %d url(s)", len(plants))
-	err = saveToFile(plants, "plants.json", "room_plants.sql")
+	err = saveToFile(plants, "ogorod_plants.json", "ogorod_plants.sql")
 	if err != nil {
 		logger.Errorf("saveToFile error, %s", err)
 	}
