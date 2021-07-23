@@ -16,10 +16,10 @@ import (
 const (
 	letterBytes        = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	version     string = "0.0.1"
-
 	// nolint:lll
-	templateRoomPlants string = `INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator) VALUES('%s', 3, '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);`
-	rndLengthLim       int    = 10
+	templatePlants string = `INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator) VALUES('%s','%s', '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);`
+
+	rndLengthLim int = 10
 )
 
 // RandomString ...
@@ -61,51 +61,86 @@ func main() {
 		fmt.Printf("plant: %s\n", singlePlant)
 		return
 	}
-	const (
-		expectedPlantsLength int = 310
-		chURLLength          int = 0
-	)
-	plants := make(model.Plants, 0, expectedPlantsLength)
-	chURLs := make(chan string, chURLLength)
-	go func() {
-		for {
-			select {
-			case <-ctx.Done():
-				return
-			case url := <-chURLs:
-				// if !more {
-				// 	return
-				// }
-				logger.Debugf("got url=%s", url)
-				plant, err := cc.parsePlantPage(ctx, url)
-				if err != nil {
-					logger.Errorf("parsePlantPage error %s", err)
-					continue
+	rPPlants := []model.RefPagePlants{
+		{
+			Name:        "roomPlants",
+			Url:         "http://www.plantopedia.ru/encyclopaedia/pot-plant/sections.php",
+			FileName:    "room_plants",
+			Category_id: "1",
+		},
+		{
+			Name:        "gardenPlants",
+			Url:         "http://www.plantopedia.ru/encyclopaedia/garden-plants/sections.php",
+			FileName:    "garden_plants",
+			Category_id: "2",
+		},
+		{
+			Name:        "cuttingPlants",
+			Url:         "http://www.plantopedia.ru/encyclopaedia/cutting-plants/sections.php",
+			FileName:    "cutting_plants",
+			Category_id: "3",
+		},
+		{
+			Name:        "ogorodPlants",
+			Url:         "http://www.plantopedia.ru/encyclopaedia/ogorod/sections.php",
+			FileName:    "ogorod_plants",
+			Category_id: "4",
+		},
+	}
+
+	for _, rp := range rPPlants {
+
+		const (
+			expectedPlantsLength int = 310
+			chURLLength          int = 0
+		)
+		plants := make(model.Plants, 0, expectedPlantsLength)
+		chURLs := make(chan string, chURLLength)
+		done := make(chan bool)
+		go func() {
+			for {
+				select {
+				case <-ctx.Done():
+					logger.Debugf("channel ctx.Done")
+					done <- true
+					return
+				case url, more := <-chURLs:
+					if !more {
+						logger.Debugf("channel close, more: %v", more)
+						done <- true
+						return
+					}
+					logger.Debugf("got url=%s", url)
+					plant, err := cc.parsePlantPage(ctx, url)
+					if err != nil {
+						logger.Errorf("parsePlantPage error %s", err)
+						continue
+					}
+					plants = append(plants, *plant)
 				}
-				plants = append(plants, *plant)
 			}
+		}()
+
+		err := cc.parseRefPage(ctx, rp, chURLs)
+		if err != nil {
+			logger.Infof("cc.parseRefPage error in %v: , %s", rp.Name, err)
 		}
-	}()
-
-	// const refPageRoomPlants string = "http://www.plantopedia.ru/encyclopaedia/pot-plant/sections.php"
-	// const refPageGardenPlants string = "http://www.plantopedia.ru/encyclopaedia/garden-plants/sections.php"
-	// const refPageCuttingPlants string = "http://www.plantopedia.ru/encyclopaedia/cutting-plants/sections.php"
-	const refPageOgorodPlants string = "http://www.plantopedia.ru/encyclopaedia/ogorod/sections.php"
-
-	err := cc.parseRefPage(ctx, refPageOgorodPlants, chURLs)
-	if err != nil {
-		logger.Infof("cc.parseRefPage error, %s", err)
+		close(chURLs)
+		<-done
+		logger.Infof("parsed %d url(s)", len(plants))
+		err = saveToFile(plants, "./parsed/"+rp.FileName+".json",
+			"./parsed/"+rp.FileName+".sql", rp.Category_id)
+		if err != nil {
+			logger.Errorf("saveToFile error to %v: , %s", rp.FileName, err)
+		}
 	}
-	logger.Infof("parsed %d url(s)", len(plants))
-	err = saveToFile(plants, "ogorod_plants.json", "ogorod_plants.sql")
-	if err != nil {
-		logger.Errorf("saveToFile error, %s", err)
-	}
+
 }
 
 // helpers
 
-func saveToFile(plants model.Plants, fnData, fnSQL string) error {
+func saveToFile(plants model.Plants, fnData, fnSQL, rpCategory string) error {
+
 	f, err := os.Create(fnData)
 	if err != nil {
 		return err
@@ -119,7 +154,7 @@ func saveToFile(plants model.Plants, fnData, fnSQL string) error {
 	for _, plant := range plants {
 		// nolint:errcheck
 		// fmt.Fprintln()
-		fq.WriteString(makeSQLInsert(plant, templateRoomPlants) + "\n")
+		fq.WriteString(makeSQLInsert(plant, rpCategory) + "\n")
 	}
 	data, err := plants.MarshalJSON()
 	if err != nil {
@@ -130,11 +165,11 @@ func saveToFile(plants model.Plants, fnData, fnSQL string) error {
 }
 
 // nolint
-func makeSQLInsert(plant model.Plant, template string) string {
+func makeSQLInsert(plant model.Plant, category string) string {
 	// INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator)
 	// VALUES('%s', 1, '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);
 	shortInfoBts, _ := plant.ShortInfo.MarshalJSON()
 	notesBts, _ := plant.Info.MarshalJSON()
 	imgLinksBts, _ := plant.Images.MarshalJSON()
-	return fmt.Sprintf(template, plant.Title, shortInfoBts, notesBts, imgLinksBts)
+	return fmt.Sprintf(templatePlants, plant.Title, category, shortInfoBts, notesBts, imgLinksBts)
 }

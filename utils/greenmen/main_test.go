@@ -36,7 +36,7 @@ func Test_makeSQLInsert(t *testing.T) {
 		args args
 		want string
 	}{
-		{"roomplant_insert", args{plant: roomPlant, template: templateRoomPlants}, `INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator) VALUES('plant', 1, '` + shortInfo + `'::jsonb, '` + notes + `'::jsonb, '` + imagLinks + `'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);`},
+		{"roomplant_insert", args{plant: roomPlant, template: templatePlants}, `INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator) VALUES('plant', 1, '` + shortInfo + `'::jsonb, '` + notes + `'::jsonb, '` + imagLinks + `'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);`},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

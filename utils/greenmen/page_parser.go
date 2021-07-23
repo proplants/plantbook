@@ -44,19 +44,23 @@ func newCC(c *colly.Collector) *Collector {
 	return &Collector{c: c}
 }
 
-func (c *Collector) parseRefPage(ctx context.Context, pageURL string, out chan string) error {
+func (c *Collector) parseRefPage(ctx context.Context, rpp model.RefPagePlants, out chan string) error {
 	cc := c.c.Clone()
 	log := logging.FromContext(ctx)
-	u, err := url.Parse(pageURL)
+	u, err := url.Parse(rpp.Url)
 	if err != nil {
 		return errors.WithMessage(err, "parse pageURL error")
 	}
 	baseURL := u.Scheme + "://" + u.Host
+	var href string
 	log.Debugf("got baseURL %s", baseURL)
 	cc.OnHTML(".kolon", func(e *colly.HTMLElement) {
 		e.DOM.Children().Children().Children().Children().Each(func(i int, ee *goquery.Selection) {
-			// href, _ := ee.ChildrenFiltered("p").Children().Attr("href") // for pot_plants
-			href, _ := ee.ChildrenFiltered("a").Attr("href") // for garden_plants, cutting_plants
+			if rpp.Name == "roomPlants" {
+				href, _ = ee.ChildrenFiltered("p").Children().Attr("href") // for pot_plants
+			} else {
+				href, _ = ee.ChildrenFiltered("a").Attr("href") // for garden_plants, cutting_plants, ogorod_plants
+			}
 			if len(href) == 0 {
 				return
 			}
@@ -72,9 +76,9 @@ func (c *Collector) parseRefPage(ctx context.Context, pageURL string, out chan s
 		fmt.Println("Visiting", r.URL.String())
 	})
 
-	err = cc.Visit(pageURL)
+	err = cc.Visit(rpp.Url)
 	if err != nil {
-		return errors.WithMessagef(err, "visit %s error", pageURL)
+		return errors.WithMessagef(err, "visit %s error", rpp.Url)
 	}
 	return nil
 }
