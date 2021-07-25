@@ -20,7 +20,37 @@ const (
 	templatePlants string = `INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator) VALUES('%s','%s', '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);`
 
 	rndLengthLim int = 10
+
+	expectedPlantsLength int = 310
+	chURLLength          int = 0
 )
+
+var rPPlants = []model.RefPagePlants{
+	{
+		Name:       "roomPlants",
+		URL:        "http://www.plantopedia.ru/encyclopaedia/pot-plant/sections.php",
+		FileName:   "room_plants",
+		CategoryID: "1",
+	},
+	{
+		Name:       "gardenPlants",
+		URL:        "http://www.plantopedia.ru/encyclopaedia/garden-plants/sections.php",
+		FileName:   "garden_plants",
+		CategoryID: "2",
+	},
+	{
+		Name:       "cuttingPlants",
+		URL:        "http://www.plantopedia.ru/encyclopaedia/cutting-plants/sections.php",
+		FileName:   "cutting_plants",
+		CategoryID: "3",
+	},
+	{
+		Name:       "ogorodPlants",
+		URL:        "http://www.plantopedia.ru/encyclopaedia/ogorod/sections.php",
+		FileName:   "ogorod_plants",
+		CategoryID: "4",
+	},
+}
 
 // RandomString ...
 // nolint:gosec
@@ -61,86 +91,31 @@ func main() {
 		fmt.Printf("plant: %s\n", singlePlant)
 		return
 	}
-	rPPlants := []model.RefPagePlants{
-		{
-			Name:        "roomPlants",
-			Url:         "http://www.plantopedia.ru/encyclopaedia/pot-plant/sections.php",
-			FileName:    "room_plants",
-			Category_id: "1",
-		},
-		{
-			Name:        "gardenPlants",
-			Url:         "http://www.plantopedia.ru/encyclopaedia/garden-plants/sections.php",
-			FileName:    "garden_plants",
-			Category_id: "2",
-		},
-		{
-			Name:        "cuttingPlants",
-			Url:         "http://www.plantopedia.ru/encyclopaedia/cutting-plants/sections.php",
-			FileName:    "cutting_plants",
-			Category_id: "3",
-		},
-		{
-			Name:        "ogorodPlants",
-			Url:         "http://www.plantopedia.ru/encyclopaedia/ogorod/sections.php",
-			FileName:    "ogorod_plants",
-			Category_id: "4",
-		},
-	}
-
 	for _, rp := range rPPlants {
-
-		const (
-			expectedPlantsLength int = 310
-			chURLLength          int = 0
-		)
 		plants := make(model.Plants, 0, expectedPlantsLength)
 		chURLs := make(chan string, chURLLength)
 		done := make(chan bool)
 		go func() {
-			for {
-				select {
-				case <-ctx.Done():
-					logger.Debugf("channel ctx.Done")
-					done <- true
-					return
-				case url, more := <-chURLs:
-					if !more {
-						logger.Debugf("channel close, more: %v", more)
-						done <- true
-						return
-					}
-					logger.Debugf("got url=%s", url)
-					plant, err := cc.parsePlantPage(ctx, url)
-					if err != nil {
-						logger.Errorf("parsePlantPage error %s", err)
-						continue
-					}
-					plants = append(plants, *plant)
-				}
-			}
+			plants = cc.goParsePlants(ctx, chURLs, done)
 		}()
 
 		err := cc.parseRefPage(ctx, rp, chURLs)
 		if err != nil {
-			logger.Infof("cc.parseRefPage error in %v: , %s", rp.Name, err)
+			logger.Infof("cc.parseRefPage URL: %v error: , %s", rp.URL, err)
 		}
 		close(chURLs)
 		<-done
-		logger.Infof("parsed %d url(s)", len(plants))
-		err = saveToFile(plants, "./parsed/"+rp.FileName+".json",
-			"./parsed/"+rp.FileName+".sql", rp.Category_id)
+		logger.Infof("parsed %d url(s) in %s", len(plants), rp.Name)
+		err = saveToFile(plants, "./parsed/"+rp.FileName+".json", "./parsed/"+rp.FileName+".sql", rp.CategoryID)
 		if err != nil {
 			logger.Errorf("saveToFile error to %v: , %s", rp.FileName, err)
 		}
 	}
-
 }
 
 // helpers
 
 func saveToFile(plants model.Plants, fnData, fnSQL, rpCategory string) error {
-
 	f, err := os.Create(fnData)
 	if err != nil {
 		return err
@@ -167,9 +142,34 @@ func saveToFile(plants model.Plants, fnData, fnSQL, rpCategory string) error {
 // nolint
 func makeSQLInsert(plant model.Plant, category string) string {
 	// INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator)
-	// VALUES('%s', 1, '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);
+	// VALUES('%s', %s, '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);
 	shortInfoBts, _ := plant.ShortInfo.MarshalJSON()
 	notesBts, _ := plant.Info.MarshalJSON()
 	imgLinksBts, _ := plant.Images.MarshalJSON()
 	return fmt.Sprintf(templatePlants, plant.Title, category, shortInfoBts, notesBts, imgLinksBts)
+}
+
+func (c *Collector) goParsePlants(ctx context.Context, chURLs chan string, done chan bool) model.Plants {
+	logger := logging.FromContext(ctx)
+	plants := make(model.Plants, 0, expectedPlantsLength)
+	for {
+		select {
+		case <-ctx.Done():
+			done <- true
+			logger.Debugf("ctx.Done")
+			return plants
+		case url, more := <-chURLs:
+			if !more {
+				done <- true
+				logger.Debugf("channel chURLs close, more: %v", more)
+				return plants
+			}
+			plant, err := c.parsePlantPage(ctx, url)
+			if err != nil {
+				logger.Errorf("parsePlantPage error %s", err)
+				continue
+			}
+			plants = append(plants, *plant)
+		}
+	}
 }

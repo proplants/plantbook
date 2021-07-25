@@ -19,20 +19,21 @@ import (
 // [x] room plants
 
 const (
-	shortPropKind             string = "Тип  растения"
-	shortPropRecomendPosition string = "Рекомендуемое расположение"
-	shortPropReg2Light        string = "Отношение к свету"
-	shortPropReg2Moisture     string = "Отношение к влаге"
-	shortPropFloweringTime    string = "Сроки цветения"
-	shortPropHight            string = "Высота"
-	shortPropClassifiers      string = "Ценность в культуре"
-	shortPropGround           string = "Почва"
-	shortPropWintering        string = "Зимовка"
-	shortPropDecorativeness   string = "Форма декоративности"
-	shortPropComposition      string = "Значимость в композиции"
-	shortPropShearing         string = "Устойчивость в срезке"
-	shortPropGrowing          string = "Условия выращивания"
-	shortPropEating           string = "Употребление в пищу"
+	shortPropKind                string = "Тип растения"
+	shortPropRecomendPosition    string = "Рекомендуемое расположение"
+	shortPropReg2Light           string = "Отношение к свету"
+	shortPropReg2Moisture        string = "Отношение к влаге"
+	shortPropFloweringTime       string = "Сроки цветения"
+	shortPropHight               string = "Высота"
+	shortPropClassifiers         string = "Ценность в культуре"
+	shortPropGround              string = "Почва"
+	shortPropWintering           string = "Зимовка"
+	shortPropDecorativeness      string = "Форма декоративности"
+	shortPropComposition         string = "Значимость в композиции"
+	shortPropShearing            string = "Устойчивость в срезке"
+	shortPropGrowing             string = "Условия выращивания"
+	shortPropEating              string = "Употребление в пищу"
+	minPartsCountOfTheDivPlashka int    = 2
 )
 
 // Collector html grabber.
@@ -47,7 +48,7 @@ func newCC(c *colly.Collector) *Collector {
 func (c *Collector) parseRefPage(ctx context.Context, rpp model.RefPagePlants, out chan string) error {
 	cc := c.c.Clone()
 	log := logging.FromContext(ctx)
-	u, err := url.Parse(rpp.Url)
+	u, err := url.Parse(rpp.URL)
 	if err != nil {
 		return errors.WithMessage(err, "parse pageURL error")
 	}
@@ -76,9 +77,9 @@ func (c *Collector) parseRefPage(ctx context.Context, rpp model.RefPagePlants, o
 		fmt.Println("Visiting", r.URL.String())
 	})
 
-	err = cc.Visit(rpp.Url)
+	err = cc.Visit(rpp.URL)
 	if err != nil {
-		return errors.WithMessagef(err, "visit %s error", rpp.Url)
+		return errors.WithMessagef(err, "visit %s error", rpp.URL)
 	}
 	return nil
 }
@@ -131,50 +132,9 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 		log.Debugf("set category %s, and title %s", p.Category, p.Title)
 	})
 
-	const minPartsCountOfTheDivPlashka int = 2
 	// set short_info
-	cc.OnHTML(".plashka", func(e *colly.HTMLElement) {
-		e.ForEach("div", func(i int, ee *colly.HTMLElement) {
-			keyValue := strings.Split(ee.Text, "\n")
-			log.Debugf("keyValue: %+v", keyValue)
-			if len(keyValue) >= minPartsCountOfTheDivPlashka {
-				prop := strings.TrimRight(strings.TrimSpace(keyValue[0]), ":")
-				value := strings.Join(strings.Fields(strings.TrimSpace(keyValue[1])), " ")
-				log.Debugf("prop: %s - value: %s", prop, value)
-				switch prop {
-				case shortPropKind:
-					p.ShortInfo.Kind = value
-				case shortPropRecomendPosition:
-					p.ShortInfo.RecommendPosition = value
-				case shortPropReg2Light:
-					p.ShortInfo.RegardToLight = value
-				case shortPropReg2Moisture:
-					p.ShortInfo.RegardToMoisture = value
-				case shortPropFloweringTime:
-					p.ShortInfo.FloweringTime = value
-				case shortPropHight:
-					p.ShortInfo.Hight = value
-				case shortPropClassifiers:
-					p.ShortInfo.Classifiers = value
-				case shortPropGround:
-					p.ShortInfo.Ground = value
-				case shortPropWintering:
-					p.ShortInfo.Wintering = value
-				case shortPropDecorativeness:
-					p.ShortInfo.Decorativeness = value
-				case shortPropComposition:
-					p.ShortInfo.Composition = value
-				case shortPropShearing:
-					p.ShortInfo.Shearing = value
-				case shortPropGrowing:
-					p.ShortInfo.Growing = value
-				case shortPropEating:
-					p.ShortInfo.Eating = value
-				}
-			}
-		})
-		log.Debugf("set shorInfo: %+v", p.ShortInfo)
-	})
+	p.ShortInfo = setShortInfo(ctx, cc, &p.ShortInfo)
+	log.Debugf("set shorInfo: %+v", &p.ShortInfo)
 
 	// images
 	cc.OnHTML("#pikame", func(e *colly.HTMLElement) {
@@ -214,4 +174,50 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 		return p, errors.WithMessagef(err, "visit %s error", pageURL)
 	}
 	return p, nil
+}
+
+func setShortInfo(ctx context.Context, cc *colly.Collector, shortInfo *model.ShortInfo) model.ShortInfo {
+	log := logging.FromContext(ctx)
+	cc.OnHTML(".plashka", func(e *colly.HTMLElement) {
+		e.ForEach("div", func(i int, ee *colly.HTMLElement) {
+			keyValue := strings.Split(ee.Text, "\n")
+			if len(keyValue) >= minPartsCountOfTheDivPlashka {
+				prop := strings.TrimRight(strings.Join(strings.Fields(keyValue[0]), " "), ":")
+				value := strings.Join(strings.Fields(strings.TrimSpace(keyValue[1])), " ")
+				log.Debugf("prop: %s - value: %s", prop, value)
+				switch prop {
+				case shortPropKind:
+					shortInfo.Kind = value
+				case shortPropRecomendPosition:
+					shortInfo.RecommendPosition = value
+				case shortPropReg2Light:
+					shortInfo.RegardToLight = value
+				case shortPropReg2Moisture:
+					shortInfo.RegardToMoisture = value
+				case shortPropFloweringTime:
+					shortInfo.FloweringTime = value
+				case shortPropHight:
+					shortInfo.Hight = value
+				case shortPropClassifiers:
+					shortInfo.Classifiers = value
+				case shortPropGround:
+					shortInfo.Ground = value
+				case shortPropWintering:
+					shortInfo.Wintering = value
+				case shortPropDecorativeness:
+					shortInfo.Decorativeness = value
+				case shortPropComposition:
+					shortInfo.Composition = value
+				case shortPropShearing:
+					shortInfo.Shearing = value
+				case shortPropGrowing:
+					shortInfo.Growing = value
+				case shortPropEating:
+					shortInfo.Eating = value
+				}
+			}
+		})
+	})
+	log.Debugf("setShortInfo return: %+v", shortInfo)
+	return *shortInfo
 }

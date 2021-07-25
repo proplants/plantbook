@@ -70,10 +70,10 @@ type ShortInfo struct {
 	Eating            string `json:"eating"`
 }
 
-// RefPagePlants -
+// RefPagePlants - .
 type RefPagePlants struct {
-	Name        string
-	Url         string
-	FileName    string
-	Category_id string
+	Name       string
+	URL        string
+	FileName   string
+	CategoryID string
 }
