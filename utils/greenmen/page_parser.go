@@ -130,6 +130,15 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 		// title
 		p.Title = e.DOM.ChildrenFiltered("h2").Text()
 		log.Debugf("set category %s, and title %s", p.Category, p.Title)
+
+		// Cutting plants images
+		if p.Category == "Срезочные растения" {
+			e.ForEach("img", func(i int, ee *colly.HTMLElement) {
+				p.Images = append(p.Images, baseURL+ee.Attr("src"))
+			})
+			log.Debugf("Cutting plants: set images: %v", p.Images)
+		}
+
 	})
 
 	// set short_info
@@ -147,7 +156,12 @@ func (c *Collector) parsePlantPage(ctx context.Context, pageURL string) (*model.
 	const minLengthDivInfo int = 2
 	// info
 	cc.OnHTML(".encyclopaedia-zag", func(e *colly.HTMLElement) {
-		e.ForEach("h3", func(i int, ee *colly.HTMLElement) {
+		h := "h3"
+		if p.Category == "Срезочные растения" {
+			log.Debugf("info cutting plants set h4")
+			h = "h4"
+		}
+		e.ForEach(h, func(i int, ee *colly.HTMLElement) {
 			title := strings.Join(strings.Fields(strings.TrimSpace(ee.Text)), " ")
 			content := strings.Join(strings.Fields(strings.TrimSpace(ee.DOM.Next().Text())), " ")
 			log.Debugf("info title: %s, content: %s", title, content)

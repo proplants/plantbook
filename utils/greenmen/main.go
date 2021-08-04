@@ -17,7 +17,7 @@ const (
 	letterBytes        = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	version     string = "0.0.1"
 	// nolint:lll
-	templatePlants string = `INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator) VALUES('%s','%s', '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);`
+	templatePlants string = `INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator) VALUES('%s', %v, '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);`
 
 	rndLengthLim int = 10
 
@@ -30,25 +30,25 @@ var rPPlants = []model.RefPagePlants{
 		Name:       "roomPlants",
 		URL:        "http://www.plantopedia.ru/encyclopaedia/pot-plant/sections.php",
 		FileName:   "room_plants",
-		CategoryID: "1",
+		CategoryID: 1,
 	},
 	{
 		Name:       "gardenPlants",
 		URL:        "http://www.plantopedia.ru/encyclopaedia/garden-plants/sections.php",
 		FileName:   "garden_plants",
-		CategoryID: "2",
+		CategoryID: 2,
 	},
 	{
 		Name:       "cuttingPlants",
 		URL:        "http://www.plantopedia.ru/encyclopaedia/cutting-plants/sections.php",
 		FileName:   "cutting_plants",
-		CategoryID: "3",
+		CategoryID: 3,
 	},
 	{
 		Name:       "ogorodPlants",
 		URL:        "http://www.plantopedia.ru/encyclopaedia/ogorod/sections.php",
 		FileName:   "ogorod_plants",
-		CategoryID: "4",
+		CategoryID: 4,
 	},
 }
 
@@ -115,7 +115,7 @@ func main() {
 
 // helpers
 
-func saveToFile(plants model.Plants, fnData, fnSQL, rpCategory string) error {
+func saveToFile(plants model.Plants, fnData, fnSQL string, rpCategory int32) error {
 	f, err := os.Create(fnData)
 	if err != nil {
 		return err
@@ -140,7 +140,7 @@ func saveToFile(plants model.Plants, fnData, fnSQL, rpCategory string) error {
 }
 
 // nolint
-func makeSQLInsert(plant model.Plant, category string) string {
+func makeSQLInsert(plant model.Plant, category int32) string {
 	// INSERT INTO reference.plants (title, category_id, short_info, notes, img_links, created_at, creator)
 	// VALUES('%s', %s, '%s'::jsonb, '%s'::jsonb, '%s'::jsonb, CURRENT_TIMESTAMP, CURRENT_USER);
 	shortInfoBts, _ := plant.ShortInfo.MarshalJSON()

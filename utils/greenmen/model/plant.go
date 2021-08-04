@@ -54,20 +54,20 @@ type Metadata struct {
 
 // ShortInfo ...
 type ShortInfo struct {
-	Kind              string `json:"kind"`
-	RecommendPosition string `json:"recommend_position"`
-	RegardToLight     string `json:"regard_to_light"`
-	RegardToMoisture  string `json:"regard_to_moisture"`
-	FloweringTime     string `json:"flowering_time"`
-	Hight             string `json:"hight"`
-	Classifiers       string `json:"classifiers"`
-	Ground            string `json:"ground"`
-	Wintering         string `json:"wintering"`
-	Decorativeness    string `json:"decorativeness"`
-	Composition       string `json:"composition"`
-	Shearing          string `json:"shearing"`
-	Growing           string `json:"growing"`
-	Eating            string `json:"eating"`
+	Kind              string `json:"kind,omitempty"`
+	RecommendPosition string `json:"recommend_position,omitempty"`
+	RegardToLight     string `json:"regard_to_light,omitempty"`
+	RegardToMoisture  string `json:"regard_to_moisture,omitempty"`
+	FloweringTime     string `json:"flowering_time,omitempty"`
+	Hight             string `json:"hight,omitempty"`
+	Classifiers       string `json:"classifiers,omitempty"`
+	Ground            string `json:"ground,omitempty"`
+	Wintering         string `json:"wintering,omitempty"`
+	Decorativeness    string `json:"decorativeness,omitempty"`
+	Composition       string `json:"composition,omitempty"`
+	Shearing          string `json:"shearing,omitempty"`
+	Growing           string `json:"growing,omitempty"`
+	Eating            string `json:"eating,omitempty"`
 }
 
 // RefPagePlants - .
@@ -75,5 +75,5 @@ type RefPagePlants struct {
 	Name       string
 	URL        string
 	FileName   string
-	CategoryID string
+	CategoryID int32
 }

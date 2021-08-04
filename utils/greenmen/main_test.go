@@ -40,7 +40,7 @@ func Test_makeSQLInsert(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := makeSQLInsert(tt.args.plant, tt.args.template); got != tt.want {
+			if got := makeSQLInsert(tt.args.plant, 1); got != tt.want {
 				t.Errorf("makeSQLInsert() = %v, want %v", got, tt.want)
 			}
 		})
