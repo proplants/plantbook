@@ -1,0 +1,25 @@
+name: Go Linter
+
+on:
+  push:
+    branches-ignore:
+      - none
+    tags-ignore:
+      - '*'
+    paths:
+      - '**.go'
+      - 'go.mod'
+
+jobs:
+  golangci:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v4
+        with:
+          version: v1.56.0
